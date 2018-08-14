@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using DapperDino.DAL.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using DapperDino.Models;
 
-namespace DapperDino.Data
+namespace DapperDino.Dal
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
