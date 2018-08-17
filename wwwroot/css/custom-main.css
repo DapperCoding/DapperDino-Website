@@ -21,3 +21,23 @@
 #navigation.scrolled .navbar-nav li a {
     color: rgba(56, 95, 56, 0.65);
 }
+
+.work-filter ul li a:hover, .work-filter ul li a.active {
+    background-color:#80ad7a;
+}
+.sec-title h2 {
+    color:#80ad7a;
+}
+
+.service-icon {
+    color:#80ad7a;
+    border-color:#80ad7a;
+}
+
+.team-member:hover h4 {
+    color: #80ad7a;
+}
+
+.overlay {
+    background-color: rgba(128, 173, 122,0.9);
+}
