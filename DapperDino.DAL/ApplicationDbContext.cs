@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace DapperDino.Dal
+namespace DapperDino.DAL
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
