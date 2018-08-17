@@ -1,0 +1,23 @@
+#navigation.scrolled {
+   background-color: rgb(128, 173, 122);
+   border-bottom: 1px solid rgba(56, 95, 56, 0.72);
+   color: #000000;
+}
+
+#navigation {
+    background-color: rgba(56, 95, 56, 0.90);
+    border-bottom: 0;
+    color: white;
+}
+.navbar-nav li a.current, .navbar-nav li a:focus, .navbar-nav li a:hover {
+    color: #eeeeee;
+}
+.navbar-nav li a {
+    color: #ccc;
+}
+#navigation.scrolled .navbar-nav li a.current, #navigation.scrolled .navbar-nav li a:focus, #navigation.scrolled .navbar-nav li a:hover {
+    color: rgba(56, 95, 56, 0.82);
+}
+#navigation.scrolled .navbar-nav li a {
+    color: rgba(56, 95, 56, 0.65);
+}
