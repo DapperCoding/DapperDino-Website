@@ -1,4 +1,5 @@
-﻿using DapperDino.DAL;
+﻿using AutoMapper;
+using DapperDino.DAL;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -32,6 +33,7 @@ namespace DapperDino
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
 
+            services.AddAutoMapper();
             services.AddMvc();
         }
 
