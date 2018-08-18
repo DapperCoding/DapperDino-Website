@@ -1,0 +1,45 @@
+﻿@using DapperDino.Models.FaqViewModels
+@model DapperDino.Models.FaqViewModels.IndexViewModel
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<section id="features" class="features">
+    <div class="container">
+        <div class="row">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Description</th>
+                        <th>Question</th>
+                        <th>Answer</th>
+                        <th>Link</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+
+                @foreach (var faq in Model.FrequentlyAskedQuestions)
+                {
+                    <tr>
+                        <td>
+                            @faq.Description
+                        </td>
+                        <td>
+                            @faq.Question
+                        </td>
+                        <td>
+                            @faq.Answer
+                        </td>
+                        <td>
+                            <a href="@faq.ResourceLink.Link">@faq.ResourceLink.DisplayName</a>
+                        </td>
+                        <td>
+                            <a href="~/Faq/Edit/@faq.Id">Edit</a>
+                        </td>
+                    </tr>
+                }
+
+            </table>
+        </div>
+    </div>
+</section>
