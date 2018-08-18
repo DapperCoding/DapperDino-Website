@@ -10,11 +10,11 @@ Written by: 	Matt Huggins - https://github.com/mhuggins/jquery-countTo
 		return $(this).each(function () {
 			// set options for current element
 			var settings = $.extend({}, $.fn.countTo.defaults, {
-				from:            $(this).data('from'),
-				to:              $(this).data('to'),
-				speed:           $(this).data('speed'),
-				refreshInterval: $(this).data('refresh-interval'),
-				decimals:        $(this).data('decimals')
+				from:            $(this).data("from"),
+				to:              $(this).data("to"),
+				speed:           $(this).data("speed"),
+				refreshInterval: $(this).data("refresh-interval"),
+				decimals:        $(this).data("decimals")
 			}, options);
 
 			// how many times to update the value, and how much to increment the value on each update
@@ -26,9 +26,9 @@ Written by: 	Matt Huggins - https://github.com/mhuggins/jquery-countTo
 				$self = $(this),
 				loopCount = 0,
 				value = settings.from,
-				data = $self.data('countTo') || {};
+				data = $self.data("countTo") || {};
 
-			$self.data('countTo', data);
+			$self.data("countTo", data);
 
 			// if an existing interval can be found, clear it first
 			if (data.interval) {
@@ -45,17 +45,17 @@ Written by: 	Matt Huggins - https://github.com/mhuggins/jquery-countTo
 
 				render(value);
 
-				if (typeof(settings.onUpdate) == 'function') {
+				if (typeof(settings.onUpdate) == "function") {
 					settings.onUpdate.call(self, value);
 				}
 
 				if (loopCount >= loops) {
 					// remove the interval
-					$self.removeData('countTo');
+					$self.removeData("countTo");
 					clearInterval(data.interval);
 					value = settings.to;
 
-					if (typeof(settings.onComplete) == 'function') {
+					if (typeof(settings.onComplete) == "function") {
 						settings.onComplete.call(self, value);
 					}
 				}

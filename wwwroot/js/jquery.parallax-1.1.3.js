@@ -59,11 +59,11 @@ http://www.gnu.org/licenses/gpl.html
 					return;
 				}
 
-				$this.css('backgroundPosition', xpos + " " + Math.round((firstTop - pos) * speedFactor) + "px");
+				$this.css("backgroundPosition", xpos + " " + Math.round((firstTop - pos) * speedFactor) + "px");
 			});
 		}		
 
-		$window.bind('scroll', update).resize(update);
+		$window.bind("scroll", update).resize(update);
 		update();
 	};
 })(jQuery);

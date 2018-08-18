@@ -15,26 +15,26 @@ $(document).ready(function(){
 	/*	Menu item highlighting
 	/* ========================================================================= */
 
-	jQuery('#nav').singlePageNav({
-		offset: jQuery('#nav').outerHeight(),
-		filter: ':not(.external)',
+	jQuery("#nav").singlePageNav({
+		offset: jQuery("#nav").outerHeight(),
+		filter: ":not(.external)",
 		speed: 1200,
-		currentClass: 'current',
-		easing: 'easeInOutExpo',
+		currentClass: "current",
+		easing: "easeInOutExpo",
 		updateHash: true,
 		beforeStart: function() {
-			console.log('begin scrolling');
+			console.log("begin scrolling");
 		},
 		onComplete: function() {
-			console.log('done scrolling');
+			console.log("done scrolling");
 		}
 	});
 	
     $(window).scroll(function () {
         if ($(window).scrollTop() > 400) {
-            $("#navigation").css("background-color","#0EB493");
+            $("#navigation").addClass("scrolled");
         } else {
-            $("#navigation").css("background-color","rgba(16, 22, 54, 0.2)");
+            $("#navigation").removeClass("scrolled");
         }
     });
 	
@@ -44,10 +44,10 @@ $(document).ready(function(){
 
 	var slideHeight = $(window).height();
 	
-	$('#slider, .carousel.slide, .carousel-inner, .carousel-inner .item').css('height',slideHeight);
+	$("#slider, .carousel.slide, .carousel-inner, .carousel-inner .item").css("height",slideHeight);
 
-	$(window).resize(function(){'use strict',
-		$('#slider, .carousel.slide, .carousel-inner, .carousel-inner .item').css('height',slideHeight);
+	$(window).resize(function(){"use strict",
+		$("#slider, .carousel.slide, .carousel-inner, .carousel-inner .item").css("height",slideHeight);
 	});
 	
 	
@@ -64,10 +64,10 @@ $(document).ready(function(){
 	$(".fancybox").fancybox({
 		padding: 0,
 
-		openEffect : 'elastic',
+		openEffect : "elastic",
 		openSpeed  : 650,
 
-		closeEffect : 'elastic',
+		closeEffect : "elastic",
 		closeSpeed  : 550,
 
 		closeClick : true,
@@ -77,7 +77,7 @@ $(document).ready(function(){
 	/*	Parallax
 	/* ========================================================================= */	
 	
-	$('#facts').parallax("50%", 0.3);
+	$("#facts").parallax("50%", 0.3);
 	
 	/* ========================================================================= */
 	/*	Timer count
@@ -131,18 +131,18 @@ function initialize() {
         scaleControl: false,
         draggable: false,
         mapTypeControlOptions: {
-            mapTypeIds: [google.maps.MapTypeId.ROADMAP, 'roadatlas']
+            mapTypeIds: [google.maps.MapTypeId.ROADMAP, "roadatlas"]
         }
     };
 
-    var map = new google.maps.Map(document.getElementById('map_canvas'), mapOptions);
+    var map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
 
 
     var marker = new google.maps.Marker({
         position: myLatLng,
         map: map,
-        icon: 'images/location-icon.png',
-        title: '',
+        icon: "images/location-icon.png",
+        title: "",
     });
 
 }
