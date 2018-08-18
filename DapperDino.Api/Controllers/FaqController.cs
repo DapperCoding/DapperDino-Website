@@ -57,6 +57,27 @@ namespace DapperDino.Api.Controllers
             _context.FrequentlyAskedQuestions.Add(value);
             _context.SaveChanges();
 
+            if (value.ResourceLink != null)
+            {
+                var resourceLink = _context.ResourceLinks.FirstOrDefault(x =>
+                    x.DisplayName.Equals(value.ResourceLink.DisplayName) && x.Link.Equals(value.ResourceLink.Link));
+
+                if (resourceLink == null)
+                {
+                    _context.ResourceLinks.Add(new ResourceLink()
+                    {
+                        DisplayName = value.ResourceLink.DisplayName,
+                        Link = value.ResourceLink.DisplayName
+                    });
+                    _context.SaveChanges();
+
+                    resourceLink = _context.ResourceLinks.First(x =>
+                        x.DisplayName.Equals(value.ResourceLink.DisplayName) && x.Link.Equals(value.ResourceLink.Link));;
+                }
+
+                value.ResourceLinkId = resourceLink.Id;
+            }
+
             return Created(Url.Action("Get", new { id = value.Id }), value);
         }
 
