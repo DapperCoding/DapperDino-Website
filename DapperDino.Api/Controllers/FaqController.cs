@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using DapperDino.DAL;
 using DapperDino.DAL.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace DapperDino.Api.Controllers
 {
@@ -31,7 +32,7 @@ namespace DapperDino.Api.Controllers
         [HttpGet]
         public IEnumerable<FrequentlyAskedQuestion> Get()
         {
-            return _context.FrequentlyAskedQuestions.ToArray();
+            return _context.FrequentlyAskedQuestions.Include(x => x.ResourceLink).ToArray();
         }
 
         // GET api/faq/5
@@ -72,7 +73,7 @@ namespace DapperDino.Api.Controllers
                     _context.SaveChanges();
 
                     resourceLink = _context.ResourceLinks.First(x =>
-                        x.DisplayName.Equals(value.ResourceLink.DisplayName) && x.Link.Equals(value.ResourceLink.Link));;
+                        x.DisplayName.Equals(value.ResourceLink.DisplayName) && x.Link.Equals(value.ResourceLink.Link)); ;
                 }
 
                 value.ResourceLinkId = resourceLink.Id;
