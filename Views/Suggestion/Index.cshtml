@@ -1,0 +1,41 @@
+﻿@using DapperDino.Models.SuggestionViewModels
+@model DapperDino.Models.SuggestionViewModels.IndexViewModel
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<section id="features" class="features">
+    <div class="container">
+        <div class="row">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Type</th>
+                        <th>Suggestion</th>
+                        <th>Suggested By</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+
+                @foreach (var suggestion in Model.Suggestions)
+                {
+                    <tr>
+                        <td>
+                            @suggestion.Type
+                        </td>
+                        <td>
+                            @suggestion.Description
+                        </td>
+                        <td>
+                            @suggestion.DiscordUser.Username
+                        </td>
+                        <td>
+                            @suggestion.Status
+                        </td>
+                    </tr>
+                }
+
+            </table>
+        </div>
+    </div>
+</section>

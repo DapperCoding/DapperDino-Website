@@ -53,6 +53,30 @@ namespace DapperDino.Api.Controllers
         {
             if (!TryValidateModel(value)) return StatusCode(500);
 
+            if (value.DiscordUser == null || value.DiscordUser.DiscordId <= 0)
+            {
+                return NotFound();
+            }
+
+            var discordUser = _context.DiscordUsers.FirstOrDefault(x => x.DiscordId == value.DiscordUser.Id);
+
+            if (discordUser == null)
+            {
+                discordUser = new DiscordUser()
+                {
+                    DiscordId = value.DiscordUser.DiscordId,
+                    Name = value.DiscordUser.Name,
+                    Username = value.DiscordUser.Username
+                };
+                _context.DiscordUsers.Add(discordUser);
+                _context.SaveChanges();
+            }
+            else
+            {
+                discordUser.Name = value.DiscordUser.Name;
+                discordUser.Username = value.DiscordUser.Username;
+            }
+
             _context.Suggestions.Add(value);
             _context.SaveChanges();
 
@@ -61,13 +85,15 @@ namespace DapperDino.Api.Controllers
 
         // PUT api/suggestion/5
         [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody]FrequentlyAskedQuestion value)
+        public IActionResult Put(int id, [FromBody]Suggestion value)
         {
             var suggestion = _context.Suggestions.FirstOrDefault(x => x.Id == id);
 
             if (suggestion == null) return NotFound();
-            
+
             suggestion.Description = value.Description;
+            suggestion.Type = value.Type;
+            suggestion.Status = value.Status;
 
             _context.SaveChanges();
 
