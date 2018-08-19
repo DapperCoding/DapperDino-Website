@@ -7,16 +7,16 @@ namespace DapperDino.DAL.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
-                name: "FK_TicketReaction_DiscordUsers_FromId",
-                table: "TicketReaction");
+                name: "FK_TicketReactions_DiscordUsers_FromId",
+                table: "TicketReactions");
 
             migrationBuilder.DropForeignKey(
-                name: "FK_TicketReaction_Tickets_TicketId",
-                table: "TicketReaction");
+                name: "FK_TicketReactions_Tickets_TicketId",
+                table: "TicketReactions");
 
             migrationBuilder.DropPrimaryKey(
                 name: "PK_TicketReaction",
-                table: "TicketReaction");
+                table: "TicketReactions");
 
             migrationBuilder.RenameTable(
                 name: "TicketReaction",

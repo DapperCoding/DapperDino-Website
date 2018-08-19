@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using DapperDino.DAL;
 using DapperDino.DAL.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -38,6 +39,7 @@ namespace DapperDino.Api.Controllers
 
         // POST api/faq
         [HttpPost]
+        [Authorize]
         public IActionResult Post([FromBody]TicketReaction value)
         {
             if (!TryValidateModel(value)) return StatusCode(500);
@@ -71,6 +73,7 @@ namespace DapperDino.Api.Controllers
 
         // PUT api/faq/5
         [HttpPut("{id}")]
+        [Authorize]
         public IActionResult Put(int id, [FromBody]FrequentlyAskedQuestion value)
         {
             var faq = _context.FrequentlyAskedQuestions.FirstOrDefault(x => x.Id == id);
@@ -88,6 +91,7 @@ namespace DapperDino.Api.Controllers
 
         // DELETE api/faq/5
         [HttpDelete("{id}")]
+        [Authorize]
         public IActionResult Delete(int id)
         {
             var faq = _context.FrequentlyAskedQuestions.FirstOrDefault(x => x.Id == id);

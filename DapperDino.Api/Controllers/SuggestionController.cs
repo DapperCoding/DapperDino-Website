@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using DapperDino.DAL;
 using DapperDino.DAL.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -50,6 +51,7 @@ namespace DapperDino.Api.Controllers
 
         // POST api/suggestion
         [HttpPost]
+        [Authorize]
         public IActionResult Post([FromBody]Suggestion value)
         {
             if (!TryValidateModel(value)) return StatusCode(500);
@@ -93,6 +95,7 @@ namespace DapperDino.Api.Controllers
 
         // PUT api/suggestion/5
         [HttpPut("{id}")]
+        [Authorize]
         public IActionResult Put(int id, [FromBody]Suggestion value)
         {
             var suggestion = _context.Suggestions.FirstOrDefault(x => x.Id == id);
@@ -110,6 +113,7 @@ namespace DapperDino.Api.Controllers
 
         // DELETE api/suggestion/5
         [HttpDelete("{id}")]
+        [Authorize]
         public IActionResult Delete(int id)
         {
             var suggestion = _context.Suggestions.FirstOrDefault(x => x.Id == id);

@@ -7,12 +7,16 @@
 
   <ItemGroup>
     <Compile Remove="DapperDino.Api\**" />
+    <Compile Remove="DapperDino.Core\**" />
     <Compile Remove="DapperDino.DAL\**" />
     <Content Remove="DapperDino.Api\**" />
+    <Content Remove="DapperDino.Core\**" />
     <Content Remove="DapperDino.DAL\**" />
     <EmbeddedResource Remove="DapperDino.Api\**" />
+    <EmbeddedResource Remove="DapperDino.Core\**" />
     <EmbeddedResource Remove="DapperDino.DAL\**" />
     <None Remove="DapperDino.Api\**" />
+    <None Remove="DapperDino.Core\**" />
     <None Remove="DapperDino.DAL\**" />
   </ItemGroup>
 

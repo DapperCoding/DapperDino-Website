@@ -5,6 +5,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using DapperDino.DAL;
 using DapperDino.DAL.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -52,6 +53,7 @@ namespace DapperDino.Api.Controllers
 
         // POST api/ticket
         [HttpPost]
+        [Authorize]
         public IActionResult Post([FromBody]Ticket value)
         {
             if (!TryValidateModel(value)) return StatusCode(500);
@@ -101,6 +103,7 @@ namespace DapperDino.Api.Controllers
 
         // PUT api/ticket/5
         [HttpPut("{id}")]
+        [Authorize]
         public IActionResult Put(int id, [FromBody]FrequentlyAskedQuestion value)
         {
             var ticket = _context.Tickets.FirstOrDefault(x => x.Id == id);
@@ -116,6 +119,7 @@ namespace DapperDino.Api.Controllers
 
         // DELETE api/ticket/5
         [HttpDelete("{id}")]
+        [Authorize]
         public IActionResult Delete(int id)
         {
             var ticket = _context.Tickets.FirstOrDefault(x => x.Id == id);
