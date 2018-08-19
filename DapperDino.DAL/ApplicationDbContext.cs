@@ -24,6 +24,6 @@ namespace DapperDino.DAL
         public DbSet<DiscordUser> DiscordUsers { get; set; }
         public DbSet<Suggestion> Suggestions { get; set; }
         public DbSet<Ticket> Tickets { get; set; }
-        public DbSet<TicketReactions> TicketReactions { get; set; }
+        public DbSet<TicketReaction> TicketReactions { get; set; }
     }
 }

@@ -15,7 +15,7 @@ namespace DapperDino.DAL.Models
         public int ApplicantId { get; set; }
         public int AssignedToId { get; set; }
 
-        public virtual IEnumerable<TicketReactions> Reactions { get; set; }
+        public virtual IEnumerable<TicketReaction> Reactions { get; set; }
 
         [ForeignKey(nameof(ApplicantId))]
         public virtual DiscordUser Applicant { get; set; }
@@ -25,7 +25,7 @@ namespace DapperDino.DAL.Models
 
     }
 
-    public class TicketReactions
+    public class TicketReaction
     {
         public int Id { get; set; }
         public int TicketId { get; set; }

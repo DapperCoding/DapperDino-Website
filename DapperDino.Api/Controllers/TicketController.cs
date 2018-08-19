@@ -56,6 +56,20 @@ namespace DapperDino.Api.Controllers
         {
             if (!TryValidateModel(value)) return StatusCode(500);
 
+            if (value.AssignedTo == null)
+            {
+                value.AssignedTo = _context.DiscordUsers.FirstOrDefault(x => x.Id == 5);
+            }
+            else
+            {
+                var v = _context.DiscordUsers.FirstOrDefault(x => x.DiscordId.Equals(value.AssignedTo.DiscordId));
+
+                if (v != null)
+                {
+                    value.AssignedToId = v.Id;
+                }
+            }
+
             _context.Tickets.Add(value);
             _context.SaveChanges();
 
@@ -79,12 +93,6 @@ namespace DapperDino.Api.Controllers
             }
 
             value.ApplicantId = applicant.Id;
-
-
-            if (value.AssignedTo == null)
-            {
-                value.AssignedTo = _context.DiscordUsers.FirstOrDefault(x => x.Id == 5);
-            }
             
             _context.SaveChanges();
 
