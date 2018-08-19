@@ -9,7 +9,7 @@ namespace DapperDino.DAL.Models
     {
         public int Id { get; set; }
         public string Description { get; set; }
-        public SuggestionTypes Type { get; set; } = SuggestionTypes.Bot;
+        public SuggestionTypes Type { get; set; }
         public SuggestionStatus Status { get; set; } = SuggestionStatus.NotLookedAt;
 
         public int DiscordUserId { get; set; }
@@ -24,7 +24,8 @@ namespace DapperDino.DAL.Models
         Bot = 0,
         Website = 1,
         General = 2,
-        YouTube = 3
+        YouTube = 3,
+        Undecided = 4
     }
 
     public enum SuggestionStatus

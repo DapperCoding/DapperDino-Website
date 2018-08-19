@@ -5,9 +5,11 @@ using System.Threading.Tasks;
 using DapperDino.DAL;
 using DapperDino.DAL.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace DapperDino.Api.Controllers
 {
+    [Route("api/[controller]")]
     public class SuggestionController : Controller
     {
         #region Fields
@@ -30,15 +32,14 @@ namespace DapperDino.Api.Controllers
         [HttpGet]
         public IEnumerable<Suggestion> Get()
         {
-            return _context.Suggestions.ToArray();
+            return _context.Suggestions.Include(x => x.DiscordUser).ToArray();
         }
 
         // GET api/suggestion/5
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            var suggestion = _context.Suggestions.FirstOrDefault(x => x.Id == id);
-
+            var suggestion = _context.Suggestions.Include(x => x.DiscordUser).FirstOrDefault(x => x.Id == id);
             if (suggestion == null)
             {
                 return NotFound();
@@ -53,12 +54,19 @@ namespace DapperDino.Api.Controllers
         {
             if (!TryValidateModel(value)) return StatusCode(500);
 
-            if (value.DiscordUser == null || value.DiscordUser.DiscordId <= 0)
+            if (value.DiscordUser == null)
+            {
+                ModelState.AddModelError(nameof(value.DiscordUser), $"{nameof(value.DiscordUser)} user is required to identify the user that made the suggestion");
+
+                return BadRequest(ModelState);
+            }
+
+            if (string.IsNullOrWhiteSpace(value.DiscordUser.DiscordId))
             {
                 return NotFound();
             }
-
-            var discordUser = _context.DiscordUsers.FirstOrDefault(x => x.DiscordId == value.DiscordUser.Id);
+            
+            var discordUser = _context.DiscordUsers.FirstOrDefault(x => x.DiscordId == value.DiscordUser.DiscordId);
 
             if (discordUser == null)
             {
@@ -111,7 +119,7 @@ namespace DapperDino.Api.Controllers
             _context.Suggestions.Remove(suggestion);
             _context.SaveChanges();
 
-            return Ok();
+            return Delete(id);
 
         }
     }

@@ -110,7 +110,7 @@ namespace DapperDino.Api.Controllers
             _context.FrequentlyAskedQuestions.Remove(faq);
             _context.SaveChanges();
 
-            return Ok();
+            return Delete(id);
 
         }
     }
