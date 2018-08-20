@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DapperDino.DAL.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20180818180122_ResourceLink-Nullable")]
-    partial class ResourceLinkNullable
+    [Migration("20180819030151_Tickets_Update")]
+    partial class Tickets_Update
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -21,7 +21,7 @@ namespace DapperDino.DAL.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("DapperDino.DAL.Models.AssignedTo", b =>
+            modelBuilder.Entity("DapperDino.DAL.Models.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
@@ -72,6 +72,23 @@ namespace DapperDino.DAL.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("DapperDino.DAL.Models.DiscordUser", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("DiscordId");
+
+                    b.Property<string>("Name");
+
+                    b.Property<string>("Username");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("DiscordUsers");
+                });
+
             modelBuilder.Entity("DapperDino.DAL.Models.FrequentlyAskedQuestion", b =>
                 {
                     b.Property<int>("Id")
@@ -106,6 +123,71 @@ namespace DapperDino.DAL.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("ResourceLinks");
+                });
+
+            modelBuilder.Entity("DapperDino.DAL.Models.Suggestion", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Description");
+
+                    b.Property<int>("DiscordUserId");
+
+                    b.Property<int>("Status");
+
+                    b.Property<int>("Type");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DiscordUserId");
+
+                    b.ToTable("Suggestions");
+                });
+
+            modelBuilder.Entity("DapperDino.DAL.Models.Ticket", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("ApplicantId");
+
+                    b.Property<int>("AssignedToId");
+
+                    b.Property<string>("Description");
+
+                    b.Property<string>("Subject");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ApplicantId");
+
+                    b.HasIndex("AssignedToId");
+
+                    b.ToTable("Tickets");
+                });
+
+            modelBuilder.Entity("DapperDino.DAL.Models.TicketReaction", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("FromId");
+
+                    b.Property<string>("Message");
+
+                    b.Property<int>("TicketId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FromId");
+
+                    b.HasIndex("TicketId");
+
+                    b.ToTable("TicketReactions");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -225,6 +307,40 @@ namespace DapperDino.DAL.Migrations
                         .HasForeignKey("ResourceLinkId");
                 });
 
+            modelBuilder.Entity("DapperDino.DAL.Models.Suggestion", b =>
+                {
+                    b.HasOne("DapperDino.DAL.Models.DiscordUser", "DiscordUser")
+                        .WithMany()
+                        .HasForeignKey("DiscordUserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("DapperDino.DAL.Models.Ticket", b =>
+                {
+                    b.HasOne("DapperDino.DAL.Models.DiscordUser", "Applicant")
+                        .WithMany()
+                        .HasForeignKey("ApplicantId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("DapperDino.DAL.Models.DiscordUser", "AssignedTo")
+                        .WithMany()
+                        .HasForeignKey("AssignedToId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("DapperDino.DAL.Models.TicketReaction", b =>
+                {
+                    b.HasOne("DapperDino.DAL.Models.DiscordUser", "From")
+                        .WithMany()
+                        .HasForeignKey("FromId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("DapperDino.DAL.Models.Ticket", "Ticket")
+                        .WithMany("Reactions")
+                        .HasForeignKey("TicketId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole")
@@ -235,7 +351,7 @@ namespace DapperDino.DAL.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("DapperDino.DAL.Models.AssignedTo")
+                    b.HasOne("DapperDino.DAL.Models.ApplicationUser")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -243,7 +359,7 @@ namespace DapperDino.DAL.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("DapperDino.DAL.Models.AssignedTo")
+                    b.HasOne("DapperDino.DAL.Models.ApplicationUser")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -256,7 +372,7 @@ namespace DapperDino.DAL.Migrations
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("DapperDino.DAL.Models.AssignedTo")
+                    b.HasOne("DapperDino.DAL.Models.ApplicationUser")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -264,7 +380,7 @@ namespace DapperDino.DAL.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("DapperDino.DAL.Models.AssignedTo")
+                    b.HasOne("DapperDino.DAL.Models.ApplicationUser")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
