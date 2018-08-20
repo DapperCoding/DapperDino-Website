@@ -21,7 +21,7 @@ namespace DapperDino.DAL.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("DapperDino.DAL.Models.ApplicationUser", b =>
+            modelBuilder.Entity("DapperDino.DAL.Models.AssignedTo", b =>
                 {
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
@@ -192,7 +192,7 @@ namespace DapperDino.DAL.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("DapperDino.DAL.Models.ApplicationUser")
+                    b.HasOne("DapperDino.DAL.Models.AssignedTo")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -200,7 +200,7 @@ namespace DapperDino.DAL.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("DapperDino.DAL.Models.ApplicationUser")
+                    b.HasOne("DapperDino.DAL.Models.AssignedTo")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -213,7 +213,7 @@ namespace DapperDino.DAL.Migrations
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("DapperDino.DAL.Models.ApplicationUser")
+                    b.HasOne("DapperDino.DAL.Models.AssignedTo")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -221,7 +221,7 @@ namespace DapperDino.DAL.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("DapperDino.DAL.Models.ApplicationUser")
+                    b.HasOne("DapperDino.DAL.Models.AssignedTo")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);

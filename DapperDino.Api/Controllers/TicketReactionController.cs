@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using DapperDino.DAL;
 using DapperDino.DAL.Models;
@@ -11,8 +10,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DapperDino.Api.Controllers
 {
-    [Route("api/[controller]")]
-    public class FaqController : Controller
+    [Route("api/ticket/reaction")]
+    public class TicketReactionController : Controller
     {
         #region Fields
 
@@ -22,64 +21,52 @@ namespace DapperDino.Api.Controllers
 
         #region Constructor(s)
 
-        public FaqController(ApplicationDbContext context)
+        public TicketReactionController(ApplicationDbContext context)
         {
             _context = context;
         }
 
         #endregion
 
-        // GET api/faq
-        [HttpGet]
-        public IEnumerable<FrequentlyAskedQuestion> Get()
-        {
-            return _context.FrequentlyAskedQuestions.Include(x => x.ResourceLink).ToArray();
-        }
-
         // GET api/faq/5
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            var faq = _context.FrequentlyAskedQuestions.FirstOrDefault(x => x.Id == id);
-
-            if (faq == null)
-            {
-                return NotFound();
-            }
-
-            return Json(faq);
+            var ticketReactions = _context.TicketReactions.Include(x=>x.Ticket).Include(x=>x.From).Where(x => x.TicketId.Equals(id));
+            
+            return Json(ticketReactions);
         }
 
         // POST api/faq
         [HttpPost]
         [Authorize]
-        public IActionResult Post([FromBody]FrequentlyAskedQuestion value)
+        public IActionResult Post([FromBody]TicketReaction value)
         {
             if (!TryValidateModel(value)) return StatusCode(500);
 
-            _context.FrequentlyAskedQuestions.Add(value);
+            _context.TicketReactions.Add(value);
             _context.SaveChanges();
 
-            if (value.ResourceLink != null)
-            {
-                var resourceLink = _context.ResourceLinks.FirstOrDefault(x =>
-                    x.DisplayName.Equals(value.ResourceLink.DisplayName) && x.Link.Equals(value.ResourceLink.Link));
+            //if (value.ResourceLink != null)
+            //{
+            //    var resourceLink = _context.ResourceLinks.FirstOrDefault(x =>
+            //        x.DisplayName.Equals(value.ResourceLink.DisplayName) && x.Link.Equals(value.ResourceLink.Link));
 
-                if (resourceLink == null)
-                {
-                    _context.ResourceLinks.Add(new ResourceLink()
-                    {
-                        DisplayName = value.ResourceLink.DisplayName,
-                        Link = value.ResourceLink.DisplayName
-                    });
-                    _context.SaveChanges();
+            //    if (resourceLink == null)
+            //    {
+            //        _context.ResourceLinks.Add(new ResourceLink()
+            //        {
+            //            DisplayName = value.ResourceLink.DisplayName,
+            //            Link = value.ResourceLink.DisplayName
+            //        });
+            //        _context.SaveChanges();
 
-                    resourceLink = _context.ResourceLinks.First(x =>
-                        x.DisplayName.Equals(value.ResourceLink.DisplayName) && x.Link.Equals(value.ResourceLink.Link)); ;
-                }
+            //        resourceLink = _context.ResourceLinks.First(x =>
+            //            x.DisplayName.Equals(value.ResourceLink.DisplayName) && x.Link.Equals(value.ResourceLink.Link)); ;
+            //    }
 
-                value.ResourceLinkId = resourceLink.Id;
-            }
+            //    value.ResourceLinkId = resourceLink.Id;
+            //}
 
             return Created(Url.Action("Get", new { id = value.Id }), value);
         }
