@@ -61,8 +61,10 @@ namespace DapperDino.Api.Controllers
                 await _signInManager.SignInAsync(user, false);
                 return await GenerateJwtToken(model.Email, user);
             }
+            
+            ModelState.AddModelError("EFErrors", string.Join(" ", result.Errors.Select(x => x.Description)));
 
-            throw new ApplicationException("UNKNOWN_ERROR");
+            return BadRequest(ModelState);
         }
 
         private async Task<object> GenerateJwtToken(string email, IdentityUser user)
