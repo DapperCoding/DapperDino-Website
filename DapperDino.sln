@@ -9,15 +9,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DapperDino.DAL", "DapperDin
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DapperDino.Api", "DapperDino.Api\DapperDino.Api.csproj", "{BA59E7B7-2416-40F1-A356-5A5B5D596EA9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DapperDino.Core", "DapperDino.Core\DapperDino.Core.csproj", "{8517688C-17AF-4C38-A21E-C3AF31483910}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DapperDino.Core", "DapperDino.Core\DapperDino.Core.csproj", "{8517688C-17AF-4C38-A21E-C3AF31483910}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{037EA7A5-9872-4B87-9B57-B071184E00CC}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DapperDino.Web", "DapperDino.Web", "{037EA7A5-9872-4B87-9B57-B071184E00CC}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{0AEBD912-96FC-4CC6-8E95-962904F8ECEE}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DapperDino.Core", "DapperDino.Core", "{0AEBD912-96FC-4CC6-8E95-962904F8ECEE}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Dal", "Dal", "{300833CF-F4F6-4ED0-8877-D2FD7E04F0D6}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DapperDino.DAL", "DapperDino.DAL", "{300833CF-F4F6-4ED0-8877-D2FD7E04F0D6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DapperDino.Angular", "DapperDino.Angular\DapperDino.Angular.csproj", "{1EE0C052-BB77-4A33-AD3B-9CB5C7FDA2E2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DapperDino.Angular", "DapperDino.Angular\DapperDino.Angular.csproj", "{1EE0C052-BB77-4A33-AD3B-9CB5C7FDA2E2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

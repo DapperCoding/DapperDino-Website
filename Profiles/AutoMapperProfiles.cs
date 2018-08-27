@@ -13,7 +13,7 @@ namespace DapperDino.Profiles
         public TicketProfile()
         {
             CreateMap<Ticket, TicketViewModel>();
-            CreateMap<TicketReaction, TicketReactionViewModel>()
+            CreateMap<TicketReaction, TicketReactionViewModel>();
 
         }
     }
