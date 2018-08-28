@@ -24,6 +24,7 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="5.0.1" />
+    <PackageReference Include="Hangfire" Version="1.6.20" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.9" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.0.3" PrivateAssets="All" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.4" PrivateAssets="All" />
@@ -1149,6 +1150,12 @@
     <None Include="wwwroot\dashboard\images\flags\za.svg" />
     <None Include="wwwroot\dashboard\images\flags\zm.svg" />
     <None Include="wwwroot\dashboard\images\flags\zw.svg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Hangfire.AspNetCore">
+      <HintPath>..\..\..\..\Users\ruste\.nuget\packages\hangfire.aspnetcore\1.6.20\lib\netstandard1.3\Hangfire.AspNetCore.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>

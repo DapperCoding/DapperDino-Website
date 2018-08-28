@@ -27,6 +27,7 @@ namespace DapperDino.DAL
         public DbSet<Suggestion> Suggestions { get; set; }
         public DbSet<Ticket> Tickets { get; set; }
         public DbSet<TicketReaction> TicketReactions { get; set; }
+        public DbSet<ApplicationUser> ApplicationUsers { get; set; }
     }
 
 }
