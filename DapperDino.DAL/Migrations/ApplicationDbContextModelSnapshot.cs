@@ -29,6 +29,8 @@ namespace DapperDino.DAL.Migrations
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
 
+                    b.Property<int?>("DiscordUserId");
+
                     b.Property<string>("Email")
                         .HasMaxLength(256);
 
@@ -58,6 +60,8 @@ namespace DapperDino.DAL.Migrations
                         .HasMaxLength(256);
 
                     b.HasKey("Id");
+
+                    b.HasIndex("DiscordUserId");
 
                     b.HasIndex("NormalizedEmail")
                         .HasName("EmailIndex");
@@ -296,6 +300,13 @@ namespace DapperDino.DAL.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("DapperDino.DAL.Models.ApplicationUser", b =>
+                {
+                    b.HasOne("DapperDino.DAL.Models.DiscordUser", "DiscordUser")
+                        .WithMany()
+                        .HasForeignKey("DiscordUserId");
                 });
 
             modelBuilder.Entity("DapperDino.DAL.Models.FrequentlyAskedQuestion", b =>
