@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
     <UserSecretsId>aspnet-DapperDino-9227BC9E-E4ED-4E2C-94E3-CA7D2458A31F</UserSecretsId>
     <TypeScriptToolsVersion>3.0</TypeScriptToolsVersion>
   </PropertyGroup>
@@ -26,6 +26,8 @@
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="5.0.1" />
     <PackageReference Include="Hangfire" Version="1.6.20" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.9" />
+    <PackageReference Include="Microsoft.AspNetCore.SignalR" Version="1.0.3" />
+    <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="1.0.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.0.3" PrivateAssets="All" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.4" PrivateAssets="All" />
   </ItemGroup>
@@ -38,6 +40,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DapperDino.DAL\DapperDino.DAL.csproj" />
+    <ProjectReference Include="..\DapperDino.Jobs\DapperDino.Jobs.csproj" />
   </ItemGroup>
 
   <ItemGroup>

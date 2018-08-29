@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <PackageReference Include="Hangfire" Version="1.6.20" />
+    <PackageReference Include="Microsoft.AspNetCore.SignalR" Version="1.0.3" />
   </ItemGroup>
 
 </Project>
