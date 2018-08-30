@@ -81,7 +81,10 @@ namespace DapperDino.Api
             {
                 app.UseDeveloperExceptionPage();
             }
-
+            else
+            {
+                //app.UseHsts(h => h.MaxAge(days: 365).Preload());
+            }
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
