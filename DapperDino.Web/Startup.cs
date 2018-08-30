@@ -1,12 +1,13 @@
 ﻿using System;
 using AutoMapper;
 using DapperDino.DAL;
+using DapperDino.DAL.Models;
 using DapperDino.Jobs;
-using DapperDino.Models;
 using DapperDino.Services;
 using Hangfire;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -29,7 +30,7 @@ namespace DapperDino
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddIdentity<ApplicationUser, ApplicationRole>()
+            services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
@@ -122,6 +123,18 @@ namespace DapperDino
                 });
 
             services.AddAntiforgery();
+
+            services.ConfigureApplicationCookie(options =>
+            {
+                // Cookie settings
+                options.Cookie.HttpOnly = true;
+                options.ExpireTimeSpan = TimeSpan.FromMinutes(20);
+
+                options.LoginPath = "/Account/Login";
+                options.AccessDeniedPath = "/Account/AccessDenied";
+                options.SlidingExpiration = true;
+            });
+
             services.AddMvc();
             services.AddSignalR();
         }
@@ -138,8 +151,9 @@ namespace DapperDino
             else
             {
                 app.UseExceptionHandler("/Home/Error");
+                //app.UseHsts(h => h.MaxAge(days: 365).Preload());
             }
-
+            
             app.UseStaticFiles();
 
             app.UseAuthentication();
@@ -164,6 +178,8 @@ namespace DapperDino
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+
+
         }
     }
 }

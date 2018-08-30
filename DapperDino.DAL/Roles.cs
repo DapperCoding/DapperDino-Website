@@ -9,4 +9,12 @@ namespace DapperDino.DAL
     {
 
     }
+
+    public class AdminRole : IdentityRole
+    {
+        public AdminRole()
+        {
+            
+        }
+    }
 }
