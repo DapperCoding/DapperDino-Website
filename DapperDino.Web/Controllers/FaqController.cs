@@ -11,6 +11,7 @@ using Newtonsoft.Json;
 
 namespace DapperDino.Controllers
 {
+    [Route("Faq")]
     public class FaqController : Controller
     {
         #region Fields
@@ -31,6 +32,7 @@ namespace DapperDino.Controllers
 
         #region Public Methods
 
+        [Route("Index")]
         public IActionResult Index()
         {
             var viewModel = new IndexViewModel()

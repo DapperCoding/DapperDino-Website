@@ -19,7 +19,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DapperDino.DAL", "DapperDin
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DapperDino.Angular", "DapperDino.Angular\DapperDino.Angular.csproj", "{1EE0C052-BB77-4A33-AD3B-9CB5C7FDA2E2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DapperDino.Jobs", "DapperDino.Jobs\DapperDino.Jobs.csproj", "{3D84F96C-652C-4FB9-A2D6-5B284864F446}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DapperDino.Jobs", "DapperDino.Jobs\DapperDino.Jobs.csproj", "{3D84F96C-652C-4FB9-A2D6-5B284864F446}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{28F739DE-7C13-47EA-92A6-1AEE39C5BB09}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

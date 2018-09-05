@@ -723,3 +723,7 @@ label.error {
   right: 25px;
   z-index: 9;
 }
+
+.table a {
+    color: rgb(56, 95, 56);
+}

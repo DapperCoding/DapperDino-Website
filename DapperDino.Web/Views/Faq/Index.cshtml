@@ -7,10 +7,9 @@
 <section id="features" class="features">
     <div class="container">
         <div class="row">
-            <table>
+            <table class="table">
                 <thead>
                     <tr>
-                        <th>Description</th>
                         <th>Question</th>
                         <th>Answer</th>
                         <th>Link</th>
@@ -21,9 +20,6 @@
                 @foreach (var faq in Model.FrequentlyAskedQuestions)
                 {
                     <tr>
-                        <td>
-                            @faq.Description
-                        </td>
                         <td>
                             @faq.Question
                         </td>
