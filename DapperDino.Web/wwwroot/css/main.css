@@ -727,3 +727,8 @@ label.error {
 .table a {
     color: rgb(56, 95, 56);
 }
+
+.member-thumb {
+    margin-left: auto;
+    margin-right: auto;
+}

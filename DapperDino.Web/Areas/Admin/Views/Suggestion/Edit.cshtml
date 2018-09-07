@@ -1,0 +1,25 @@
+﻿@using DapperDino.Models.SuggestionViewModels
+@model DapperDino.Models.SuggestionViewModels.SuggestionViewModel
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<section id="features" class="features">
+    <div class="container">
+        <div class="row">
+            <form action="@Url.Action("Edit", Model.Id)" method="post" class="form">
+                <div class="form-group">
+                    <!-- Input and Submit elements -->
+                    <input name="__RequestVerificationToken" type="hidden" value="<removed for brevity>" />
+                    
+                    <label asp-for="Description"></label>
+                    <input asp-for="Description"/>
+                </div>
+                
+                
+                
+                <input/>
+            </form>
+        </div>
+    </div>
+</section>
