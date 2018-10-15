@@ -39,8 +39,6 @@ namespace DapperDino.Controllers
             _dbContext.Tickets
                 .Include(x=>x.Applicant)
                 .Include(x=>x.AssignedTo);
-            
-            
 
             return View();
         }

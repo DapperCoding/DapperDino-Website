@@ -1,16 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace DapperDino.DAL.Models
+namespace DapperDino.Api.Models
 {
-    public class DiscordUser
+    public class XpViewModel
     {
-        public int Id { get; set; }
         public string DiscordId { get; set; }
         public string Username { get; set; }
-        public string Name { get; set; }
-        public int Xp { get; set; }
         public int Level { get; set; }
+        public int Xp { get; set; }
     }
 }

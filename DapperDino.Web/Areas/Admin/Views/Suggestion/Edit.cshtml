@@ -1,24 +1,41 @@
 ﻿@using DapperDino.Models.SuggestionViewModels
-@model DapperDino.Models.SuggestionViewModels.SuggestionViewModel
+@using DapperDino.DAL.Models
+
+@model SuggestionViewModel
+
 @{
     ViewData["Title"] = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 <section id="features" class="features">
     <div class="container">
         <div class="row">
-            <form action="@Url.Action("Edit", Model.Id)" method="post" class="form">
+            <h3>Suggestion by: @Model.DiscordUser.Username</h3>
+            <br />
+        </div>
+
+        <div class="row">
+            <form asp-controller="Suggestion" asp-action="Edit" method="post">
+
                 <div class="form-group">
-                    <!-- Input and Submit elements -->
-                    <input name="__RequestVerificationToken" type="hidden" value="<removed for brevity>" />
-                    
                     <label asp-for="Description"></label>
-                    <input asp-for="Description"/>
+
+                    <input class="form-control" asp-for="Description" />
                 </div>
-                
-                
-                
-                <input/>
+
+                <div class="form-group">
+                    <label asp-for="Status"></label>
+
+                    <select class="form-control" asp-for="Status" asp-items="new SelectList(Enum.GetValues(typeof(SuggestionStatus)))"></select>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Type"></label>
+
+                    <select class="form-control" asp-for="Type" asp-items="new SelectList(Enum.GetValues(typeof(SuggestionTypes)))"></select>
+                </div>
+
+                <input class="btn btn-primary" type="submit" value="edit" name="submit" />
             </form>
         </div>
     </div>

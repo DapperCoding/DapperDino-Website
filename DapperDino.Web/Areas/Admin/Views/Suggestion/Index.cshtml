@@ -2,20 +2,20 @@
 @model DapperDino.Models.SuggestionViewModels.IndexViewModel
 @{
     ViewData["Title"] = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 <section id="features" class="features">
     <div class="container">
         <div class="row">
             <table class="table">
                 <thead>
-                    <tr>
-                        <th>Type</th>
-                        <th>Suggestion</th>
-                        <th>Suggested By</th>
-                        <th>Status</th>
-                        <th>Manage</th>
-                    </tr>
+                <tr>
+                    <th>Type</th>
+                    <th>Suggestion</th>
+                    <th>Suggested By</th>
+                    <th>Status</th>
+                    <th>Manage</th>
+                </tr>
                 </thead>
 
                 @foreach (var suggestion in Model.Suggestions)
@@ -43,3 +43,18 @@
         </div>
     </div>
 </section>
+@section Scripts
+{
+  
+    <link href="https://cdn.datatables.net/1.10.15/css/dataTables.bootstrap.min.css" rel="stylesheet" />  
+  
+    <script src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>  
+    <script src="https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap4.min.js "></script>
+    <script>
+        $(document).ready(function () {
+            $('.table').DataTable({
+                "pagingType": "full_numbers"
+            });
+        });
+    </script>    
+}

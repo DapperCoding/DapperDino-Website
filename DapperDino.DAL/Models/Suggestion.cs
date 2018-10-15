@@ -11,7 +11,6 @@ namespace DapperDino.DAL.Models
         public string Description { get; set; }
         public SuggestionTypes Type { get; set; }
         public SuggestionStatus Status { get; set; } = SuggestionStatus.NotLookedAt;
-
         public int DiscordUserId { get; set; }
 
         [ForeignKey(nameof(DiscordUserId))]

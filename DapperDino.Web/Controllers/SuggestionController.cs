@@ -13,6 +13,7 @@ namespace DapperDino.Controllers
     {
         #region Fields
 
+        // Shared context accessor
         private readonly ApplicationDbContext _context;
 
         #endregion
@@ -26,10 +27,13 @@ namespace DapperDino.Controllers
 
         #endregion
 
+        // Default page
         public IActionResult Index()
         {
+            // Generate indexViewModel based on current suggestions
             var viewModel = new IndexViewModel()
             {
+                // Get suggestions from dbContext
                 Suggestions = _context.Suggestions.Select(x => new SuggestionViewModel()
                 {
                     Id = x.Id,
@@ -38,11 +42,10 @@ namespace DapperDino.Controllers
                     DiscordUserId = x.DiscordUserId,
                     Status = x.Status,
                     Type = x.Type
-                }).OrderBy(x=>x.Type)
+                }).OrderByDescending(x => x.Id)
             };
 
-
-
+            // Return view with viewModel
             return View(viewModel);
         }
     }

@@ -11,11 +11,13 @@ using Newtonsoft.Json;
 
 namespace DapperDino.Controllers
 {
+    // Faq controller
     [Route("Faq")]
     public class FaqController : Controller
     {
         #region Fields
 
+        // Shared context accessor
         private readonly ApplicationDbContext _context;
 
         #endregion
@@ -31,12 +33,14 @@ namespace DapperDino.Controllers
         #endregion
 
         #region Public Methods
-
-        [Route("Index")]
+        [Route("")]
         public IActionResult Index()
         {
+            // Generate viewModel based on current FAQ's 
             var viewModel = new IndexViewModel()
             {
+
+                // Get FAQ's from db
                 FrequentlyAskedQuestions = _context.FrequentlyAskedQuestions.Include(x => x.ResourceLink).Select(x =>
                       new FrequentlyAskedQuestionViewModel()
                       {
@@ -44,6 +48,7 @@ namespace DapperDino.Controllers
                           Question = x.Question,
                           Description = x.Description,
                           Id = x.Id,
+                          // Add ResourceLink if present
                           ResourceLink = new ResourceLinkViewModel()
                           {
                               Link = x.ResourceLink.Link,
@@ -53,6 +58,7 @@ namespace DapperDino.Controllers
                       }).ToList()
             };
 
+            // Return view with viewModel
             return View(viewModel);
         }
 

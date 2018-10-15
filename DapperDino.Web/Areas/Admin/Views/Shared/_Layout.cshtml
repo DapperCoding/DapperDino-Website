@@ -1,165 +1,259 @@
-﻿<!doctype html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9" lang=""> <![endif]-->
+﻿<!DOCTYPE html>
+<!--[if lt IE 7]>      <html lang="en" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html lang="en" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html lang="en" class="no-js lt-ie9"> <![endif]-->
 <!--[if gt IE 8]><!-->
-<html class="no-js" lang="">
+<html lang="en" class="no-js">
 <!--<![endif]-->
 <head>
+    <!-- meta charec set -->
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>DapperDino Dashboard </title>
-    <meta name="description" content="Sufee Admin - HTML5 Admin Template">
+    <!-- Always force latest IE rendering engine or request Chrome Frame -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <!-- Page Title -->
+    <title>DapperDino</title>
+    <!-- Meta Description -->
+    <meta name="description" content="Blue One Page Creative HTML5 Template">
+    <meta name="keywords" content="one page, single page, onepage, responsive, parallax, creative, business, html5, css3, css3 animation">
+    <meta name="author" content="Muhammad Morshed">
+    <!-- Mobile Specific Meta -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel="apple-touch-icon" href="apple-icon.png">
-    <link rel="shortcut icon" href="favicon.ico">
+    <!-- Google Font -->
 
-    <link rel="stylesheet" href="~/dashboard/assets/css/normalize.css">
-    <link rel="stylesheet" href="~/dashboard/assets/css/bootstrap.min.css">
-    <link rel="stylesheet" href="~/dashboard/assets/css/font-awesome.min.css">
-    <link rel="stylesheet" href="~/dashboard/assets/css/themify-icons.css">
-    <link rel="stylesheet" href="~/dashboard/assets/css/flag-icon.min.css">
-    <link rel="stylesheet" href="~/dashboard/assets/css/cs-skin-elastic.css">
-    <!-- <link rel="stylesheet" href="assets/css/bootstrap-select.less"> -->
-    <link rel="stylesheet" href="~/dashboard/assets/scss/style.css">
-    <link href="~/dashboard/assets/css/lib/vector-map/jqvmap.min.css" rel="stylesheet">
+    <link href="//fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800" rel="stylesheet" type="text/css">
 
-    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' rel='stylesheet' type='text/css'>
+    <!-- CSS
+    ================================================== -->
+    <!-- Fontawesome Icon font -->
+    <link rel="stylesheet" href="/css/font-awesome.min.css">
+    <!-- Twitter Bootstrap css -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <!-- jquery.fancybox  -->
+    <link rel="stylesheet" href="/css/jquery.fancybox.css">
+    <!-- animate -->
+    <link rel="stylesheet" href="/css/animate.css">
+    <!-- Main Stylesheet -->
+    <link rel="stylesheet" href="/css/main.css">
+    <!-- Custom Stylesheet -->
+    <link rel="stylesheet" href="/css/custom-main.css">
+    <!-- media-queries -->
+    <link rel="stylesheet" href="/css/media-queries.css">
+    <!-- Custom media-queries -->
+    <link rel="stylesheet" href="/css/custom-media-queries.css">
 
-    <!-- <script type="text/javascript" src="https://cdn.jsdelivr.net/html5shiv/3.7.3/html5shiv.min.js"></script> -->
+    <!-- Modernizer Script for old Browsers -->
+    <script src="/js/modernizr-2.6.2.min.js"></script>
 
 </head>
-<body>
 
-    <!-- Left Panel -->
+<body id="body">
 
-    <aside id="left-panel" class="left-panel">
-        <nav class="navbar navbar-expand-sm navbar-default">
-
+    <!-- preloader -->
+    <div id="preloader">
+        <img src="/images/preloader.gif" alt="Preloader">
+    </div>
+    <!-- end preloader -->
+    <!--
+    Fixed Navigation
+    ==================================== -->
+    <header id="navigation" class="navbar-fixed-top navbar">
+        <div class="container">
             <div class="navbar-header">
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-menu" aria-controls="main-menu" aria-expanded="false" aria-label="Toggle navigation">
-                    <i class="fa fa-bars"></i>
+                <!-- responsive nav button -->
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <i class="fa fa-bars fa-2x"></i>
                 </button>
-                <a class="navbar-brand" href="./"><img src="~/dashboard/images/logo.png" alt="Logo"></a>
-                <a class="navbar-brand hidden" href="./"><img src="~/dashboard/images/logo2.png" alt="Logo"></a>
+                <!-- /responsive nav button -->
+                <!-- logo -->
+                <a class="navbar-brand" href="#body">
+                    <h3 id="logo" style="padding-top:10px;font-weight:800">
+                        DapperDino
+                    </h3>
+                </a>
+                <!-- /logo -->
             </div>
 
-            <div id="main-menu" class="main-menu collapse navbar-collapse">
-                <ul class="nav navbar-nav">
-                    <li class="active">
-                        <a href="index.html"> <i class="menu-icon fa fa-dashboard"></i>Dashboard </a>
-                    </li>
-                    <h3 class="menu-title">UI elements</h3><!-- /.menu-title -->
-                    <li class="menu-item-has-children dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-laptop"></i>Components</a>
-                        <ul class="sub-menu children dropdown-menu">
-                            <li><i class="fa fa-puzzle-piece"></i><a href="ui-buttons.html">Buttons</a></li>
-                            <li><i class="fa fa-id-badge"></i><a href="ui-badges.html">Badges</a></li>
-                            <li><i class="fa fa-bars"></i><a href="ui-tabs.html">Tabs</a></li>
-                            <li><i class="fa fa-share-square-o"></i><a href="ui-social-buttons.html">Social Buttons</a></li>
-                            <li><i class="fa fa-id-card-o"></i><a href="ui-cards.html">Cards</a></li>
-                            <li><i class="fa fa-exclamation-triangle"></i><a href="ui-alerts.html">Alerts</a></li>
-                            <li><i class="fa fa-spinner"></i><a href="ui-progressbar.html">Progress Bars</a></li>
-                            <li><i class="fa fa-fire"></i><a href="ui-modals.html">Modals</a></li>
-                            <li><i class="fa fa-book"></i><a href="ui-switches.html">Switches</a></li>
-                            <li><i class="fa fa-th"></i><a href="ui-grids.html">Grids</a></li>
-                            <li><i class="fa fa-file-word-o"></i><a href="ui-typgraphy.html">Typography</a></li>
-                        </ul>
-                    </li>
-                    <li class="menu-item-has-children dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-table"></i>Tables</a>
-                        <ul class="sub-menu children dropdown-menu">
-                            <li><i class="fa fa-table"></i><a href="tables-basic.html">Basic Table</a></li>
-                            <li><i class="fa fa-table"></i><a href="tables-data.html">Data Table</a></li>
-                        </ul>
-                    </li>
-                    <li class="menu-item-has-children dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-th"></i>Forms</a>
-                        <ul class="sub-menu children dropdown-menu">
-                            <li><i class="menu-icon fa fa-th"></i><a href="forms-basic.html">Basic Form</a></li>
-                            <li><i class="menu-icon fa fa-th"></i><a href="forms-advanced.html">Advanced Form</a></li>
-                        </ul>
-                    </li>
-
-                    <h3 class="menu-title">Icons</h3><!-- /.menu-title -->
-
-                    <li class="menu-item-has-children dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-tasks"></i>Icons</a>
-                        <ul class="sub-menu children dropdown-menu">
-                            <li><i class="menu-icon fa fa-fort-awesome"></i><a href="font-fontawesome.html">Font Awesome</a></li>
-                            <li><i class="menu-icon ti-themify-logo"></i><a href="font-themify.html">Themefy Icons</a></li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a href="widgets.html"> <i class="menu-icon ti-email"></i>Widgets </a>
-                    </li>
-                    <li class="menu-item-has-children dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-bar-chart"></i>Charts</a>
-                        <ul class="sub-menu children dropdown-menu">
-                            <li><i class="menu-icon fa fa-line-chart"></i><a href="charts-chartjs.html">Chart JS</a></li>
-                            <li><i class="menu-icon fa fa-area-chart"></i><a href="charts-flot.html">Flot Chart</a></li>
-                            <li><i class="menu-icon fa fa-pie-chart"></i><a href="charts-peity.html">Peity Chart</a></li>
-                        </ul>
-                    </li>
-
-                    <li class="menu-item-has-children dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-area-chart"></i>Maps</a>
-                        <ul class="sub-menu children dropdown-menu">
-                            <li><i class="menu-icon fa fa-map-o"></i><a href="maps-gmap.html">Google Maps</a></li>
-                            <li><i class="menu-icon fa fa-street-view"></i><a href="maps-vector.html">Vector Maps</a></li>
-                        </ul>
-                    </li>
-                    <h3 class="menu-title">Extras</h3><!-- /.menu-title -->
-                    <li class="menu-item-has-children dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-glass"></i>Pages</a>
-                        <ul class="sub-menu children dropdown-menu">
-                            <li><i class="menu-icon fa fa-sign-in"></i><a href="page-login.html">Login</a></li>
-                            <li><i class="menu-icon fa fa-sign-in"></i><a href="page-register.html">Register</a></li>
-                            <li><i class="menu-icon fa fa-paper-plane"></i><a href="pages-forget.html">Forget Pass</a></li>
-                        </ul>
-                    </li>
+            <!-- main nav -->
+            <nav class="collapse navbar-collapse navbar-right" role="navigation">
+                <ul id="nav" class="nav navbar-nav">
+                    <li class="current"><a class="external" href="@Url.Action("Index", "Home")">Dashboard</a></li>
+                    <li><a class="external" href="@Url.Action("Index", "Suggestion" )">Suggestion</a></li>
+                    <li><a class="external" href="">Tickets</a></li>   @*Url.Action("Index", "Suggestion")*@ 
+                    <li><a class="external" href="@Url.Action("Index", "Faq")">Faq</a></li>
                 </ul>
-            </div><!-- /.navbar-collapse -->
-        </nav>
-    </aside><!-- /#left-panel -->
-    <!-- Left Panel -->
+            </nav>
+            <!-- /main nav -->
+
+        </div>
+    </header>
+    <!--
+    End Fixed Navigation
+    ==================================== -->
+
     @RenderBody()
 
 
-    @await RenderSectionAsync("scripts", false)
+    <footer id="footer" class="footer">
+        <div class="container">
+            <div class="row">
 
-    <script src="~/dashboard/assets/js/vendor/jquery-2.1.4.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"></script>
-    <script src="~/dashboard/assets/js/plugins.js"></script>
-    <script src="~/dashboard/assets/js/main.js"></script>
+                <div class="col-md-3 col-sm-6 col-xs-12 wow fadeInUp animated" data-wow-duration="500ms">
+                    <div class="footer-single">
+                        <img src="/images/footer-logo.png" alt="">
+                        <p>eusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                    </div>
+                </div>
 
+                <div class="col-md-3 col-sm-6 col-xs-12 wow fadeInUp animated" data-wow-duration="500ms" data-wow-delay="300ms">
+                    <div class="footer-single">
+                        <h6>Subscribe </h6>
+                        <form action="#" class="subscribe">
+                            <input type="text" name="subscribe" id="subscribe">
+                            <input type="submit" value="&#8594;" id="subs">
+                        </form>
+                        <p>eusmod tempor incididunt ut labore et dolore magna aliqua. </p>
+                    </div>
+                </div>
 
-    <script src="~/dashboard/assets/js/lib/chart-js/Chart.bundle.js"></script>
-    <script src="~/dashboard/assets/js/dashboard.js"></script>
-    <script src="~/dashboard/assets/js/widgets.js"></script>
-    <script src="~/dashboard/assets/js/lib/vector-map/jquery.vmap.js"></script>
-    <script src="~/dashboard/assets/js/lib/vector-map/jquery.vmap.min.js"></script>
-    <script src="~/dashboard/assets/js/lib/vector-map/jquery.vmap.sampledata.js"></script>
-    <script src="~/dashboard/assets/js/lib/vector-map/country/jquery.vmap.world.js"></script>
+                <div class="col-md-3 col-sm-6 col-xs-12 wow fadeInUp animated" data-wow-duration="500ms" data-wow-delay="600ms">
+                    <div class="footer-single">
+                        <h6>Explore</h6>
+                        <ul>
+                            <li><a href="#">Inside Us</a></li>
+                            <li><a href="#">Flickr</a></li>
+                            <li><a href="#">Google</a></li>
+                            <li><a href="#">Forum</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="col-md-3 col-sm-6 col-xs-12 wow fadeInUp animated" data-wow-duration="500ms" data-wow-delay="900ms">
+                    <div class="footer-single">
+                        <h6>Support</h6>
+                        <ul>
+                            <li><a href="#">Contact Us</a></li>
+                            <li><a href="#">Market Blog</a></li>
+                            <li><a href="#">Help Center</a></li>
+                            <li><a href="#">Pressroom</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <p class="copyright text-center">
+                        With <i class="fa fa-heart"></i> By the <a href="https://github.com/DapperCoding">DapperCoding</a> team
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <a href="javascript:void(0);" id="back-top"><i class="fa fa-angle-up fa-3x"></i></a>
+
+    <!-- Essential jQuery Plugins
+    ================================================== -->
+    <!-- Main jQuery -->
+    <script src="/js/jquery-1.11.1.min.js"></script>
+    <!-- Single Page Nav -->
+    <script src="/js/jquery.singlePageNav.min.js"></script>
+    <!-- Twitter Bootstrap -->
+    <script src="/js/bootstrap.min.js"></script>
+    <!-- jquery.fancybox.pack -->
+    <script src="/js/jquery.fancybox.pack.js"></script>
+    <!-- jquery.mixitup.min -->
+    <script src="/js/jquery.mixitup.min.js"></script>
+    <!-- jquery.parallax -->
+    <script src="/js/jquery.parallax-1.1.3.js"></script>
+    <!-- jquery.countTo -->
+    <script src="/js/jquery-countTo.js"></script>
+    <!-- jquery.appear -->
+    <script src="/js/jquery.appear.js"></script>
+    <!-- Contact form validation -->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery.form/3.32/jquery.form.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.11.1/jquery.validate.min.js"></script>
+    <!-- Google Map -->
+    <script type="text/javascript" src="//maps.googleapis.com/maps/api/js?sensor=false"></script>
+    <!-- jquery easing -->
+    <script src="/js/jquery.easing.min.js"></script>
+    <!-- jquery easing -->
+    <script src="/js/wow.min.js"></script>
     <script>
-        (function ($) {
-            "use strict";
-
-            jQuery('#vmap').vectorMap({
-                map: 'world_en',
-                backgroundColor: null,
-                color: '#ffffff',
-                hoverOpacity: 0.7,
-                selectedColor: '#1de9b6',
-                enableZoom: true,
-                showTooltip: true,
-                values: sample_data,
-                scaleColors: ['#1de9b6', '#03a9f5'],
-                normalizeFunction: 'polynomial'
-            });
-        })(jQuery);
+        var wow = new WOW({
+            boxClass: 'wow',      // animated element css class (default is wow)
+            animateClass: 'animated', // animation css class (default is animated)
+            offset: 120,          // distance to the element when triggering the animation (default is 0)
+            mobile: false,       // trigger animations on mobile devices (default is true)
+            live: true        // act on asynchronously loaded content (default is true)
+        }
+        );
+        wow.init();
     </script>
+    <!-- Custom Functions -->
+    <script src="/js/custom.js"></script>
 
+    <script type="text/javascript">
+        $(function () {
+            /* ========================================================================= */
+            /*	Contact Form
+            /* ========================================================================= */
+
+            $('#contact-form').validate({
+                rules: {
+                    name: {
+                        required: true,
+                        minlength: 2
+                    },
+                    email: {
+                        required: true,
+                        email: true
+                    },
+                    message: {
+                        required: true
+                    }
+                },
+                messages: {
+                    name: {
+                        required: "come on, you have a name don't you?",
+                        minlength: "your name must consist of at least 2 characters"
+                    },
+                    email: {
+                        required: "no email, no message"
+                    },
+                    message: {
+                        required: "um...yea, you have to write something to send this form.",
+                        minlength: "thats all? really?"
+                    }
+                },
+                submitHandler: function (form) {
+                    $(form).ajaxSubmit({
+                        type: "POST",
+                        data: $(form).serialize(),
+                        url: "process.php",
+                        success: function () {
+                            $('#contact-form :input').attr('disabled', 'disabled');
+                            $('#contact-form').fadeTo("slow", 0.15, function () {
+                                $(this).find(':input').attr('disabled', 'disabled');
+                                $(this).find('label').css('cursor', 'default');
+                                $('#success').fadeIn();
+                            });
+                        },
+                        error: function () {
+                            $('#contact-form').fadeTo("slow", 0.15, function () {
+                                $('#error').fadeIn();
+                            });
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+    @RenderSection("Scripts", required: false)
 </body>
 </html>
+
+
+

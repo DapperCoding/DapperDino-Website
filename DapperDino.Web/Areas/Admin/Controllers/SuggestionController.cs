@@ -11,15 +11,26 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DapperDino.Areas.Admin.Controllers
 {
+    [Route("Admin/Suggestion")]
     public class SuggestionController : BaseController
     {
+        #region Fields
+
+        // Shared context accessor
         private readonly ApplicationDbContext _context;
+
+        #endregion
+        
+        #region Constructor(s)
 
         public SuggestionController(ApplicationDbContext context)
         {
             _context = context;
         }
 
+        #endregion
+        
+        [Route("")]
         public IActionResult Index()
         {
             // Get list of all suggestions
@@ -49,6 +60,7 @@ namespace DapperDino.Areas.Admin.Controllers
             return View(viewModel);
         }
 
+        [Route("{id}")]
         public IActionResult Edit(int id)
         {
             // Get suggestion from db
@@ -73,7 +85,35 @@ namespace DapperDino.Areas.Admin.Controllers
                 Type = suggestion.Type
             };
 
+            // Return view with viewModel
             return View(viewModel);
+        }
+
+        [Route("{id}")]
+        [HttpPost]
+        public IActionResult Edit(int id, SuggestionViewModel viewModel)
+        {
+            // Get suggestion from db
+            var suggestion = _context.Suggestions.Include(x => x.DiscordUser).FirstOrDefault(x => x.Id == id);
+
+            // Null check
+            if (suggestion == null)
+            {
+
+                // Return not found page
+                return NotFound();
+            }
+
+            // Replace values in db to new values
+            suggestion.Type = viewModel.Type;
+            suggestion.Status = viewModel.Status;
+            suggestion.Description = viewModel.Description;
+
+            // Save changes in db
+            _context.SaveChanges();
+
+            // Return view with model
+            return RedirectToAction("Edit", new { id });
         }
     }
 }
