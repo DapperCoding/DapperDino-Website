@@ -8,13 +8,14 @@ using DapperDino.DAL.Models;
 using DapperDino.Jobs;
 using DapperDino.Models.SuggestionViewModels;
 using DapperDino.Services;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 
-namespace DapperDino.Areas.Admin.Controllers
+namespace DapperDino.Areas.Client.Controllers
 {
-    [Route("Admin/Suggestion")]
+    [Route("Client/Suggestion")]
     public class SuggestionController : BaseController
     {
         #region Fields
@@ -22,24 +23,29 @@ namespace DapperDino.Areas.Admin.Controllers
         // Shared context accessor
         private readonly ApplicationDbContext _context;
         private readonly IHubContext<DiscordBotHub> _hubContext;
+        private readonly UserManager<DAL.Models.ApplicationUser> _userManager;
 
         #endregion
-        
+
         #region Constructor(s)
 
-        public SuggestionController(ApplicationDbContext context, IHubContext<DiscordBotHub> hubContext)
+        public SuggestionController(ApplicationDbContext context, IHubContext<DiscordBotHub> hubContext, UserManager<DAL.Models.ApplicationUser> userManager)
         {
             _context = context;
             _hubContext = hubContext;
+            _userManager = userManager;
         }
 
         #endregion
-        
+
         [Route("")]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+            var userEntity = _context.ApplicationUsers.Include(x => x.DiscordUser).FirstOrDefault(x => x.Id == user.Id);
+
             // Get list of all suggestions
-            var suggestions = _context.Suggestions.Include(x => x.DiscordUser).ToList();
+            var suggestions = _context.Suggestions.Where(x => x.DiscordUserId == userEntity.DiscordUserId).Include(x => x.DiscordUser).ToList();
 
             // Generate IndexViewModel using the suggestions list
             var viewModel = new IndexViewModel()
@@ -74,7 +80,7 @@ namespace DapperDino.Areas.Admin.Controllers
             // Null check
             if (suggestion == null)
             {
-                
+
                 // Return not found page
                 return NotFound();
             }
@@ -110,14 +116,12 @@ namespace DapperDino.Areas.Admin.Controllers
             }
 
             // Replace values in db to new values
-            suggestion.Type = viewModel.Type;
-            suggestion.Status = viewModel.Status;
             suggestion.Description = viewModel.Description;
 
             // Save changes in db
-             await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
 
-             await _hubContext.Clients.All.SendAsync("SuggestionUpdate", suggestion);
+            //await _hubContext.Clients.All.SendAsync("SuggestionUpdate", suggestion);
 
             // Generate viewmodel
             viewModel = new SuggestionViewModel()

@@ -6,8 +6,10 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DapperDino.Areas.Client.Controllers
 {
+    [Route("/Client")]
     public class HomeController: BaseController
     {
+        [Route("")]
         public IActionResult Index()
         {
             return View();

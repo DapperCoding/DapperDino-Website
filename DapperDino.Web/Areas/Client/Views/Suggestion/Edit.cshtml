@@ -23,18 +23,6 @@
                     <input class="form-control" asp-for="Description" />
                 </div>
 
-                <div class="form-group">
-                    <label asp-for="Status"></label>
-
-                    <select class="form-control" asp-for="Status" asp-items="new SelectList(Enum.GetValues(typeof(SuggestionStatus)))"></select>
-                </div>
-
-                <div class="form-group">
-                    <label asp-for="Type"></label>
-
-                    <select class="form-control" asp-for="Type" asp-items="new SelectList(Enum.GetValues(typeof(SuggestionTypes)))"></select>
-                </div>
-
                 <input class="btn btn-primary" type="submit" value="edit" name="submit" />
             </form>
         </div>

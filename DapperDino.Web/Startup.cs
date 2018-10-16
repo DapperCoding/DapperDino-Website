@@ -37,6 +37,8 @@ namespace DapperDino
 
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
+            services.AddTransient<DiscordBuilder>();
+
             services.AddHangfire(x => x.UseSqlServerStorage(Configuration.GetConnectionString("DefaultConnection")));
             services.AddAutoMapper();
             services.AddCors(options =>
