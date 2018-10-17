@@ -32,11 +32,11 @@ namespace DapperDino.Api.Controllers
         public IActionResult Index()
         {
             var discordUsers = _context.DiscordUsers.OrderBy(x => x.Xp);
-            var viewModels = new List<XpViewModel>();
+            var viewModels = new List<CompactXpViewModel>();
 
             foreach (var discordUser in discordUsers)
             {
-                viewModels.Add(new XpViewModel()
+                viewModels.Add(new CompactXpViewModel()
                 {
                     Xp = discordUser.Xp,
                     Username = discordUser.Username,
@@ -55,7 +55,7 @@ namespace DapperDino.Api.Controllers
 
             if (discordUser == null) return NotFound("Discord user not found.");
 
-            var viewModel = new XpViewModel()
+            var viewModel = new CompactXpViewModel()
             {
                 DiscordId = discordId,
                 Level = discordUser.Level,
@@ -70,7 +70,13 @@ namespace DapperDino.Api.Controllers
         [Authorize]
         public IActionResult Add(string discordId, [FromBody]XpViewModel model)
         {
+            if (model == null)
+            {
+                return BadRequest("No xp model found in body.");
+            }
+
             var discordUser = _context.DiscordUsers.FirstOrDefault(x => x.DiscordId == discordId);
+            var xpViewModel = new XpViewModel();
 
             if (discordUser == null)
             {
@@ -91,12 +97,20 @@ namespace DapperDino.Api.Controllers
                 discordUser.Xp += model.Xp;
 
                 if (discordUser.Xp > nxtLvl)
+                {
                     discordUser.Level++;
+                    xpViewModel.LevelledUp = true;
+                }
             }
+
+            xpViewModel.Level = discordUser.Level;
+            xpViewModel.Username = discordUser.Username;
+            xpViewModel.DiscordId = discordUser.DiscordId;
+            xpViewModel.Xp = discordUser.Xp;
 
             _context.SaveChanges();
 
-            return Ok(discordUser);
+            return Ok(xpViewModel);
         }
     }
 }

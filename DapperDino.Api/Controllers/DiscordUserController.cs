@@ -6,54 +6,72 @@ using System.Threading.Tasks;
 using DapperDino.DAL;
 using DapperDino.DAL.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace DapperDino.Api.Controllers
 {
     [Route("api/[controller]")]
-    public class FaqController : Controller
+    public class DiscordUserController : Controller
     {
         #region Fields
 
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
         #endregion
 
         #region Constructor(s)
 
-        public FaqController(ApplicationDbContext context)
+        public DiscordUserController(ApplicationDbContext context, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
         {
             _context = context;
+            _userManager = userManager;
+            _roleManager = roleManager;
         }
 
         #endregion
 
         // GET api/faq
         [HttpGet]
-        public IEnumerable<FrequentlyAskedQuestion> Get()
+        public IEnumerable<DiscordUser> Get()
         {
-            return _context.FrequentlyAskedQuestions.Include(x => x.ResourceLink).ToArray();
+            return _context.DiscordUsers.ToArray();
         }
 
-        // GET api/faq/5
+        // GET api/discorduser/5
         [HttpGet("{id}")]
-        public IActionResult Get(int id)
+        [Authorize]
+        public async Task<IActionResult> GetAsync(string id)
         {
-            var faq = _context.FrequentlyAskedQuestions.FirstOrDefault(x => x.Id == id);
+            var user = await _userManager.GetUserAsync(User);
 
-            if (faq == null)
+            if (user == null)
             {
-                return NotFound();
+                return Unauthorized();
+            }
+            
+            if (user.Id != id && !await _userManager.IsInRoleAsync(user, RoleNames.Admin))
+            {
+                return StatusCode(403, "Trying to look into others accounts eh? Not gonna happen bud.");
             }
 
-            return Json(faq);
+            var discordUser = _context.DiscordUsers.FirstOrDefault(x => x.Id == user.DiscordUserId);
+
+            if (discordUser == null)
+            {
+                return NotFound("Discord user not found, use /api/account/registerdiscord to create one.");
+            }
+
+            return Json(discordUser);
         }
 
-        // POST api/faq
-        [HttpPost]
+        // POST api/discorduser
+        /*[HttpPost]
         [Authorize]
-        public IActionResult Post([FromBody]FrequentlyAskedQuestion value)
+        public IActionResult Post([FromBody]DiscordUser value)
         {
             if (!TryValidateModel(value)) return StatusCode(500);
 
@@ -83,7 +101,7 @@ namespace DapperDino.Api.Controllers
             }
 
             return Created(Url.Action("Get", new { id = value.Id }), value);
-        }
+        }*/
 
         // PUT api/faq/5
         [HttpPut("{id}")]
