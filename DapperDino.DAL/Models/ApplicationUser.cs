@@ -12,7 +12,7 @@ namespace DapperDino.DAL.Models
         [ForeignKey(nameof(DiscordUserId))]
         public virtual DiscordUser DiscordUser { get; set; }
 
-        public Guid DiscordRegistrationCode { get; set; } = new Guid();
+        public Guid DiscordRegistrationCode { get; set; } = Guid.NewGuid();
         public bool RegisteredDiscordAccount { get; set; }
     }
 }

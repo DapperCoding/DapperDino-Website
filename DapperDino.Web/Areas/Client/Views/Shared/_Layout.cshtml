@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@using DapperDino.DAL.Models
+@inject SignInManager<ApplicationUser> SignInManager
+<!DOCTYPE html>
 <!--[if lt IE 7]>      <html lang="en" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]>         <html lang="en" class="no-js lt-ie9 lt-ie8"> <![endif]-->
 <!--[if IE 8]>         <html lang="en" class="no-js lt-ie9"> <![endif]-->
@@ -67,7 +69,7 @@
                 </button>
                 <!-- /responsive nav button -->
                 <!-- logo -->
-                <a class="navbar-brand" href="#body">
+                <a class="navbar-brand external" href="/">
                     <h3 id="logo" style="padding-top:10px;font-weight:800">
                         DapperDino
                     </h3>
@@ -77,11 +79,20 @@
 
             <!-- main nav -->
             <nav class="collapse navbar-collapse navbar-right" role="navigation">
+
                 <ul id="nav" class="nav navbar-nav">
                     <li class="current"><a class="external" href="@Url.Action("Index", "Home")">Dashboard</a></li>
                     <li><a class="external" href="@Url.Action("Index", "Suggestion" )">Suggestions</a></li>
-                    <li><a class="external" href="@Url.Action("Index", "Faq")">Faq</a></li>
+                    <li><a class="external" href="/manage/index">Manage account</a></li>
+
                 </ul>
+                <form asp-area="" asp-controller="Account" asp-action="Logout" method="post" id="logoutForm" class="navbar-right">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            <button type="submit" class="btn btn-link navbar-btn navbar-link">Log out</button>
+                        </li>
+                    </ul>
+                </form>
             </nav>
             <!-- /main nav -->
 

@@ -35,5 +35,5 @@ msbuild.wrn
 /DapperDino.Api/Properties/PublishProfiles/dapperdinoapi - Web Deploy.pubxml
 */appsettings.json
 *.pubxml
-/dapperdino.api/appsettings.json
-/dapperdino.api/appsettings.Development.json
+dapperdino.api/appsettings.json
+dapperdino.api/appsettings.Development.json

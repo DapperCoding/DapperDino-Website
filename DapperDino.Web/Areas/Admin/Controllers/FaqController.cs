@@ -5,9 +5,11 @@ using System.Threading.Tasks;
 using DapperDino.Areas.Admin.Models;
 using DapperDino.DAL;
 using DapperDino.DAL.Models;
+using DapperDino.Jobs;
 using DapperDino.Models;
 using DapperDino.Models.FaqViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 
@@ -21,15 +23,16 @@ namespace DapperDino.Areas.Admin.Controllers
 
         // Shared context accessor
         private readonly ApplicationDbContext _context;
+        private readonly IHubContext<DiscordBotHub> _hubContext;
 
         #endregion
 
         #region Constructor(s)
 
-        public FaqController(ApplicationDbContext context)
+        public FaqController(ApplicationDbContext context, IHubContext<DiscordBotHub> hubContext)
         {
             _context = context;
-
+            _hubContext = hubContext;
         }
 
         #endregion
@@ -128,7 +131,7 @@ namespace DapperDino.Areas.Admin.Controllers
 
         [Route("Edit/{id}")]
         [HttpPost]
-        public IActionResult Edit(int id, [FromBody] FaqEditViewModel viewModel)
+        public async Task<IActionResult> Edit(int id, FaqEditViewModel viewModel)
         {
             // Used if a new resourceLink is added
             var addedResourceLink = false;
@@ -200,6 +203,8 @@ namespace DapperDino.Areas.Admin.Controllers
             {
                 faq.ResourceLinkId = resourceLink.Id;
             }
+
+            await _hubContext.Clients.All.SendAsync("FaqUpdate", faq);
 
             // Return view with viewModel that's edited
             return RedirectToAction("Edit", new { id });

@@ -13,7 +13,7 @@ using Microsoft.EntityFrameworkCore;
 namespace DapperDino.Api.Controllers
 {
     [Route("api/[controller]")]
-    public class DiscordUserController : Controller
+    public class DiscordUserController : BaseController
     {
         #region Fields
 
@@ -33,13 +33,7 @@ namespace DapperDino.Api.Controllers
         }
 
         #endregion
-
-        // GET api/faq
-        [HttpGet]
-        public IEnumerable<DiscordUser> Get()
-        {
-            return _context.DiscordUsers.ToArray();
-        }
+        
 
         // GET api/discorduser/5
         [HttpGet("{id}")]
@@ -67,6 +61,8 @@ namespace DapperDino.Api.Controllers
 
             return Json(discordUser);
         }
+
+        
 
         // POST api/discorduser
         /*[HttpPost]

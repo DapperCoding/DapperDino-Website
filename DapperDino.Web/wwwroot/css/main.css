@@ -732,3 +732,22 @@ label.error {
     margin-left: auto;
     margin-right: auto;
 }
+
+.nav > li > a:hover, .nav > li > a:focus, .nav-pills > li.active > a, .nav-pills > li.active > a:hover, .nav-pills > li.active > a:focus {
+    background-color: #4b6e4b;
+}
+
+.nav-pills > li > a {
+    background-color: #80ad7a;
+}
+a {
+    color: #4b6e4b;
+}
+
+.navbar-header a {
+    color:#fff;
+}
+
+h2 {
+    margin-bottom:5px;
+}

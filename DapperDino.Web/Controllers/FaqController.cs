@@ -13,7 +13,7 @@ namespace DapperDino.Controllers
 {
     // Faq controller
     [Route("Faq")]
-    public class FaqController : Controller
+    public class FaqController : BaseControllerBase
     {
         #region Fields
 

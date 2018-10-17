@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DapperDino.Controllers
 {
-    public class SuggestionController : Controller
+    public class SuggestionController : BaseControllerBase
     {
         #region Fields
 

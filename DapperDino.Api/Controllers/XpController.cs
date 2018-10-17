@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace DapperDino.Api.Controllers
 {
     [Route("api/[controller]")]
-    public class XpController : Controller
+    public class XpController : BaseController
     {
         #region Fields
 

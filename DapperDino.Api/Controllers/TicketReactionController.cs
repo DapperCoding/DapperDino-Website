@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore;
 namespace DapperDino.Api.Controllers
 {
     [Route("api/ticket/reaction")]
-    public class TicketReactionController : Controller
+    public class TicketReactionController : BaseController
     {
         #region Fields
 

@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace DapperDino.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseControllerBase
     {
 
 
