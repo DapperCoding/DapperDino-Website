@@ -1,0 +1,30 @@
+﻿@using DapperDino.Models.SuggestionViewModels
+@using DapperDino.DAL.Models
+
+@model SuggestionViewModel
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Client/Views/Shared/_Layout.cshtml";
+}
+<section id="features" class="features">
+    <div class="container">
+        <div class="row">
+            <h3>Suggestion by: @Model.DiscordUser.Username</h3>
+            <br />
+        </div>
+
+        <div class="row">
+            <form asp-controller="Suggestion" asp-action="Edit" method="post">
+
+                <div class="form-group">
+                    <label asp-for="Description"></label>
+
+                    <input class="form-control" asp-for="Description" />
+                </div>
+
+                <input class="btn btn-primary" type="submit" value="edit" name="submit" />
+            </form>
+        </div>
+    </div>
+</section>

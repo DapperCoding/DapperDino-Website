@@ -14,7 +14,7 @@ $(document).ready(function(){
 	/* ========================================================================= */
 	/*	Menu item highlighting
 	/* ========================================================================= */
-
+    /*
 	jQuery("#nav").singlePageNav({
 		offset: jQuery("#nav").outerHeight(),
 		filter: ":not(.external)",
@@ -28,7 +28,7 @@ $(document).ready(function(){
 		onComplete: function() {
 			console.log("done scrolling");
 		}
-	});
+	});*/
 	
     $(window).scroll(function () {
         if ($(window).scrollTop() > 400) {

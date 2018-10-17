@@ -13,6 +13,7 @@ namespace DapperDino.DAL.Models
         public string Question { get; set; }
         public string Answer { get; set; }
         public int? ResourceLinkId { get; set; }
+        public string MessageId { get; set; }
 
         [ForeignKey(nameof(ResourceLinkId))]
         public virtual ResourceLink ResourceLink { get; set; }

@@ -10,5 +10,7 @@ namespace DapperDino.DAL.Models
         public string DiscordId { get; set; }
         public string Username { get; set; }
         public string Name { get; set; }
+        public int Xp { get; set; }
+        public int Level { get; set; }
     }
 }

@@ -21,5 +21,14 @@ namespace DapperDino.Models.ManageViewModels
         public string PhoneNumber { get; set; }
 
         public string StatusMessage { get; set; }
+
+        public string DiscordId { get; set; }
+        public string DiscordUsername { get; set; }
+        public int Level { get; set; }
+        public int Xp { get; set; }
+        public bool IsDiscordConfirmed { get; set; }
+
+        [Display(Name ="Discord Connect Code")]
+        public Guid DiscordRegistrationCode { get; internal set; }
     }
 }

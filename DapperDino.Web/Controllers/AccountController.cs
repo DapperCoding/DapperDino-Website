@@ -18,7 +18,7 @@ namespace DapperDino.Controllers
 {
     [Authorize]
     [Route("[controller]/[action]")]
-    public class AccountController : Controller
+    public class AccountController : BaseControllerBase
     {
         private readonly SignInManager<DAL.Models.ApplicationUser> _signInManager;
         private readonly UserManager<DAL.Models.ApplicationUser> _userManager;

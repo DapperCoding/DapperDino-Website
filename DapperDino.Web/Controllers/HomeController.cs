@@ -11,14 +11,17 @@ using Microsoft.AspNetCore.Identity;
 
 namespace DapperDino.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseControllerBase
     {
 
 
         #region Fields
 
+        // RoleManager used for auth
         private readonly RoleManager<IdentityRole> _roleManager;
+        // UserManager used for auth
         private readonly UserManager<ApplicationUser> _userManager;
+        // Shared context accessor
         private readonly ApplicationDbContext _dbContext;
 
         #endregion
@@ -33,11 +36,13 @@ namespace DapperDino.Controllers
 
         #endregion
 
+        // Default page
         public IActionResult Index()
         {
             return View();
         }
 
+        // About page
         public IActionResult About()
         {
             ViewData["Message"] = "Your application description page.";
@@ -45,6 +50,7 @@ namespace DapperDino.Controllers
             return View();
         }
 
+        // Contact page
         public IActionResult Contact()
         {
             ViewData["Message"] = "Your contact page.";
@@ -52,35 +58,10 @@ namespace DapperDino.Controllers
             return View();
         }
 
+        // Error page
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
-
-        public async Task<IActionResult> Create()
-        {
-            bool x = await _roleManager.RoleExistsAsync("Admin");
-            if (!x)
-            {
-
-                // first we create Admin rool    
-                var role = new IdentityRole();
-                role.Name = "Admin";
-                await _roleManager.CreateAsync(role);
-
-                //Here we create a Admin super user who will maintain the website                   
-
-                var user = _dbContext.ApplicationUsers.FirstOrDefault(a => a.Email == "rustenhovenmick@outlook.com"); 
-
-
-                //Add default User to Role Admin    
-                if (user != null)
-                {
-                    var result1 = await _userManager.AddToRoleAsync(user, "Admin");
-                }
-            }
-
-            return Ok();
         }
     }
 }

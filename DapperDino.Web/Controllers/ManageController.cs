@@ -19,7 +19,7 @@ namespace DapperDino.Controllers
 {
     [Authorize]
     [Route("[controller]/[action]")]
-    public class ManageController : Controller
+    public class ManageController : BaseControllerBase
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
@@ -62,7 +62,13 @@ namespace DapperDino.Controllers
                 Email = user.Email,
                 PhoneNumber = user.PhoneNumber,
                 IsEmailConfirmed = user.EmailConfirmed,
-                StatusMessage = StatusMessage
+                StatusMessage = StatusMessage,
+                Level = user.DiscordUser?.Level ?? 0,
+                Xp = user.DiscordUser?.Xp ?? 0,
+                DiscordUsername = user.DiscordUser?.Username ?? "",
+                DiscordId = user.DiscordUserId?.ToString() ?? "",
+                IsDiscordConfirmed = user.RegisteredDiscordAccount,
+                DiscordRegistrationCode = user.DiscordRegistrationCode
             };
 
             return View(model);

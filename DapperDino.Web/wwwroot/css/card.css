@@ -1,0 +1,40 @@
+.faq-cards .row + .row {
+    margin-top: 25px;
+}
+
+.card {
+    width: 100%;
+    background-color: white;
+    border-radius: 5px;
+    border: 1px solid #eee;
+    padding: 15px;
+}
+
+.card-body {
+}
+
+.card-title {
+    font-weight: 600;
+    font-size: 18px;
+}
+
+.card-text {
+    margin-top: 10px;
+    line-height: 1.4em;
+}
+
+.card-body > a {
+    width: 100%;
+    margin-top: 10px;
+    border-radius: 0;
+}
+
+@media (max-width: 995px) {
+    .faq-cards .row + .row {
+        margin-top: 0;
+    }
+
+    .faq-cards .card {
+        margin-bottom: 10px;
+    }
+}

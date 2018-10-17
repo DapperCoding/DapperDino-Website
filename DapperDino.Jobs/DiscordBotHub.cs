@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using DapperDino.DAL.Models;
 using Microsoft.AspNetCore.SignalR;
 
 namespace DapperDino.Jobs
@@ -15,6 +16,11 @@ namespace DapperDino.Jobs
         public Task SendMessageToCaller(string message)
         {
             return Clients.Caller.SendAsync("ReceiveMessage", message);
+        }
+
+        public Task SendSuggestionUpdate(Suggestion suggestion)
+        {
+           return Clients.All.SendAsync("SuggestionUpdate", suggestion);
         }
     }
 }

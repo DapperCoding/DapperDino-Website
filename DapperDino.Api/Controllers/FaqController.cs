@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
+using DapperDino.Api.Models;
 using DapperDino.DAL;
 using DapperDino.DAL.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -12,7 +13,7 @@ using Microsoft.EntityFrameworkCore;
 namespace DapperDino.Api.Controllers
 {
     [Route("api/[controller]")]
-    public class FaqController : Controller
+    public class FaqController : BaseController
     {
         #region Fields
 
@@ -79,6 +80,7 @@ namespace DapperDino.Api.Controllers
                 }
 
                 value.ResourceLinkId = resourceLink.Id;
+                _context.SaveChanges();
             }
 
             return Created(Url.Action("Get", new { id = value.Id }), value);
@@ -96,6 +98,22 @@ namespace DapperDino.Api.Controllers
             faq.Answer = value.Answer;
             faq.Description = value.Description;
             faq.Question = value.Question;
+
+            _context.SaveChanges();
+
+            return Ok(faq);
+        }
+
+        // POST api/faq/5
+        [HttpPost("/api/faq/addmessageid")]
+        [Authorize]
+        public IActionResult UpdateFaqMessage([FromBody]FaqMessageIdViewModel value)
+        {
+            var faq = _context.FrequentlyAskedQuestions.FirstOrDefault(x => x.Id == value.Id);
+
+            if (faq == null) return NotFound($"Faq with id ${value.Id} couldn't be found");
+
+            faq.MessageId = value.MessageId;
 
             _context.SaveChanges();
 
