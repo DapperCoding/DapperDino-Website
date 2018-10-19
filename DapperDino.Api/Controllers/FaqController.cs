@@ -41,7 +41,7 @@ namespace DapperDino.Api.Controllers
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            var faq = _context.FrequentlyAskedQuestions.FirstOrDefault(x => x.Id == id);
+            var faq = _context.FrequentlyAskedQuestions.Include(x=>x.ResourceLink).FirstOrDefault(x => x.Id == id);
 
             if (faq == null)
             {

@@ -95,10 +95,48 @@ namespace DapperDino.Api.Controllers
             }
 
             value.ApplicantId = applicant.Id;
-            
+
             _context.SaveChanges();
 
             return Created(Url.Action("Get", new { id = value.Id }), value);
+        }
+
+        // POST api/Ticket/AddAssignee
+        [HttpPost("{ticketId}/AddAssignee")]
+        [Authorize]
+        public IActionResult AddAssignee(int ticketId, [FromBody]DiscordUser value)
+        {
+            var ticket = _context.Tickets.Include(x => x.AssignedTo).Include(x => x.Applicant).FirstOrDefault(x => x.Id == ticketId);
+
+            if (ticket == null)
+            {
+                return NotFound($"Ticket with id {ticketId} not found.");
+            }
+
+            if (ticket.AssignedTo != null && ticket.AssignedTo.DiscordId == value.DiscordId)
+            {
+                return BadRequest($"Ticket with id {ticketId} already assigned to you ({value.DiscordId})");
+            }
+            else if (ticket.AssignedTo != null && ticket.AssignedTo.Username.ToLower() != "mickie456")
+            {
+                return BadRequest($"Ticket with id {ticketId} already assigned to {value.DiscordId}");
+            }
+
+            var discordUser = _context.DiscordUsers.FirstOrDefault(x => x.DiscordId == value.DiscordId);
+
+            if (discordUser == null)
+            {
+                _context.DiscordUsers.Add(value);
+                _context.SaveChanges();
+                discordUser = value;
+            }
+
+            ticket.AssignedToId = discordUser.Id;
+            ticket.AssignedTo = discordUser;
+
+            _context.SaveChanges();
+
+            return Ok(ticket);
         }
 
         // PUT api/ticket/5
@@ -109,7 +147,7 @@ namespace DapperDino.Api.Controllers
             var ticket = _context.Tickets.FirstOrDefault(x => x.Id == id);
 
             if (ticket == null) return NotFound(value);
-            
+
             ticket.Description = value.Description;
 
             _context.SaveChanges();
