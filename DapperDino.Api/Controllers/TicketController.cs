@@ -170,6 +170,20 @@ namespace DapperDino.Api.Controllers
             return Ok(ticket);
         }
 
+        // POST api/Ticket/{ticketId}/CloseTicket
+        [HttpPost("{ticketId}/Close")]
+        [Authorize]
+        public IActionResult CloseTicket(int ticketId)
+        {
+            var ticket = _context.Tickets.FirstOrDefault(x => x.Id == ticketId);
+
+            ticket.Status = TicketStatus.Closed;
+
+            _context.SaveChanges();
+
+            return Ok(ticket);
+        }
+
         // DELETE api/ticket/5
         [HttpDelete("{id}")]
         [Authorize]

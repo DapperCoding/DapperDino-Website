@@ -15,6 +15,12 @@ namespace DapperDino.DAL.Models
         public int ApplicantId { get; set; }
         public int AssignedToId { get; set; }
 
+        public int Priority { get; set; } = 0;
+        public TicketStatus Status { get; set; } = TicketStatus.Open;
+
+        public DateTime CreatedOn { get; set; } = DateTime.Now;
+        public DateTime LastModified { get; set; } = DateTime.Now;
+
         public virtual IEnumerable<TicketReaction> Reactions { get; set; }
 
         [ForeignKey(nameof(ApplicantId))]
@@ -23,6 +29,12 @@ namespace DapperDino.DAL.Models
         [ForeignKey(nameof(AssignedToId))]
         public virtual DiscordUser AssignedTo { get; set; }
 
+    }
+
+    public enum TicketStatus
+    {
+        Open = 0,
+        Closed = 1
     }
 
     public class TicketReaction
