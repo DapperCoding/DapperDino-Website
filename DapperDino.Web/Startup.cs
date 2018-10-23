@@ -174,7 +174,6 @@ namespace DapperDino
             else
             {
                 app.UseExceptionHandler("/Home/Error");
-                //app.UseHsts(h => h.MaxAge(days: 365).Preload());
             }
             
             app.UseStaticFiles();

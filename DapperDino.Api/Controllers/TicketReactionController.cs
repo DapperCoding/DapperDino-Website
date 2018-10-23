@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DapperDino.Api.Models.Discord;
 using DapperDino.DAL;
 using DapperDino.DAL.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -37,14 +38,22 @@ namespace DapperDino.Api.Controllers
             return Json(ticketReactions);
         }
 
-        // POST api/faq
+        // POST api/ticket/reaction
         [HttpPost]
         [Authorize]
-        public IActionResult Post([FromBody]TicketReaction value)
+        public IActionResult Post([FromBody]TicketReactionViewModel value)
         {
             if (!TryValidateModel(value)) return StatusCode(500);
 
-            _context.TicketReactions.Add(value);
+            var reaction = new TicketReaction();
+            var discordUser = _context.DiscordUsers.FirstOrDefault(x => x.DiscordId == value.FromId);
+
+            reaction.FromId = discordUser.Id;
+            reaction.Message = value.Message;
+            reaction.TicketId = value.TicketId;
+            reaction.MessageId = value.MessageId;
+
+            _context.TicketReactions.Add(reaction);
             _context.SaveChanges();
 
             //if (value.ResourceLink != null)
@@ -68,7 +77,7 @@ namespace DapperDino.Api.Controllers
             //    value.ResourceLinkId = resourceLink.Id;
             //}
 
-            return Created(Url.Action("Get", new { id = value.Id }), value);
+            return Created(Url.Action("Get", new { id = reaction.Id }), reaction);
         }
 
         // PUT api/faq/5

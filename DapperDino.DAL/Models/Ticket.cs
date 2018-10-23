@@ -39,5 +39,6 @@ namespace DapperDino.DAL.Models
         public virtual DiscordUser From { get; set; }
         
         public string Message { get; set; }
+        public string MessageId { get; set; }
     }
 }
