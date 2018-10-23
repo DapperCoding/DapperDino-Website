@@ -96,18 +96,17 @@ namespace DapperDino.Api.Controllers
             
 
             var applicant = _context.DiscordUsers.FirstOrDefault(x =>
-                    x.DiscordId.Equals(value.Applicant.DiscordId.Trim()));
+                    x.DiscordId == value.Applicant.DiscordId);
 
             if (applicant == null)
             {
                 _context.DiscordUsers.Add(value.Applicant);
                 _context.SaveChanges();
 
-                applicant = _context.DiscordUsers.First(x =>
-                    x.DiscordId.Equals(value.Applicant.DiscordId.Trim()));
+                applicant = value.Applicant;
             }
 
-            value.ApplicantId = applicant.Id;
+            ticket.ApplicantId = applicant.Id;
 
             _context.SaveChanges();
 

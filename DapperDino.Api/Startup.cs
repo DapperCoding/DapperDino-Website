@@ -84,7 +84,7 @@ namespace DapperDino.Api
                     };
                 });
 
-            services.AddMvc();
+            services.AddMvc().AddJsonOptions(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
             services.AddSignalR();
             services.AddSwaggerGen(c=>
             {
