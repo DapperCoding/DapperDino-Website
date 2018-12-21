@@ -33,8 +33,8 @@ namespace DapperDino.Api.Controllers
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            var ticketReactions = _context.TicketReactions.Include(x=>x.Ticket).Include(x=>x.From).Where(x => x.TicketId.Equals(id));
-            
+            var ticketReactions = _context.TicketReactions.Include(x => x.Ticket).Include(x => x.From).Where(x => x.TicketId.Equals(id));
+
             return Json(ticketReactions);
         }
 
@@ -43,41 +43,70 @@ namespace DapperDino.Api.Controllers
         [Authorize]
         public IActionResult Post([FromBody]TicketReactionViewModel value)
         {
-            if (!TryValidateModel(value)) return StatusCode(500);
+            if (!TryValidateModel(value)) return StatusCode(500, ModelState);
 
             var reaction = new TicketReaction();
             var discordUser = _context.DiscordUsers.FirstOrDefault(x => x.DiscordId == value.FromId);
 
             reaction.FromId = discordUser.Id;
-            reaction.Message = value.Message;
             reaction.TicketId = value.TicketId;
-            reaction.MessageId = value.MessageId;
+
+            reaction.DiscordMessage = new DiscordMessage();
+
+            reaction.DiscordMessage.ChannelId = value.DiscordMessage.ChannelId;
+            reaction.DiscordMessage.IsDm = value.DiscordMessage.IsDm;
+            reaction.DiscordMessage.MessageId = value.DiscordMessage.MessageId;
+            reaction.DiscordMessage.IsEmbed = value.DiscordMessage.IsEmbed;
+            reaction.DiscordMessage.Message = value.DiscordMessage.Message;
+            reaction.DiscordMessage.Timestamp = value.DiscordMessage.Timestamp;
+            reaction.DiscordMessage.GuildId = value.DiscordMessage.GuildId;
+
+            var user = new DiscordUser();
+
+            if (!string.IsNullOrWhiteSpace(value.FromId))
+            {
+                user = _context.DiscordUsers.SingleOrDefault(x => x.DiscordId == value.FromId);
+
+                if (user == null)
+                {
+                    user = _context.DiscordUsers.FirstOrDefault();
+                    
+                    if (user != null)
+                    {
+                        return BadRequest($"Please contact mick about this ID: {user.Id}  & Discord ID: {user.DiscordId} - ticket reaction");
+                    }
+
+                    user = AddUser(value);
+                }
+            }
+            else
+            {
+                user = AddUser(value);
+            }
+
+            reaction.FromId = user.Id;
+            reaction.From = null;
 
             _context.TicketReactions.Add(reaction);
             _context.SaveChanges();
 
-            //if (value.ResourceLink != null)
-            //{
-            //    var resourceLink = _context.ResourceLinks.FirstOrDefault(x =>
-            //        x.DisplayName.Equals(value.ResourceLink.DisplayName) && x.Link.Equals(value.ResourceLink.Link));
-
-            //    if (resourceLink == null)
-            //    {
-            //        _context.ResourceLinks.Add(new ResourceLink()
-            //        {
-            //            DisplayName = value.ResourceLink.DisplayName,
-            //            Link = value.ResourceLink.DisplayName
-            //        });
-            //        _context.SaveChanges();
-
-            //        resourceLink = _context.ResourceLinks.First(x =>
-            //            x.DisplayName.Equals(value.ResourceLink.DisplayName) && x.Link.Equals(value.ResourceLink.Link)); ;
-            //    }
-
-            //    value.ResourceLinkId = resourceLink.Id;
-            //}
-
             return Created(Url.Action("Get", new { id = reaction.Id }), reaction);
+        }
+
+        private DiscordUser AddUser(TicketReactionViewModel value)
+        {
+            var user = new DiscordUser()
+            {
+                DiscordId = value.FromId,
+                Username = value.Username
+            };
+
+            _context.Add(user);
+
+            _context.SaveChanges();
+
+            return user;
+
         }
 
         // PUT api/faq/5

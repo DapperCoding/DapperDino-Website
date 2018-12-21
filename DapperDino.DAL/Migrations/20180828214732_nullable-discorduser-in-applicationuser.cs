@@ -263,7 +263,8 @@ namespace DapperDino.DAL.Migrations
                 column: "AssignedToId",
                 principalTable: "DiscordUsers",
                 principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
+                onDelete: ReferentialAction.NoAction,
+                onUpdate:ReferentialAction.NoAction);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

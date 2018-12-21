@@ -204,6 +204,12 @@ namespace DapperDino.Areas.Admin.Controllers
                 faq.ResourceLinkId = resourceLink.Id;
             }
 
+            if (faq.ResourceLinkId > 0)
+                faq.ResourceLink = _context.ResourceLinks.FirstOrDefault(x => x.Id == faq.ResourceLinkId);
+
+            if (faq.DiscordMessageId > 0)
+                faq.DiscordMessage = _context.DiscordMessages.FirstOrDefault(x => x.Id == faq.DiscordMessageId);
+
             await _hubContext.Clients.All.SendAsync("FaqUpdate", faq);
 
             // Return view with viewModel that's edited

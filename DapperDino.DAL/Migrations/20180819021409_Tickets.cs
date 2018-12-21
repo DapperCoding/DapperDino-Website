@@ -26,13 +26,15 @@ namespace DapperDino.DAL.Migrations
                         column: x => x.ApplicantId,
                         principalTable: "DiscordUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.NoAction,
+                        onUpdate:ReferentialAction.NoAction);
                     table.ForeignKey(
                         name: "FK_Tickets_DiscordUsers_AssignedToId",
                         column: x => x.AssignedToId,
                         principalTable: "DiscordUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.NoAction, 
+                        onUpdate:ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateTable(

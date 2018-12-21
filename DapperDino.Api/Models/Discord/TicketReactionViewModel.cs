@@ -12,9 +12,9 @@ namespace DapperDino.Api.Models.Discord
         public int TicketId { get; set; }
        
         public string FromId { get; set; }
-       
-        public string Message { get; set; }
-       
-        public string MessageId { get; set; }
+
+        public string Username { get; set; }
+
+        public DiscordMessageModel DiscordMessage { get; set; }
     }
 }
