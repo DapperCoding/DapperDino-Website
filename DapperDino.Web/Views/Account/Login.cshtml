@@ -13,10 +13,11 @@
 @{
     var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();
 }
+
 <section id="features" class="features">
     <div class="container">
-        <h2>@ViewData["Title"]</h2>
         <div class="row">
+            <h2>@ViewData["Title"]</h2>
             @{
                 Html.Raw(hasExternalLogins ? "<div class=\"col-md-4\">" : "<div class=\"col-md-12\">");
             }

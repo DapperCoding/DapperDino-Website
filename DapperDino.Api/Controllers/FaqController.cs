@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
+using DapperDino.Api.Models;
 using DapperDino.DAL;
 using DapperDino.DAL.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -12,7 +13,7 @@ using Microsoft.EntityFrameworkCore;
 namespace DapperDino.Api.Controllers
 {
     [Route("api/[controller]")]
-    public class FaqController : Controller
+    public class FaqController : BaseController
     {
         #region Fields
 
@@ -40,7 +41,7 @@ namespace DapperDino.Api.Controllers
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            var faq = _context.FrequentlyAskedQuestions.FirstOrDefault(x => x.Id == id);
+            var faq = _context.FrequentlyAskedQuestions.Include(x => x.ResourceLink).FirstOrDefault(x => x.Id == id);
 
             if (faq == null)
             {
@@ -59,6 +60,7 @@ namespace DapperDino.Api.Controllers
 
             _context.FrequentlyAskedQuestions.Add(value);
             _context.SaveChanges();
+            
 
             if (value.ResourceLink != null)
             {
@@ -79,6 +81,7 @@ namespace DapperDino.Api.Controllers
                 }
 
                 value.ResourceLinkId = resourceLink.Id;
+                _context.SaveChanges();
             }
 
             return Created(Url.Action("Get", new { id = value.Id }), value);
@@ -98,6 +101,45 @@ namespace DapperDino.Api.Controllers
             faq.Question = value.Question;
 
             _context.SaveChanges();
+
+            return Ok(faq);
+        }
+
+        // POST api/faq/5
+        [HttpPost("/api/faq/addmessageid")]
+        [Authorize]
+        public IActionResult AddFaqMessage([FromBody]FaqMessageIdViewModel value)
+        {
+            var faq = _context.FrequentlyAskedQuestions.SingleOrDefault(x => x.Id == value.Id);
+            
+            if (faq == null) return NotFound($"Faq with id ${value.Id} couldn't be found");
+
+            var discordMessage = new DiscordMessage();
+
+            if (faq.DiscordMessageId.HasValue)
+            {
+                discordMessage = _context.DiscordMessages.SingleOrDefault(x => x.Id == faq.DiscordMessageId.Value);
+            } 
+            else
+            {
+                _context.DiscordMessages.Add(discordMessage);
+            }
+
+            discordMessage.ChannelId = value.Message.ChannelId;
+            discordMessage.GuildId = value.Message.GuildId;
+            discordMessage.IsDm = value.Message.IsDm;
+            discordMessage.IsEmbed = value.Message.IsEmbed;
+            discordMessage.Message = value.Message.Message;
+            discordMessage.MessageId = value.Message.MessageId;
+            discordMessage.Timestamp = value.Message.Timestamp;
+
+            _context.SaveChanges();
+
+            faq.DiscordMessageId = discordMessage.Id;
+
+            _context.SaveChanges();
+
+            faq.DiscordMessage = discordMessage;
 
             return Ok(faq);
         }

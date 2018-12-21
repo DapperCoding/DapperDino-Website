@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore;
 namespace DapperDino.Controllers
 {
     // Create controller containing all IActionResults for the tickets
-    public class TicketController : Controller
+    public class TicketController : BaseControllerBase
     {
         // create private readonly variable, this would be the container for the current ApplicationDbContext session
         private readonly ApplicationDbContext _dbContext;
@@ -38,9 +38,7 @@ namespace DapperDino.Controllers
             // Get all tickets from database
             _dbContext.Tickets
                 .Include(x=>x.Applicant)
-                .Include(x=>x.AssignedTo);
-            
-            
+                .Include(x=>x.Assignees);
 
             return View();
         }

@@ -6,38 +6,60 @@ using System.Text;
 
 namespace DapperDino.DAL.Models
 {
-    public class Ticket
+    public class Ticket:IEntity
     {
-        public int Id { get; set; }
         public string Description { get; set; }
+        [Required]
         public string Subject { get; set; }
 
         public int ApplicantId { get; set; }
-        public int AssignedToId { get; set; }
+
+        public int Priority { get; set; } = 0;
+        public TicketStatus Status { get; set; } = TicketStatus.Open;
+        public TicketCategory Category { get; set; } = TicketCategory.Undecided;
+
+        public DateTime CreatedOn { get; set; } = DateTime.Now;
+        public DateTime LastModified { get; set; } = DateTime.Now;
 
         public virtual IEnumerable<TicketReaction> Reactions { get; set; }
 
-        [ForeignKey(nameof(ApplicantId))]
+        [ForeignKey("ApplicantId")]
         public virtual DiscordUser Applicant { get; set; }
 
-        [ForeignKey(nameof(AssignedToId))]
-        public virtual DiscordUser AssignedTo { get; set; }
+        public virtual List<TicketUser> Assignees { get; set; }
 
     }
 
-    public class TicketReaction
+    public enum TicketStatus
     {
-        public int Id { get; set; }
+        Open = 0,
+        Closed = 1,
+        InProgress = 2
+    }
+
+    public enum TicketCategory
+    {
+        DiscordBots = 0,
+        Unity = 1,
+        Python = 2,
+        Web = 3,
+        CSharp = 4,
+        Undecided = 5
+    }
+
+    public class TicketReaction:IEntity
+    {
         public int TicketId { get; set; }
         public int FromId { get; set; }
+        public int DiscordMessageId { get; set; }
 
-        [ForeignKey(nameof(TicketId))]
+        [ForeignKey("TicketId")]
         public virtual Ticket Ticket { get; set; }
-
         
-        [ForeignKey(nameof(FromId))]
+        [ForeignKey("FromId")]
         public virtual DiscordUser From { get; set; }
-        
-        public string Message { get; set; }
+
+        [ForeignKey("DiscordMessageId")]
+        public DiscordMessage DiscordMessage { get; set; }
     }
 }

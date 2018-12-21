@@ -11,5 +11,8 @@ namespace DapperDino.DAL.Models
         public int? DiscordUserId { get; set; }
         [ForeignKey(nameof(DiscordUserId))]
         public virtual DiscordUser DiscordUser { get; set; }
+
+        public Guid DiscordRegistrationCode { get; set; } = Guid.NewGuid();
+        public bool RegisteredDiscordAccount { get; set; }
     }
 }
