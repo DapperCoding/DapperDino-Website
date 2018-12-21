@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore;
 namespace DapperDino.Api.Controllers
 {
     [Route("api/[controller]")]
-    public class SuggestionController : Controller
+    public class SuggestionController : BaseController
     {
         #region Fields
 

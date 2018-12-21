@@ -4,42 +4,38 @@
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<section id="features" class="features">
+<section id="features" class="features faq-cards">
     <div class="container">
         <div class="row">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Description</th>
-                        <th>Question</th>
-                        <th>Answer</th>
-                        <th>Link</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
 
-                @foreach (var faq in Model.FrequentlyAskedQuestions)
+            @{
+                var i = 0;
+                foreach (var faq in Model.FrequentlyAskedQuestions)
                 {
-                    <tr>
-                        <td>
-                            @faq.Description
-                        </td>
-                        <td>
-                            @faq.Question
-                        </td>
-                        <td>
-                            @faq.Answer
-                        </td>
-                        <td>
-                            <a href="@faq.ResourceLink.Link">@faq.ResourceLink.DisplayName</a>
-                        </td>
-                        <td>
-                            <a href="~/Faq/Edit/@faq.Id">Edit</a>
-                        </td>
-                    </tr>
+                    i++;
+                    <div class="col-md-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">@faq.Question</h5>
+                                <p class="card-text">@faq.Answer</p>
+                                @if (faq.ResourceLink != null && !string.IsNullOrEmpty(faq.ResourceLink.Link))
+                                {
+                                    <a href="@faq.ResourceLink.Link" class="btn btn-primary">@faq.ResourceLink.DisplayName</a>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    if (i % 3 == 0)
+                    {
+                        @Html.Raw("</div>")
+                        @Html.Raw("<div class='row'>")
+                    }
+                    else if (i == Model.FrequentlyAskedQuestions.Count)
+                    {
+                        @Html.Raw("</div>")
+                    }
                 }
-
-            </table>
+            }
         </div>
     </div>
 </section>

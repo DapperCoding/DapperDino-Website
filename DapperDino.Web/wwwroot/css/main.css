@@ -480,7 +480,7 @@ top: -8px;
 }
 
 .team-member .social-links {
-  margin-top: 24%;
+  margin-top: 5%;
 }
 
 .team-member .social-links li a {
@@ -722,4 +722,32 @@ label.error {
   position: fixed;
   right: 25px;
   z-index: 9;
+}
+
+.table a {
+    color: rgb(56, 95, 56);
+}
+
+.member-thumb {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.nav > li > a:hover, .nav > li > a:focus, .nav-pills > li.active > a, .nav-pills > li.active > a:hover, .nav-pills > li.active > a:focus {
+    background-color: #4b6e4b;
+}
+
+.nav-pills > li > a {
+    background-color: #80ad7a;
+}
+a {
+    color: #4b6e4b;
+}
+
+.navbar-header a {
+    color:#fff;
+}
+
+h2 {
+    margin-bottom:5px;
 }

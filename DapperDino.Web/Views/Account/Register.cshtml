@@ -3,12 +3,10 @@
     ViewData["Title"] = "Register";
 }
 
-<h2>@ViewData["Title"]</h2>
-
 <section id="features" class="features">
     <div class="container">
         <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-12">
                 <form asp-route-returnUrl="@ViewData["ReturnUrl"]" method="post">
                     <h4>Create a new account.</h4>
                     <hr />
@@ -34,6 +32,7 @@
         </div>
     </div>
 </section>
+
 @section Scripts {
     @await Html.PartialAsync("_ValidationScriptsPartial")
 }

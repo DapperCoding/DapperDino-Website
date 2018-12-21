@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DapperDino.Areas.Admin.Controllers;
 using DapperDino.Jobs;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
@@ -9,7 +10,7 @@ using Microsoft.AspNetCore.SignalR.Client;
 
 namespace DapperDino.Controllers
 {
-    public class TemporaryController : Controller
+    public class TemporaryController : BaseController
     {
         private readonly HubConnection _connection;
         private readonly IHubContext<DiscordBotHub> _hubContext;
