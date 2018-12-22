@@ -68,27 +68,33 @@ namespace DapperDino.Api.Controllers
                 return NotFound();
             }
             
-            var discordUser = _context.DiscordUsers.FirstOrDefault(x => x.DiscordId == value.DiscordUser.DiscordId);
+            var discordUser = _context.DiscordUsers.SingleOrDefault(x => x.DiscordId == value.DiscordUser.DiscordId);
 
             if (discordUser == null)
             {
-                discordUser = new DiscordUser()
+                discordUser = _context.DiscordUsers.FirstOrDefault(x => x.DiscordId == value.DiscordUser.DiscordId);
+
+                if (discordUser == null)
                 {
-                    DiscordId = value.DiscordUser.DiscordId,
-                    Name = value.DiscordUser.Name,
-                    Username = value.DiscordUser.Username
-                };
-                _context.DiscordUsers.Add(discordUser);
-                _context.SaveChanges();
+                    discordUser = new DiscordUser()
+                    {
+                        DiscordId = value.DiscordUser.DiscordId,
+                        Name = value.DiscordUser.Name,
+                        Username = value.DiscordUser.Username
+                    };
+                    _context.DiscordUsers.Add(discordUser);
+                    _context.SaveChanges();
+                }
+
+                return StatusCode(500, "Please contact the administrator, you have multiple accounts in the database, this shouldn't be possible!");
             }
-            else
-            {
-                discordUser.Name = value.DiscordUser.Name;
-                discordUser.Username = value.DiscordUser.Username;
-            }
+
+            value.DiscordUserId = discordUser.Id;
 
             _context.Suggestions.Add(value);
             _context.SaveChanges();
+            
+            value.DiscordUser = discordUser;
 
             return Created(Url.Action("Get", new { id = value.Id }), value);
         }

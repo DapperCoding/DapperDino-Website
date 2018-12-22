@@ -38,7 +38,7 @@ namespace DapperDino.Controllers
             // Get all tickets from database
             _dbContext.Tickets
                 .Include(x=>x.Applicant)
-                .Include(x=>x.AssignedTo);
+                .Include(x=>x.Assignees);
 
             return View();
         }

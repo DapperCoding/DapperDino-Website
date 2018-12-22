@@ -15,7 +15,7 @@ namespace DapperDino.DAL.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.1.4-rtm-31024")
+                .HasAnnotation("ProductVersion", "2.1.1-rtm-30846")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -78,6 +78,37 @@ namespace DapperDino.DAL.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("DapperDino.DAL.Models.DiscordMessage", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ChannelId");
+
+                    b.Property<int>("DiscordUserId");
+
+                    b.Property<string>("GuildId");
+
+                    b.Property<bool>("IsDm");
+
+                    b.Property<bool>("IsEmbed");
+
+                    b.Property<string>("Message")
+                        .IsRequired();
+
+                    b.Property<string>("MessageId")
+                        .IsRequired();
+
+                    b.Property<DateTime>("Timestamp");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DiscordUserId");
+
+                    b.ToTable("DiscordMessages");
+                });
+
             modelBuilder.Entity("DapperDino.DAL.Models.DiscordUser", b =>
                 {
                     b.Property<int>("Id")
@@ -109,13 +140,15 @@ namespace DapperDino.DAL.Migrations
 
                     b.Property<string>("Description");
 
-                    b.Property<string>("MessageId");
+                    b.Property<int?>("DiscordMessageId");
 
                     b.Property<string>("Question");
 
                     b.Property<int?>("ResourceLinkId");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("DiscordMessageId");
 
                     b.HasIndex("ResourceLinkId");
 
@@ -166,17 +199,24 @@ namespace DapperDino.DAL.Migrations
 
                     b.Property<int>("ApplicantId");
 
-                    b.Property<int>("AssignedToId");
+                    b.Property<int>("Category");
+
+                    b.Property<DateTime>("CreatedOn");
 
                     b.Property<string>("Description");
 
-                    b.Property<string>("Subject");
+                    b.Property<DateTime>("LastModified");
+
+                    b.Property<int>("Priority");
+
+                    b.Property<int>("Status");
+
+                    b.Property<string>("Subject")
+                        .IsRequired();
 
                     b.HasKey("Id");
 
                     b.HasIndex("ApplicantId");
-
-                    b.HasIndex("AssignedToId");
 
                     b.ToTable("Tickets");
                 });
@@ -187,19 +227,34 @@ namespace DapperDino.DAL.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("FromId");
+                    b.Property<int>("DiscordMessageId");
 
-                    b.Property<string>("Message");
+                    b.Property<int>("FromId");
 
                     b.Property<int>("TicketId");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("DiscordMessageId");
 
                     b.HasIndex("FromId");
 
                     b.HasIndex("TicketId");
 
                     b.ToTable("TicketReactions");
+                });
+
+            modelBuilder.Entity("DapperDino.DAL.Models.TicketUser", b =>
+                {
+                    b.Property<int>("TicketId");
+
+                    b.Property<int>("DiscordUserId");
+
+                    b.HasKey("TicketId", "DiscordUserId");
+
+                    b.HasIndex("DiscordUserId");
+
+                    b.ToTable("TicketUser");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -319,8 +374,20 @@ namespace DapperDino.DAL.Migrations
                         .HasForeignKey("DiscordUserId");
                 });
 
+            modelBuilder.Entity("DapperDino.DAL.Models.DiscordMessage", b =>
+                {
+                    b.HasOne("DapperDino.DAL.Models.DiscordUser", "DiscordUser")
+                        .WithMany()
+                        .HasForeignKey("DiscordUserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("DapperDino.DAL.Models.FrequentlyAskedQuestion", b =>
                 {
+                    b.HasOne("DapperDino.DAL.Models.DiscordMessage", "DiscordMessage")
+                        .WithMany()
+                        .HasForeignKey("DiscordMessageId");
+
                     b.HasOne("DapperDino.DAL.Models.ResourceLink", "ResourceLink")
                         .WithMany()
                         .HasForeignKey("ResourceLinkId");
@@ -340,15 +407,15 @@ namespace DapperDino.DAL.Migrations
                         .WithMany()
                         .HasForeignKey("ApplicantId")
                         .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("DapperDino.DAL.Models.DiscordUser", "AssignedTo")
-                        .WithMany()
-                        .HasForeignKey("AssignedToId")
-                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("DapperDino.DAL.Models.TicketReaction", b =>
                 {
+                    b.HasOne("DapperDino.DAL.Models.DiscordMessage", "DiscordMessage")
+                        .WithMany()
+                        .HasForeignKey("DiscordMessageId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
                     b.HasOne("DapperDino.DAL.Models.DiscordUser", "From")
                         .WithMany()
                         .HasForeignKey("FromId")
@@ -356,6 +423,18 @@ namespace DapperDino.DAL.Migrations
 
                     b.HasOne("DapperDino.DAL.Models.Ticket", "Ticket")
                         .WithMany("Reactions")
+                        .HasForeignKey("TicketId");
+                });
+
+            modelBuilder.Entity("DapperDino.DAL.Models.TicketUser", b =>
+                {
+                    b.HasOne("DapperDino.DAL.Models.DiscordUser", "DiscordUser")
+                        .WithMany("TicketUsers")
+                        .HasForeignKey("DiscordUserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("DapperDino.DAL.Models.Ticket", "Ticket")
+                        .WithMany("Assignees")
                         .HasForeignKey("TicketId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DapperDino.Api.Controllers
 {
-    [RequireHttps]
+    //[RequireHttps]
     public class BaseController:Controller
     {
     }

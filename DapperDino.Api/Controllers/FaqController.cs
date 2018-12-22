@@ -41,7 +41,7 @@ namespace DapperDino.Api.Controllers
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            var faq = _context.FrequentlyAskedQuestions.FirstOrDefault(x => x.Id == id);
+            var faq = _context.FrequentlyAskedQuestions.Include(x => x.ResourceLink).FirstOrDefault(x => x.Id == id);
 
             if (faq == null)
             {
@@ -60,6 +60,7 @@ namespace DapperDino.Api.Controllers
 
             _context.FrequentlyAskedQuestions.Add(value);
             _context.SaveChanges();
+            
 
             if (value.ResourceLink != null)
             {
@@ -107,15 +108,38 @@ namespace DapperDino.Api.Controllers
         // POST api/faq/5
         [HttpPost("/api/faq/addmessageid")]
         [Authorize]
-        public IActionResult UpdateFaqMessage([FromBody]FaqMessageIdViewModel value)
+        public IActionResult AddFaqMessage([FromBody]FaqMessageIdViewModel value)
         {
-            var faq = _context.FrequentlyAskedQuestions.FirstOrDefault(x => x.Id == value.Id);
-
+            var faq = _context.FrequentlyAskedQuestions.SingleOrDefault(x => x.Id == value.Id);
+            
             if (faq == null) return NotFound($"Faq with id ${value.Id} couldn't be found");
 
-            faq.MessageId = value.MessageId;
+            var discordMessage = new DiscordMessage();
+
+            if (faq.DiscordMessageId.HasValue)
+            {
+                discordMessage = _context.DiscordMessages.SingleOrDefault(x => x.Id == faq.DiscordMessageId.Value);
+            } 
+            else
+            {
+                _context.DiscordMessages.Add(discordMessage);
+            }
+
+            discordMessage.ChannelId = value.Message.ChannelId;
+            discordMessage.GuildId = value.Message.GuildId;
+            discordMessage.IsDm = value.Message.IsDm;
+            discordMessage.IsEmbed = value.Message.IsEmbed;
+            discordMessage.Message = value.Message.Message;
+            discordMessage.MessageId = value.Message.MessageId;
+            discordMessage.Timestamp = value.Message.Timestamp;
 
             _context.SaveChanges();
+
+            faq.DiscordMessageId = discordMessage.Id;
+
+            _context.SaveChanges();
+
+            faq.DiscordMessage = discordMessage;
 
             return Ok(faq);
         }

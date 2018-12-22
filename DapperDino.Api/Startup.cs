@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using DapperDino.DAL;
 using DapperDino.DAL.Models;
+using DapperDino.Jobs;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -34,7 +35,8 @@ namespace DapperDino.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+                options.UseSqlServer(
+                    Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
@@ -83,7 +85,8 @@ namespace DapperDino.Api
                     };
                 });
 
-            services.AddMvc();
+            services.AddMvc().AddJsonOptions(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+            services.AddSignalR();
             services.AddSwaggerGen(c=>
             {
                 c.SwaggerDoc("v0.2", new Info(){ Title = "DapperDino API", Version = "v0.2"});
@@ -114,6 +117,12 @@ namespace DapperDino.Api
             
             // ===== Use Authentication ======
             app.UseAuthentication();
+
+            app.UseSignalR(routes =>
+            {
+                routes.MapHub<DiscordBotHub>("/discordBotHub");
+            });
+
             app.UseMvc();
 
             // ===== Create tables ======

@@ -5,9 +5,13 @@ using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using DapperDino.DAL;
 using DapperDino.DAL.Models;
+using DapperDino.Jobs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
+using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 
 namespace DapperDino.Api.Controllers
 {
@@ -18,14 +22,17 @@ namespace DapperDino.Api.Controllers
         #region Fields
 
         private readonly ApplicationDbContext _context;
+        private readonly HubConnection _connection;
+        private readonly IHubContext<DiscordBotHub> _hubContext;
 
         #endregion
 
         #region Constructor(s)
 
-        public TicketController(ApplicationDbContext context)
+        public TicketController(ApplicationDbContext context, IHubContext<DiscordBotHub> hubContext)
         {
             _context = context;
+            _hubContext = hubContext;
         }
 
         #endregion
@@ -34,14 +41,15 @@ namespace DapperDino.Api.Controllers
         [HttpGet]
         public IEnumerable<Ticket> Get()
         {
-            return _context.Tickets.Include(x => x.Applicant).Include(x => x.AssignedTo).Include(x => x.Reactions).ToArray();
+
+            return _context.Tickets.ToArray();
         }
 
         // GET api/ticket/5
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            var ticket = _context.Tickets.Include(x => x.Applicant).Include(x => x.AssignedTo).Include(x => x.Reactions).FirstOrDefault(x => x.Id == id);
+            var ticket = _context.Tickets.Include(x => x.Applicant).Include(x => x.Assignees).Include(x => x.Reactions).FirstOrDefault(x => x.Id == id);
 
             if (ticket == null)
             {
@@ -51,29 +59,21 @@ namespace DapperDino.Api.Controllers
             return Json(ticket);
         }
 
+
+        [Route("test")]
+        public async Task<ActionResult> Test()
+        {
+            await _hubContext.Clients.All.SendAsync("TicketCreated", "test");
+
+            return Ok();
+        }
+
         // POST api/ticket
         [HttpPost]
         [Authorize]
-        public IActionResult Post([FromBody]Ticket value)
+        public async Task<IActionResult> Post([FromBody]Ticket value)
         {
             if (!TryValidateModel(value)) return StatusCode(500);
-
-            if (value.AssignedTo == null)
-            {
-                value.AssignedTo = _context.DiscordUsers.FirstOrDefault(x => x.Id == 5);
-            }
-            else
-            {
-                var v = _context.DiscordUsers.FirstOrDefault(x => x.DiscordId.Equals(value.AssignedTo.DiscordId));
-
-                if (v != null)
-                {
-                    value.AssignedToId = v.Id;
-                }
-            }
-
-            _context.Tickets.Add(value);
-            _context.SaveChanges();
 
             if (value.Applicant == null)
             {
@@ -82,23 +82,79 @@ namespace DapperDino.Api.Controllers
                 return BadRequest(ModelState);
             }
 
+            var ticket = new Ticket
+            {
+                Description = value.Description,
+                Subject = value.Subject,
+                Category = value.Category
+            };
+
+            _context.Tickets.Add(ticket);
+            _context.SaveChanges();
+
+
+
             var applicant = _context.DiscordUsers.FirstOrDefault(x =>
-                    x.DiscordId.Equals(value.Applicant.DiscordId));
+                    x.DiscordId == value.Applicant.DiscordId);
 
             if (applicant == null)
             {
                 _context.DiscordUsers.Add(value.Applicant);
                 _context.SaveChanges();
 
-                applicant = _context.DiscordUsers.First(x =>
-                    x.DiscordId.Equals(value.Applicant.DiscordId));
+                applicant = value.Applicant;
             }
 
-            value.ApplicantId = applicant.Id;
-            
+            ticket.ApplicantId = applicant.Id;
+
+            _context.SaveChanges();
+            try
+            {
+
+                await _hubContext.Clients.All.SendAsync("TicketCreated", ticket);
+            }
+            catch (Exception e)
+            {
+
+                throw e;
+            }
+
+            return Created(Url.Action("Get", new { id = ticket.Id }), ticket);
+        }
+
+        // POST api/Ticket/AddAssignee
+        [HttpPost("{ticketId}/AddAssignee")]
+        [Authorize]
+        public IActionResult AddAssignee(int ticketId, [FromBody]DiscordUser value)
+        {
+            var ticket = _context.Tickets.Include(x => x.Assignees).FirstOrDefault(x => x.Id == ticketId);
+
+            if (ticket == null)
+            {
+                return NotFound($"Ticket with id {ticketId} not found.");
+            }
+
+            foreach (var assignee in ticket.Assignees)
+            {
+                var user =_context.DiscordUsers.FirstOrDefault(x => x.Id == assignee.DiscordUserId);
+
+                if (user.DiscordId == value.DiscordId) return BadRequest($"Ticket with id {ticketId} is already assigned to you ({value.DiscordId})");
+            }
+
+            var discordUser = _context.DiscordUsers.FirstOrDefault(x => x.DiscordId == value.DiscordId);
+
+            if (discordUser == null)
+            {
+                _context.DiscordUsers.Add(value);
+                _context.SaveChanges();
+                discordUser = value;
+            }
+
+            ticket.Assignees.Add(new TicketUser() { TicketId = ticketId, DiscordUserId = discordUser.Id });
+
             _context.SaveChanges();
 
-            return Created(Url.Action("Get", new { id = value.Id }), value);
+            return Ok(ticket);
         }
 
         // PUT api/ticket/5
@@ -109,8 +165,22 @@ namespace DapperDino.Api.Controllers
             var ticket = _context.Tickets.FirstOrDefault(x => x.Id == id);
 
             if (ticket == null) return NotFound(value);
-            
+
             ticket.Description = value.Description;
+
+            _context.SaveChanges();
+
+            return Ok(ticket);
+        }
+
+        // POST api/Ticket/{ticketId}/CloseTicket
+        [HttpPost("{ticketId}/Close")]
+        [Authorize]
+        public IActionResult CloseTicket(int ticketId)
+        {
+            var ticket = _context.Tickets.FirstOrDefault(x => x.Id == ticketId);
+
+            ticket.Status = TicketStatus.Closed;
 
             _context.SaveChanges();
 
