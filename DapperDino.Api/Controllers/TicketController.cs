@@ -92,8 +92,6 @@ namespace DapperDino.Api.Controllers
             _context.Tickets.Add(ticket);
             _context.SaveChanges();
 
-
-
             var applicant = _context.DiscordUsers.FirstOrDefault(x =>
                     x.DiscordId == value.Applicant.DiscordId);
 
@@ -127,20 +125,26 @@ namespace DapperDino.Api.Controllers
         [Authorize]
         public IActionResult AddAssignee(int ticketId, [FromBody]DiscordUser value)
         {
-            var ticket = _context.Tickets.Include(x => x.Assignees).FirstOrDefault(x => x.Id == ticketId);
+            var ticket = _context.Tickets
+                .Include(x => x.Assignees)
+                    .ThenInclude(x => x.DiscordUser)
+                .FirstOrDefault(x => x.Id == ticketId);
 
             if (ticket == null)
             {
                 return NotFound($"Ticket with id {ticketId} not found.");
             }
 
-            foreach (var assignee in ticket.Assignees)
+            if (ticket.Status == TicketStatus.Closed)
             {
-                var user =_context.DiscordUsers.FirstOrDefault(x => x.Id == assignee.DiscordUserId);
-
-                if (user.DiscordId == value.DiscordId) return BadRequest($"Ticket with id {ticketId} is already assigned to you ({value.DiscordId})");
+                return BadRequest($"Ticket with id {ticketId} is already closed");
             }
 
+            if (ticket.Assignees.FirstOrDefault(x => x.DiscordUser.DiscordId == value.DiscordId) != null)
+            {
+                return BadRequest($"Ticket with id {ticketId} is already assigned to you ({value.DiscordId})");
+            }
+                
             var discordUser = _context.DiscordUsers.FirstOrDefault(x => x.DiscordId == value.DiscordId);
 
             if (discordUser == null)

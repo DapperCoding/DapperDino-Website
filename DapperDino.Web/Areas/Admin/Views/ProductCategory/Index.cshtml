@@ -1,0 +1,56 @@
+﻿@using DapperDino.Models.FaqViewModels
+@*//TODO: change to index view model*@
+@model List<DapperDino.DAL.Models.ProductCategory>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+<section id="features" class="features">
+    <div class="container">
+        <div class="row">
+            <div><a href="~/Admin/ProductCategories/Add"></a></div>
+        </div>
+        <div class="row">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Category</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+
+                @foreach (var category in Model)
+                {
+                    <tr>
+                        <td>
+                            @category.Name
+                        </td>
+                        <td>
+                            <a href="~/Admin/ProductCategories/Edit/@category.Id">Edit</a>
+                            <!--&nbsp;&nbsp;
+                            <a href="@*Url.Action("Delete", "Category", new { id = category.Id})*@">Delete</a>-->
+                        </td>
+                    </tr>
+                }
+
+
+            </table>
+        </div>
+    </div>
+</section>
+
+@section Scripts
+    {
+
+    <link href="https://cdn.datatables.net/1.10.15/css/dataTables.bootstrap.min.css" rel="stylesheet" />
+
+    <script src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap4.min.js "></script>
+    <script>
+        $(document).ready(function () {
+            $('.table').DataTable({
+                "pagingType": "full_numbers"
+            });
+        });
+    </script>
+}
