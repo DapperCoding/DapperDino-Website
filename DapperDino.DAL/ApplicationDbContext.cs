@@ -39,6 +39,21 @@ namespace DapperDino.DAL
                 .WithMany(c => c.TicketUsers)
                 .HasForeignKey(bc => bc.DiscordUserId);
 
+
+
+            builder.Entity<ProductProductCategory>()
+                .HasKey(bc => new { bc.ProductId, bc.ProductCategoryId });
+
+            builder.Entity<ProductProductCategory>()
+                .HasOne(bc => bc.Product)
+                .WithMany(b => b.Categories)
+                .HasForeignKey(bc => bc.ProductId);
+
+            builder.Entity<ProductProductCategory>()
+                .HasOne(bc => bc.ProductCategory)
+                .WithMany(c => c.Categories)
+                .HasForeignKey(bc => bc.ProductCategoryId);
+
         }
 
         public DbSet<FrequentlyAskedQuestion> FrequentlyAskedQuestions { get; set; }
@@ -49,6 +64,10 @@ namespace DapperDino.DAL
         public DbSet<Ticket> Tickets { get; set; }
         public DbSet<TicketReaction> TicketReactions { get; set; }
         public DbSet<ApplicationUser> ApplicationUsers { get; set; }
+        public DbSet<Product> Products { get; set; }
+        public DbSet<ProductCategory> ProductCategories { get; set; }
+        public DbSet<ProductImage> ProductImages { get; set; }
+        public DbSet<ProductInstructions> ProductInstructions { get; set; }
     }
 
 }
