@@ -1,6 +1,5 @@
-﻿@using DapperDino.Models.FaqViewModels
-@*//TODO: change to index view model*@
-@model List<DapperDino.DAL.Models.ProductCategory>
+﻿@using DapperDino.Areas.Admin.Models
+@model HostingEnquiryIndexViewModel
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
@@ -8,35 +7,34 @@
 <section id="features" class="features">
     <div class="container">
         <div class="row">
-            <div><a href="~/Admin/ProductCategories/Add"></a></div>
-        </div>
-        <div class="row">
             <table class="table">
                 <thead>
                     <tr>
-                        <th>Category</th>
-                        <th>Description</th>
+                        <th>Discord Username</th>
+                        <th>Package</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
 
-                @foreach (var category in Model)
+                @foreach (var enquiry in Model.List)
                 {
                     <tr>
                         <td>
-                            @category.Name
+                            @enquiry.DiscordId
                         </td>
                         <td>
-                            @category.Description
+                            @(enquiry.PackageType == DapperDino.DAL.Models.HostingType.Small 
+                                    ? Html.Raw("Small") 
+                                    : enquiry.PackageType == DapperDino.DAL.Models.HostingType.Pro
+                                        ? Html.Raw("Pro") 
+                                        : Html.Raw("Enterprise"))
                         </td>
                         <td>
-                            <a href="~/Admin/ProductCategories/@category.Id">Edit</a>
-                            <!--&nbsp;&nbsp;
-                            <a href="@*Url.Action("Delete", "Category", new { id = category.Id})*@">Delete</a>-->
+                            <a href="~/Admin/Hosting/Details/@enquiry.Id">Details</a>&nbsp;&nbsp;
+                            <a href="@Url.Action("Delete", "Hosting", new { id = enquiry.Id})">Delete</a>
                         </td>
                     </tr>
                 }
-
 
             </table>
         </div>

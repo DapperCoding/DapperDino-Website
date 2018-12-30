@@ -4,48 +4,22 @@ using DapperDino.DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DapperDino.DAL.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20181222041604_products")]
+    partial class products
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "2.1.1-rtm-30846")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            modelBuilder.Entity("DapperDino.DAL.Models.Applicant", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("Age");
-
-                    b.Property<int>("DiscordUserId");
-
-                    b.Property<string>("Explanation")
-                        .IsRequired();
-
-                    b.Property<string>("FirstName")
-                        .IsRequired();
-
-                    b.Property<string>("LastName")
-                        .IsRequired();
-
-                    b.Property<string>("Links");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("DiscordUserId");
-
-                    b.ToTable("Applicants");
-                });
 
             modelBuilder.Entity("DapperDino.DAL.Models.ApplicationUser", b =>
                 {
@@ -118,8 +92,6 @@ namespace DapperDino.DAL.Migrations
 
                     b.Property<string>("GuildId");
 
-                    b.Property<string>("ImageLink");
-
                     b.Property<bool>("IsDm");
 
                     b.Property<bool>("IsEmbed");
@@ -183,28 +155,6 @@ namespace DapperDino.DAL.Migrations
                     b.HasIndex("ResourceLinkId");
 
                     b.ToTable("FrequentlyAskedQuestions");
-                });
-
-            modelBuilder.Entity("DapperDino.DAL.Models.HostingEnquiry", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("DiscordId")
-                        .IsRequired();
-
-                    b.Property<string>("FirstName")
-                        .IsRequired();
-
-                    b.Property<string>("LastName")
-                        .IsRequired();
-
-                    b.Property<int>("PackageType");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("HostingEnquiries");
                 });
 
             modelBuilder.Entity("DapperDino.DAL.Models.Product", b =>
@@ -333,7 +283,7 @@ namespace DapperDino.DAL.Migrations
 
                     b.Property<string>("Description");
 
-                    b.Property<int?>("DiscordUserId");
+                    b.Property<int>("DiscordUserId");
 
                     b.Property<int>("Status");
 
@@ -522,14 +472,6 @@ namespace DapperDino.DAL.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("DapperDino.DAL.Models.Applicant", b =>
-                {
-                    b.HasOne("DapperDino.DAL.Models.DiscordUser", "DiscordUser")
-                        .WithMany()
-                        .HasForeignKey("DiscordUserId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
             modelBuilder.Entity("DapperDino.DAL.Models.ApplicationUser", b =>
                 {
                     b.HasOne("DapperDino.DAL.Models.DiscordUser", "DiscordUser")
@@ -598,7 +540,8 @@ namespace DapperDino.DAL.Migrations
                 {
                     b.HasOne("DapperDino.DAL.Models.DiscordUser", "DiscordUser")
                         .WithMany()
-                        .HasForeignKey("DiscordUserId");
+                        .HasForeignKey("DiscordUserId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("DapperDino.DAL.Models.Ticket", b =>

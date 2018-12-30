@@ -1,0 +1,38 @@
+﻿@using DapperDino.Areas.Admin.Models
+@using DapperDino.DAL.Models
+
+@model HostingEnquiry
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+<section id="features" class="features">
+    <div class="container">
+        <div class="row">
+            <!-- Overview -->
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label>Discord Username: </label>@Model.DiscordId
+                </div>
+                <div class="form-group">
+                    <label>First name: </label>@Model.FirstName
+                </div>
+                <div class="form-group">
+                    <label>Last name: </label>@Model.LastName
+                </div>
+                <div class="form-group">
+                    <label>Package type: </label>@(Model.PackageType == DapperDino.DAL.Models.HostingType.Small
+                                                    ? Html.Raw("Small")
+                                                    : Model.PackageType == DapperDino.DAL.Models.HostingType.Pro
+                                                        ? Html.Raw("Pro")
+                                                        : Html.Raw("Enterprise"))
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>

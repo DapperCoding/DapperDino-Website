@@ -18,11 +18,12 @@
                             <div class="card-body">
                                 <h5 class="card-title">@faq.Question</h5>
                                 <p class="card-text">@faq.Answer</p>
-                                @if (faq.ResourceLink != null && !string.IsNullOrEmpty(faq.ResourceLink.Link))
-                                {
-                                    <a href="@faq.ResourceLink.Link" class="btn btn-primary">@faq.ResourceLink.DisplayName</a>
-                                }
+
                             </div>
+                            @if (faq.ResourceLink != null && !string.IsNullOrEmpty(faq.ResourceLink.Link))
+                            {
+                                <a href="@faq.ResourceLink.Link" class="btn btn-primary">@faq.ResourceLink.DisplayName</a>
+                            }
                         </div>
                     </div>
                     if (i % 3 == 0)

@@ -2,15 +2,17 @@
     margin-top: 25px;
 }
 
-.card {
+.faq-cards .card {
     width: 100%;
+}
+.card {
     background-color: white;
     border-radius: 5px;
     border: 1px solid #eee;
-    padding: 15px;
 }
 
 .card-body {
+    padding: 15px;
 }
 
 .card-title {
@@ -23,9 +25,8 @@
     line-height: 1.4em;
 }
 
-.card-body > a {
+.card a {
     width: 100%;
-    margin-top: 10px;
     border-radius: 0;
 }
 

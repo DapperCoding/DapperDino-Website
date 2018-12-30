@@ -68,6 +68,8 @@ namespace DapperDino.DAL
         public DbSet<ProductCategory> ProductCategories { get; set; }
         public DbSet<ProductImage> ProductImages { get; set; }
         public DbSet<ProductInstructions> ProductInstructions { get; set; }
+        public DbSet<Applicant> Applicants { get; set; }
+        public DbSet<HostingEnquiry> HostingEnquiries { get; set; }
     }
 
 }

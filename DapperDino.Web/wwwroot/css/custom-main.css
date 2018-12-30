@@ -1,7 +1,7 @@
 #navigation.scrolled {
-   background-color: rgb(128, 173, 122);
-   border-bottom: 1px solid rgba(56, 95, 56, 0.72);
-   color: #000000;
+    background-color: rgb(128, 173, 122);
+    border-bottom: 1px solid rgba(56, 95, 56, 0.72);
+    color: #000000;
 }
 
 #navigation {
@@ -9,29 +9,34 @@
     border-bottom: 0;
     color: white;
 }
+
 .navbar-nav li a.current, .navbar-nav li a:focus, .navbar-nav li a:hover {
     color: #eeeeee;
 }
+
 .navbar-nav li a {
     color: #ccc;
 }
+
 #navigation.scrolled .navbar-nav li a.current, #navigation.scrolled .navbar-nav li a:focus, #navigation.scrolled .navbar-nav li a:hover {
     color: rgba(56, 95, 56, 0.82);
 }
+
 #navigation.scrolled .navbar-nav li a {
     color: rgba(56, 95, 56, 0.65);
 }
 
 .work-filter ul li a:hover, .work-filter ul li a.active {
-    background-color:#80ad7a;
+    background-color: #80ad7a;
 }
+
 .sec-title h2 {
-    color:#80ad7a;
+    color: #80ad7a;
 }
 
 .service-icon {
-    color:#80ad7a;
-    border-color:#80ad7a;
+    color: #80ad7a;
+    border-color: #80ad7a;
 }
 
 .team-member:hover h4 {
@@ -43,5 +48,80 @@
 }
 
 .footer {
-    background-color:#80ad7a;
+    background-color: #80ad7a;
+}
+
+.pricing-header {
+    max-width: 700px;
+    padding-top: 3rem !important;
+    padding-bottom: 1.5rem !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+}
+
+.text-center {
+    text-align: center !important;
+}
+
+.pricing-header .display-4 {
+    font-size: 3.5rem;
+    font-weight: 300;
+    line-height: 1.2;
+    margin-bottom: .5rem;
+}
+
+.pricing-header .lead {
+    font-size: 21px;
+    margin-bottom: 20px;
+    font-weight: 300;
+    line-height: 1.4;
+}
+
+.shadow-sm {
+    box-shadow: 0 .125rem .25rem rgba(0,0,0,.075) !important;
+}
+
+.pricing {
+    color: black;
+}
+
+.card-header:first-child {
+    border-radius: calc(.25rem - 1px) calc(.25rem - 1px) 0 0;
+}
+
+.pricing .card .card-header {
+    padding: .75rem 1.25rem;
+    margin-bottom: 0;
+    color: inherit;
+    background-color: rgba(0,0,0,.03);
+    border-bottom: 1px solid rgba(0,0,0,.125);
+}
+
+    .pricing .card .card-header h4 {
+        font-size: 24px;
+    }
+
+.pricing .card .card-body {
+    padding: 1.25rem;
+}
+
+.pricing .card-title {
+    margin-bottom: .75rem;
+    font-size: 2.5rem;
+    font-weight: 500;
+    font-size: 40px;
+    line-height: 1.2;
+}
+
+.pricing .list-unstyled {
+    margin-bottom: 1.5rem !important;
+    margin-top: 1rem !important;
+    padding-left: 0;
+    list-style: none;
+}
+
+.pricing .card .card-body .btn {
+    background-color:rgba(56, 95, 56, 0.90);
 }

@@ -144,7 +144,7 @@ namespace DapperDino.Api.Controllers
             {
                 return BadRequest($"Ticket with id {ticketId} is already assigned to you ({value.DiscordId})");
             }
-                
+
             var discordUser = _context.DiscordUsers.FirstOrDefault(x => x.DiscordId == value.DiscordId);
 
             if (discordUser == null)
@@ -205,6 +205,14 @@ namespace DapperDino.Api.Controllers
 
             return Delete(id);
 
+        }
+
+        [Route("OpenTickets")]
+        [Authorize]
+        public IActionResult OpenTickets()
+        {
+            var tickets = _context.Tickets.Include(x=>x.Assignees).Where(x => x.Status == TicketStatus.Open || x.Status == TicketStatus.InProgress).Select(x => new { x.Id, x.Assignees.Count, x.Subject, x.Description }).ToArray();
+            return Json(tickets);
         }
     }
 }

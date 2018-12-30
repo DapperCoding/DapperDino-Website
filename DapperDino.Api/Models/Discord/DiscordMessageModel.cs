@@ -9,6 +9,7 @@ namespace DapperDino.Api.Models.Discord
     public class DiscordMessageModel
     {
         public string MessageId { get; set; }
+        public string ImageLink { get; set; }
         public string UserId { get; set; }
         public string GuildId { get; set; }
         public string ChannelId { get; set; }

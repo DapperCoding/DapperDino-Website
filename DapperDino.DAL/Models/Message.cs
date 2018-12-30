@@ -22,6 +22,7 @@ namespace DapperDino.DAL.Models
         // If true, GuildId and ChannelId are required
         public bool IsDm { get; set; }
 
+        public string ImageLink { get; set; }
 
         public int DiscordUserId { get; set; }
         [ForeignKey("DiscordUserId")]
