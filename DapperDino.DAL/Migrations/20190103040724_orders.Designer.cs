@@ -4,14 +4,16 @@ using DapperDino.DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DapperDino.DAL.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190103040724_orders")]
+    partial class orders
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -300,25 +302,6 @@ namespace DapperDino.DAL.Migrations
                     b.ToTable("ProductCategories");
                 });
 
-            modelBuilder.Entity("DapperDino.DAL.Models.ProductEdition", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Description");
-
-                    b.Property<string>("ExtraInfo");
-
-                    b.Property<int>("ProductId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("ProductEditions");
-                });
-
             modelBuilder.Entity("DapperDino.DAL.Models.ProductImage", b =>
                 {
                     b.Property<int>("Id")
@@ -370,19 +353,6 @@ namespace DapperDino.DAL.Migrations
                     b.HasIndex("ProductCategoryId");
 
                     b.ToTable("ProductProductCategory");
-                });
-
-            modelBuilder.Entity("DapperDino.DAL.Models.ProductProductEdition", b =>
-                {
-                    b.Property<int>("ProductId");
-
-                    b.Property<int>("ProductEditionId");
-
-                    b.HasKey("ProductId", "ProductEditionId");
-
-                    b.HasIndex("ProductEditionId");
-
-                    b.ToTable("ProductProductEditions");
                 });
 
             modelBuilder.Entity("DapperDino.DAL.Models.ResourceLink", b =>
@@ -656,7 +626,7 @@ namespace DapperDino.DAL.Migrations
                         .WithMany("ProductAmounts")
                         .HasForeignKey("OrderId");
 
-                    b.HasOne("DapperDino.DAL.Models.ProductEdition", "Product")
+                    b.HasOne("DapperDino.DAL.Models.Product", "Product")
                         .WithMany()
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -667,14 +637,6 @@ namespace DapperDino.DAL.Migrations
                     b.HasOne("DapperDino.DAL.Models.ProductCategory", "Parent")
                         .WithMany()
                         .HasForeignKey("ParentId");
-                });
-
-            modelBuilder.Entity("DapperDino.DAL.Models.ProductEdition", b =>
-                {
-                    b.HasOne("DapperDino.DAL.Models.Product", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("DapperDino.DAL.Models.ProductImage", b =>
@@ -693,19 +655,6 @@ namespace DapperDino.DAL.Migrations
 
                     b.HasOne("DapperDino.DAL.Models.Product", "Product")
                         .WithMany("Categories")
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("DapperDino.DAL.Models.ProductProductEdition", b =>
-                {
-                    b.HasOne("DapperDino.DAL.Models.ProductEdition", "ProductEdition")
-                        .WithMany("Group")
-                        .HasForeignKey("ProductEditionId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("DapperDino.DAL.Models.Product", "Product")
-                        .WithMany("Editions")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

@@ -23,6 +23,7 @@ namespace DapperDino.DAL.Models
 
         public List<ProductImage> ProductImages { get; set; }
         public List<ProductProductCategory> Categories { get; set; }
+        public List<ProductProductEdition> Editions { get; set; }
     }
 
     public class ProductImage : IEntity
@@ -49,6 +50,15 @@ namespace DapperDino.DAL.Models
         public virtual ProductCategory ProductCategory { get; set; }
     }
 
+    public class ProductProductEdition
+    {
+        public int ProductId { get; set; }
+        public int ProductEditionId { get; set; }
+
+        public virtual Product Product { get; set; }
+        public virtual ProductEdition ProductEdition { get; set; }
+    }
+
     public class ProductCategory:IEntity
     {
         public string Name { get; set; }
@@ -59,5 +69,17 @@ namespace DapperDino.DAL.Models
         public virtual ProductCategory Parent { get; set; }
 
         public virtual List<ProductProductCategory> Categories { get; set; }
+    }
+
+    public class ProductEdition:IEntity
+    {
+        public int ProductId { get; set; }
+        public string Description { get; set; }
+        public string ExtraInfo { get; set; }
+
+        [ForeignKey("ProductId")]
+        public virtual Product Product { get; set; }
+
+        public virtual List<ProductProductEdition> Group { get; set; }
     }
 }

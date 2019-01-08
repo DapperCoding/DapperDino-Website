@@ -58,7 +58,7 @@ namespace DapperDino.Api.Controllers
 
             if (value.DiscordUser == null)
             {
-                ModelState.AddModelError(nameof(value.DiscordUser), $"{nameof(value.DiscordUser)} user is required to identify the user that made the suggestion");
+                ModelState.AddModelError("DiscordUser", "DiscordUser is required to identify the user that made the suggestion");
 
                 return BadRequest(ModelState);
             }

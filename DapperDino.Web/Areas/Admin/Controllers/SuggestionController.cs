@@ -45,15 +45,23 @@ namespace DapperDino.Areas.Admin.Controllers
             var viewModel = new IndexViewModel()
             {
                 // Convert List<Suggestion> to List<SuggestionViewModel> TODO: Add automapper
-                Suggestions = suggestions.Select(x =>
+                Suggestions = suggestions.Where(x=>x.DiscordUser != null).Select(x =>
 
                     // Create new SuggestionViewModel for each suggestion
                     new SuggestionViewModel()
                     {
                         Description = x.Description,
                         Id = x.Id,
-                        DiscordUser = x.DiscordUser,
-
+                        DiscordUser = new DiscordUser()
+                        {
+                            DiscordId= x.DiscordUser.DiscordId,
+                            Id = x.Id,
+                            Name = x.DiscordUser.Name,
+                            Username = x.DiscordUser.Username,
+                            Xp = x.DiscordUser.Xp,
+                            Level = x.DiscordUser.Level
+                        },
+                        
                         DiscordUserId = x.DiscordUserId,
                         Status = x.Status,
                         Type = x.Type
@@ -61,6 +69,7 @@ namespace DapperDino.Areas.Admin.Controllers
                 )
             };
 
+            var i = viewModel.Suggestions.Select(x => x.DiscordUser);
             // Return the view -> using viewModel
             return View(viewModel);
         }

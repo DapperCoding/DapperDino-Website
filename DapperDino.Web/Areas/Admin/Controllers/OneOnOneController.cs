@@ -16,8 +16,8 @@ using Newtonsoft.Json;
 namespace DapperDino.Areas.Admin.Controllers
 {
     // Admin faq controller
-    [Route("Admin/Faq")]
-    public class FaqController : BaseController
+    [Route("Admin/OneOnOne")]
+    public class OneOnOneController : BaseController
     {
         #region Fields
 
@@ -29,7 +29,7 @@ namespace DapperDino.Areas.Admin.Controllers
 
         #region Constructor(s)
 
-        public FaqController(ApplicationDbContext context, IHubContext<DiscordBotHub> hubContext)
+        public OneOnOneController(ApplicationDbContext context, IHubContext<DiscordBotHub> hubContext)
         {
             _context = context;
             _hubContext = hubContext;

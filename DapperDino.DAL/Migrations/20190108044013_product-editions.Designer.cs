@@ -4,14 +4,16 @@ using DapperDino.DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DapperDino.DAL.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190108044013_product-editions")]
+    partial class producteditions
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -316,7 +318,7 @@ namespace DapperDino.DAL.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("ProductEditions");
+                    b.ToTable("ProductEdition");
                 });
 
             modelBuilder.Entity("DapperDino.DAL.Models.ProductImage", b =>
@@ -382,7 +384,7 @@ namespace DapperDino.DAL.Migrations
 
                     b.HasIndex("ProductEditionId");
 
-                    b.ToTable("ProductProductEditions");
+                    b.ToTable("ProductProductEdition");
                 });
 
             modelBuilder.Entity("DapperDino.DAL.Models.ResourceLink", b =>

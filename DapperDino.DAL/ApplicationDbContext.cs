@@ -54,6 +54,35 @@ namespace DapperDino.DAL
                 .WithMany(c => c.Categories)
                 .HasForeignKey(bc => bc.ProductCategoryId);
 
+
+            builder.Entity<ProductProductCategory>()
+               .HasKey(bc => new { bc.ProductId, bc.ProductCategoryId });
+
+            builder.Entity<ProductProductCategory>()
+                .HasOne(bc => bc.Product)
+                .WithMany(b => b.Categories)
+                .HasForeignKey(bc => bc.ProductId);
+
+            builder.Entity<ProductProductCategory>()
+                .HasOne(bc => bc.ProductCategory)
+                .WithMany(c => c.Categories)
+                .HasForeignKey(bc => bc.ProductCategoryId);
+
+
+            builder.Entity<ProductProductEdition>()
+               .HasKey(bc => new { bc.ProductId, bc.ProductEditionId });
+
+            builder.Entity<ProductProductEdition>()
+                .HasOne(bc => bc.Product)
+                .WithMany(b => b.Editions)
+                .HasForeignKey(bc => bc.ProductId);
+
+            builder.Entity<ProductProductEdition>()
+                .HasOne(bc => bc.ProductEdition)
+                .WithMany(c => c.Group)
+                .HasForeignKey(bc => bc.ProductEditionId);
+
+
         }
 
         public DbSet<FrequentlyAskedQuestion> FrequentlyAskedQuestions { get; set; }
@@ -70,6 +99,10 @@ namespace DapperDino.DAL
         public DbSet<ProductInstructions> ProductInstructions { get; set; }
         public DbSet<Applicant> Applicants { get; set; }
         public DbSet<HostingEnquiry> HostingEnquiries { get; set; }
+        public DbSet<ProductAmount> ProductAmounts { get; set; }
+        public DbSet<ProductEdition> ProductEditions { get; set; }
+        public DbSet<ProductProductEdition> ProductProductEditions { get; set; }
+        public DbSet<Order> Orders { get; set; }
     }
 
 }

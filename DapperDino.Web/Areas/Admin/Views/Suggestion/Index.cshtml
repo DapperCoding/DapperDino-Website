@@ -28,7 +28,7 @@
                             @suggestion.Description
                         </td>
                         <td>
-                            @suggestion.DiscordUser.Username
+                            @(suggestion.DiscordUser != null ? suggestion.DiscordUser.Username : "")
                         </td>
                         <td>
                             @suggestion.Status
