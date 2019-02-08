@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DapperDino.Models
 {
-    public class HostingViewModel
+    public class ProductsViewModel
     {
         [Required]
         [Display(Name = "Your discord username (ex: mickie456#0295)")]
@@ -21,9 +21,9 @@ namespace DapperDino.Models
         [Required]
         public string LastName { get; set; }
 
-        public string Package { get; set; }
+        public string Product { get; set; }
 
         [Required]
-        public HostingType PackageType { get; set; }
+        public ProductEnquiryType PType { get; set; }
     }
 }

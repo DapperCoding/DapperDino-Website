@@ -1,0 +1,59 @@
+﻿
+@using DapperDino.Models
+@using DapperDino.DAL.Models
+
+@model ProductsViewModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<section id="features" class="features faq-cards">
+    <div class="container">
+        <div class="row">
+            <!-- Overview -->
+            <h1>I want more information about the @Model.Product!</h1>
+            <p>If you submit this form to us, we'll contact you as soon as possible!</p>
+            
+        </div>
+
+        <div class="row">
+            <form asp-controller="Products" asp-action="Contact" method="post">
+
+                @Html.HiddenFor(x => x.PType)
+                @Html.HiddenFor(x => x.Product)
+
+                <div class="form-group">
+                    <label asp-for="FirstName"></label>
+
+                    <input class="form-control" asp-for="FirstName" />
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="LastName"></label>
+
+                    <input class="form-control" asp-for="LastName" />
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="DiscordId"></label>
+
+                    <input class="form-control" asp-for="DiscordId" />
+                </div>
+
+                <input class="btn btn-primary" type="submit" value="Contact me" name="submit" />
+            </form>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <script>
+        jQuery(window).load(function () {
+
+            $("#preloader").fadeOut("slow");
+
+        });
+    </script>
+}

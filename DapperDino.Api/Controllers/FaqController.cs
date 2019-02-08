@@ -7,6 +7,7 @@ using DapperDino.Api.Models;
 using DapperDino.DAL;
 using DapperDino.DAL.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -18,14 +19,18 @@ namespace DapperDino.Api.Controllers
         #region Fields
 
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
         #endregion
 
         #region Constructor(s)
 
-        public FaqController(ApplicationDbContext context)
+        public FaqController(ApplicationDbContext context, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
         {
             _context = context;
+            _userManager = userManager;
+            _roleManager = roleManager;
         }
 
         #endregion
@@ -54,8 +59,20 @@ namespace DapperDino.Api.Controllers
         // POST api/faq
         [HttpPost]
         [Authorize]
-        public IActionResult Post([FromBody]FrequentlyAskedQuestion value)
+        public async Task<IActionResult> Post([FromBody]FrequentlyAskedQuestion value)
         {
+            var user = await _userManager.GetUserAsync(User);
+
+            if (user == null)
+            {
+                return Unauthorized();
+            }
+
+            if (!await _userManager.IsInRoleAsync(user, RoleNames.Admin))
+            {
+                return StatusCode(403, "Trying to add items to our faq huh? NOOOOPE!");
+            }
+
             if (!TryValidateModel(value)) return StatusCode(500);
 
             _context.FrequentlyAskedQuestions.Add(value);

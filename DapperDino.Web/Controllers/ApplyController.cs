@@ -49,6 +49,9 @@ namespace DapperDino.Controllers
         {
             if (!TryValidateModel(viewModel)) return RedirectToAction("Index", viewModel);
 
+            var index = viewModel.DiscordId.IndexOf('#');
+            if (index >= 0) viewModel.DiscordId = viewModel.DiscordId.Split('#')[0];
+
             var discordUser = _context.DiscordUsers.FirstOrDefault(x => x.Username == viewModel.DiscordId);
 
             if (discordUser == null) return RedirectToAction("Index", viewModel);

@@ -17,6 +17,8 @@ namespace DapperDino.DAL.Models
         [ForeignKey("DiscordUserId")]
         public virtual DiscordUser DiscordUser { get; set; }
 
+        public virtual IEnumerable<SuggestionReaction> Reactions { get; set; }
+
     }
 
     public enum SuggestionTypes

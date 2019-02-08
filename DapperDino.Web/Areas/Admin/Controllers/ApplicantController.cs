@@ -44,7 +44,7 @@ namespace DapperDino.Areas.Admin.Controllers
             var viewModel = new ApplicantIndexViewModel()
             {
                 // Get FAQ's from db
-                Applicants = _context.Applicants.ToArray()
+                Applicants = _context.Applicants.Include(x => x.DiscordUser).ToArray()
             };
 
             // Return view with viewmodel
@@ -71,10 +71,10 @@ namespace DapperDino.Areas.Admin.Controllers
         public IActionResult Details(int id)
         {
             // Get faq by id
-            var faq = _context.FrequentlyAskedQuestions.Include(x => x.ResourceLink).FirstOrDefault(x => x.Id == id);
+            var applicant = _context.Applicants.Include(x => x.DiscordUser).FirstOrDefault(x => x.Id == id);
 
             // Check if null / not found in db
-            if (faq == null)
+            if (applicant == null)
             {
 
                 // Return 404 not found
@@ -82,31 +82,21 @@ namespace DapperDino.Areas.Admin.Controllers
             }
 
             // Generate edit viewModel
-            var viewModel = new FaqEditViewModel()
+            var viewModel = new ApplicantEditViewModel()
             {
-                Id = id,
-                Answer = faq.Answer,
-                Description = faq.Description,
-                Question = faq.Question,
-                ResourceLinkId = faq.ResourceLinkId,
-                ResourceLink = new Models.ResourceLinkViewModel()
-                {
-                    Id = faq.ResourceLink?.Id ?? 0,
-                    Link = faq.ResourceLink?.Link ?? string.Empty,
-                    DisplayName = faq.ResourceLink?.DisplayName ?? string.Empty
-                }
+                DiscordId = applicant.DiscordUser.DiscordId,
+                Applicant = applicant
             };
 
             return View(viewModel);
         }
 
         [Route("AcceptApplicant/{id}")]
-        [HttpPost]
-        public async Task<IActionResult> Accept(int id, ApplicantEditViewModel viewModel)
+        public async Task<IActionResult> Accept(int id)
         {
-            var ap = _context.Applicants.Find(new { id });
+            var ap = _context.Applicants.Include(x => x.DiscordUser).FirstOrDefault(x => x.Id == id);
 
-            await _hubContext.Clients.All.SendAsync("AcceptedApplicant", new { discordId = viewModel.DiscordId });
+            await _hubContext.Clients.All.SendAsync("AcceptedApplicant", new { discordId = ap.DiscordUser.DiscordId });
 
             // Return view with viewModel that's edited
             return RedirectToAction("Index");

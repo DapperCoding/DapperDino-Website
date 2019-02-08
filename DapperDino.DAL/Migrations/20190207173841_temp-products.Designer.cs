@@ -4,14 +4,16 @@ using DapperDino.DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DapperDino.DAL.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190207173841_temp-products")]
+    partial class tempproducts
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -443,29 +445,6 @@ namespace DapperDino.DAL.Migrations
                     b.ToTable("Suggestions");
                 });
 
-            modelBuilder.Entity("DapperDino.DAL.Models.SuggestionReaction", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("DiscordMessageId");
-
-                    b.Property<int>("FromId");
-
-                    b.Property<int>("SuggestionId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("DiscordMessageId");
-
-                    b.HasIndex("FromId");
-
-                    b.HasIndex("SuggestionId");
-
-                    b.ToTable("SuggestionReaction");
-                });
-
             modelBuilder.Entity("DapperDino.DAL.Models.Ticket", b =>
                 {
                     b.Property<int>("Id")
@@ -760,23 +739,6 @@ namespace DapperDino.DAL.Migrations
                     b.HasOne("DapperDino.DAL.Models.DiscordUser", "DiscordUser")
                         .WithMany()
                         .HasForeignKey("DiscordUserId");
-                });
-
-            modelBuilder.Entity("DapperDino.DAL.Models.SuggestionReaction", b =>
-                {
-                    b.HasOne("DapperDino.DAL.Models.DiscordMessage", "DiscordMessage")
-                        .WithMany()
-                        .HasForeignKey("DiscordMessageId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("DapperDino.DAL.Models.DiscordUser", "From")
-                        .WithMany()
-                        .HasForeignKey("FromId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("DapperDino.DAL.Models.Suggestion", "Suggestion")
-                        .WithMany("Reactions")
-                        .HasForeignKey("SuggestionId");
                 });
 
             modelBuilder.Entity("DapperDino.DAL.Models.Ticket", b =>

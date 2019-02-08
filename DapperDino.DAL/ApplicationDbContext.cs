@@ -26,6 +26,11 @@ namespace DapperDino.DAL
                 .WithMany(x => x.Reactions)
                 .OnDelete(DeleteBehavior.ClientSetNull);
 
+            builder.Entity<SuggestionReaction>()
+                .HasOne(x => x.Suggestion)
+                .WithMany(x => x.Reactions)
+                .OnDelete(DeleteBehavior.ClientSetNull);
+
             builder.Entity<TicketUser>()
                 .HasKey(bc => new { bc.TicketId, bc.DiscordUserId });
             
@@ -99,6 +104,7 @@ namespace DapperDino.DAL
         public DbSet<ProductInstructions> ProductInstructions { get; set; }
         public DbSet<Applicant> Applicants { get; set; }
         public DbSet<HostingEnquiry> HostingEnquiries { get; set; }
+        public DbSet<ProductEnquiry> ProductEnquiries { get; set; }
         public DbSet<ProductAmount> ProductAmounts { get; set; }
         public DbSet<ProductEdition> ProductEditions { get; set; }
         public DbSet<ProductProductEdition> ProductProductEditions { get; set; }

@@ -54,7 +54,7 @@ namespace DapperDino.Api.Controllers
         [Authorize]
         public IActionResult Post([FromBody]Suggestion value)
         {
-            if (!TryValidateModel(value)) return StatusCode(500);
+            if (!TryValidateModel(value)) return StatusCode(500, ModelState);
 
             if (value.DiscordUser == null)
             {
