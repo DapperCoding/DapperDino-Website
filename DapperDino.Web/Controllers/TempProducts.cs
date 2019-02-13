@@ -43,13 +43,13 @@ namespace DapperDino.Controllers
             return View();
         }
 
-        [Route("ScrimBot")]
+        [Route("RuneScapeBot")]
         public IActionResult ScrimBot()
         {
             var viewModel = new ProductsViewModel()
             {
-                Product = "'Scrim Bot'",
-                PType = ProductEnquiryType.ScrimBot
+                Product = "'RuneScape Gamble Bot'",
+                PType = ProductEnquiryType.RuneScapeBot
             };
 
             return View("Contact", viewModel);

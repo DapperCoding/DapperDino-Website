@@ -22,7 +22,7 @@ namespace DapperDino.DAL.Models
 
     public enum ProductEnquiryType
     {
-        ScrimBot = 0,
+        RuneScapeBot = 0,
         MusicBot = 1
     }
 }

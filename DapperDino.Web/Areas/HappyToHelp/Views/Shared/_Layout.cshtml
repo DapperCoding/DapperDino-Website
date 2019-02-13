@@ -1,5 +1,6 @@
-﻿@using DapperDino.DAL.Models
-@inject SignInManager<ApplicationUser> SignInManager
+﻿@using DapperDino.DAL
+@using DapperDino.DAL.Models
+@inject UserManager<ApplicationUser> UserManager
 <!DOCTYPE html>
 <!--[if lt IE 7]>      <html lang="en" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]>         <html lang="en" class="no-js lt-ie9 lt-ie8"> <![endif]-->
@@ -15,9 +16,9 @@
     <!-- Page Title -->
     <title>DapperDino</title>
     <!-- Meta Description -->
-    <meta name="description" content="The one and only discord community you need as an aspiring developer!">
-    <meta name="keywords" content="Discord, DapperDino, Developer community, aspiring game developer, game development, discord bot development, discord community">
-    <meta name="author" content="DapperCoding team">
+    <meta name="description" content="Blue One Page Creative HTML5 Template">
+    <meta name="keywords" content="one page, single page, onepage, responsive, parallax, creative, business, html5, css3, css3 animation">
+    <meta name="author" content="Muhammad Morshed">
     <!-- Mobile Specific Meta -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -69,7 +70,7 @@
                 </button>
                 <!-- /responsive nav button -->
                 <!-- logo -->
-                <a class="navbar-brand external" href="/">
+                <a class="navbar-brand" href="#body">
                     <h3 id="logo" style="padding-top:10px;font-weight:800">
                         DapperDino
                     </h3>
@@ -79,13 +80,11 @@
 
             <!-- main nav -->
             <nav class="collapse navbar-collapse navbar-right" role="navigation">
-
                 <ul id="nav" class="nav navbar-nav">
                     <li><a class="external" href="/">Home</a></li>
                     <li class="current"><a class="external" href="@Url.Action("Index", "Home")">Dashboard</a></li>
-                    <li><a class="external" href="@Url.Action("Index", "Suggestion" )">Suggestions</a></li>
-                    <li><a class="external" href="/manage/index">Manage account</a></li>
-
+                    <li><a class="external" href="@Url.Action("Index", "Suggestion" )">Suggestion</a></li>
+                    <li><a class="external" href="@Url.Action("Index", "Faq")">Faq</a></li>
                 </ul>
                 @await Html.PartialAsync("_LoginPartial")
             </nav>

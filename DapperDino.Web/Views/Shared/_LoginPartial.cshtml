@@ -10,19 +10,31 @@
 {
     <form asp-area="" asp-controller="Account" asp-action="Logout" method="post" id="logoutForm" class="navbar-right">
         <ul class="nav navbar-nav navbar-right">
-            <li>
-                <a asp-area="" asp-controller="Manage" asp-action="Index" title="Manage">Manage account</a>
+            <li role="presentation" class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                    Portals <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a asp-area="" asp-controller="Manage" asp-action="Index" title="Manage">Manage account</a>
+                    </li>
+                    <li>
+                        <a asp-area="Client" asp-controller="Home" asp-action="Index" title="Client">Client portal</a>
+                    </li>
+                    @{
+                        var user = await UserManager.FindByNameAsync(User.Identity.Name);
+                        if (await UserManager.IsInRoleAsync(user, RoleNames.HappyToHelp))
+                        {
+                            <li><a asp-area="HappyToHelp" asp-controller="Home" asp-action="Index" title="Happy To Help">H2H portal</a></li>
+                        }
+                        if (await UserManager.IsInRoleAsync(user, RoleNames.Admin))
+                        {
+                            <li><a asp-area="Admin" asp-controller="Home" asp-action="Index" title="Admin">Admin portal</a></li>
+                        }
+                    }
+                </ul>
             </li>
-            <li>
-                <a asp-area="Client" asp-controller="Home" asp-action="Index" title="Client portal">Client portal</a>
-            </li>
-            @{
-                var user = await UserManager.FindByNameAsync(User.Identity.Name);
-                if (await UserManager.IsInRoleAsync(user, RoleNames.Admin))
-                {
-                    <li><a asp-area="Admin" asp-controller="Home" asp-action="Index" title="Admin portal">Admin portal</a></li>
-                }
-            }
+            
             <li>
                 <button type="submit" class="btn btn-link navbar-btn navbar-link">Log out</button>
             </li>

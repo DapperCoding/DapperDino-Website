@@ -10,5 +10,6 @@ namespace DapperDino.Api.Models
         public string DiscordId { get; set; }
         public string Username { get; set; }
         public string RegistrationCode { get; set; }
+        public bool IsHappyToHelp { get; set; } = false;
     }
 }

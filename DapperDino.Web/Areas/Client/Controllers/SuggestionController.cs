@@ -64,7 +64,7 @@ namespace DapperDino.Areas.Client.Controllers
                         Status = x.Status,
                         Type = x.Type
                     }
-                )
+                ).ToList()
             };
 
             // Return the view -> using viewModel

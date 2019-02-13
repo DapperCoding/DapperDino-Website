@@ -92,7 +92,13 @@ namespace DapperDino.Api.Controllers
                 return BadRequest("Registration code not found");
 
             if (user.RegisteredDiscordAccount)
+            {
+                if (model.IsHappyToHelp)
+                {
+                    await _userManager.AddToRoleAsync(user, RoleNames.HappyToHelp);
+                }
                 return BadRequest("This account has already registered a discord account");
+            }
 
             DiscordUser discordUser = null;
 
@@ -110,6 +116,11 @@ namespace DapperDino.Api.Controllers
             user.RegisteredDiscordAccount = true;
 
             await _dbContext.SaveChangesAsync();
+
+            if (model.IsHappyToHelp)
+            {
+                await _userManager.AddToRoleAsync(user, RoleNames.HappyToHelp);
+            }
 
             return Ok(discordUser);
         }

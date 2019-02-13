@@ -9,7 +9,7 @@ namespace DapperDino.Models
     public class ApplyViewModel
     {
         [Required]
-        [Display(Name = "Your discord username (ex: mickie456)")]
+        [Display(Name = "Your discord id ex: (211115689807839232)")]
         public string DiscordId { get; set; }
 
         [Required]

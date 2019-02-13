@@ -4,8 +4,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using DapperDino.DAL;
 using DapperDino.DAL.Models;
+using DapperDino.Jobs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 
 namespace DapperDino.Api.Controllers
@@ -16,14 +18,16 @@ namespace DapperDino.Api.Controllers
         #region Fields
 
         private readonly ApplicationDbContext _context;
+        private readonly IHubContext<DiscordBotHub> _hubContext;
 
         #endregion
 
         #region Constructor
 
-        public SuggestionController(ApplicationDbContext context)
+        public SuggestionController(ApplicationDbContext context, IHubContext<DiscordBotHub> hubContext)
         {
             _context = context;
+            _hubContext = hubContext;
         }
 
         #endregion
@@ -95,6 +99,8 @@ namespace DapperDino.Api.Controllers
             _context.SaveChanges();
             
             value.DiscordUser = discordUser;
+
+            _hubContext.Clients.All.SendAsync("Suggestion", value);
 
             return Created(Url.Action("Get", new { id = value.Id }), value);
         }

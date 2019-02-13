@@ -12,9 +12,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 
-namespace DapperDino.Areas.Admin.Controllers
+namespace DapperDino.Areas.HappyToHelp.Controllers
 {
-    [Route("Admin/Suggestion")]
+    [Route("HappyToHelp/Suggestion")]
     public class SuggestionController : BaseController
     {
         #region Fields

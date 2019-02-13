@@ -125,3 +125,11 @@
 .pricing .card .card-body .btn {
     background-color:rgba(56, 95, 56, 0.90);
 }
+
+.nav .open > a, .nav .open > a:hover, .nav .open > a:focus {
+    background-color: #476c47;
+}
+
+.dropdown-menu {
+    background-color: #476c47;
+}

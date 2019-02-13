@@ -4,9 +4,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using DapperDino.DAL;
 using DapperDino.DAL.Models;
+using DapperDino.Jobs;
 using DapperDino.Models;
 using DapperDino.Models.FaqViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 
@@ -20,14 +22,16 @@ namespace DapperDino.Controllers
 
         // Shared context accessor
         private readonly ApplicationDbContext _context;
+        private readonly IHubContext<DiscordBotHub> _hubContext;
 
         #endregion
 
         #region Constructor(s)
 
-        public ApplyController(ApplicationDbContext context)
+        public ApplyController(ApplicationDbContext context, IHubContext<DiscordBotHub> hubContext)
         {
             _context = context;
+            _hubContext = hubContext;
 
         }
 
@@ -35,11 +39,13 @@ namespace DapperDino.Controllers
 
         #region Public Methods
         [Route("")]
-        public IActionResult Index()
+        public IActionResult Index(ApplyViewModel viewModel = null)
         {
-            var viewModel = new ApplyViewModel();
-
-            viewModel.Age = 0;
+            if(viewModel == null)
+            {
+                viewModel = new ApplyViewModel();
+                viewModel.Age = 0;
+            }
 
             return View(viewModel);
         }
@@ -49,10 +55,7 @@ namespace DapperDino.Controllers
         {
             if (!TryValidateModel(viewModel)) return RedirectToAction("Index", viewModel);
 
-            var index = viewModel.DiscordId.IndexOf('#');
-            if (index >= 0) viewModel.DiscordId = viewModel.DiscordId.Split('#')[0];
-
-            var discordUser = _context.DiscordUsers.FirstOrDefault(x => x.Username == viewModel.DiscordId);
+            var discordUser = _context.DiscordUsers.FirstOrDefault(x => x.DiscordId == viewModel.DiscordId.Trim());
 
             if (discordUser == null) return RedirectToAction("Index", viewModel);
 
@@ -67,6 +70,8 @@ namespace DapperDino.Controllers
 
             _context.Applicants.Add(application);
             _context.SaveChanges();
+
+            _hubContext.Clients.All.SendAsync("Application", viewModel);
 
             return RedirectToAction("Index", "Home", null);
         }

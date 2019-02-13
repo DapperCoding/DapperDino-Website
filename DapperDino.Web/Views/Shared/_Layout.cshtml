@@ -83,9 +83,10 @@
                     <li class="current"><a class="external" href="~/">Home</a></li>
                     <li><a class="external" href="@Url.Action("Index", "Products")">Products</a></li>
                     <li><a class="external" href="@Url.Action("Index", "Hosting" )">Hosting</a></li>
-                    <li><a class="external" href="@Url.Action("Index", "Apply")">Become a Happy To Help member</a></li>
+                    <li><a class="external" href="@Url.Action("Index", "Suggestion")">Suggestion</a></li>
                     <li><a class="external" href="@Url.Action("Index", "Faq")">Faq</a></li>
-                    <li><a href="#">Contact</a></li>
+                    <li><a class="external" href="@Url.Action("Index", "Apply")">Apply for Happy To Help</a></li>
+                    <li><a class="external" href="@Url.Action("Index", "Contact")">Contact</a></li>
                 </ul>
                 @await Html.PartialAsync("_LoginPartial")
             </nav>
@@ -106,19 +107,15 @@
 
                 <div class="col-md-3 col-sm-6 col-xs-12 wow fadeInUp animated" data-wow-duration="500ms">
                     <div class="footer-single">
-                        <img src="/images/footer-logo.png" alt="">
-                        <p>eusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                        <h6>DapperDino</h6>
+                        <p>The only coding community you will need. We're here to help you guys out whenever we can!</p>
                     </div>
                 </div>
 
                 <div class="col-md-3 col-sm-6 col-xs-12 wow fadeInUp animated" data-wow-duration="500ms" data-wow-delay="300ms">
                     <div class="footer-single">
-                        <h6>Subscribe </h6>
-                        <form action="#" class="subscribe">
-                            <input type="text" name="subscribe" id="subscribe">
-                            <input type="submit" value="&#8594;" id="subs">
-                        </form>
-                        <p>eusmod tempor incididunt ut labore et dolore magna aliqua. </p>
+                        <h6>Need help</h6>
+                        <p>If you ever find yourself in need of help, use ?help in the #help channel in our <a class="external" href="https://discord.gg/sn9xXK4">Discord Server</a>.</p>
                     </div>
                 </div>
 
@@ -126,10 +123,9 @@
                     <div class="footer-single">
                         <h6>Explore</h6>
                         <ul>
-                            <li><a href="#">Inside Us</a></li>
-                            <li><a href="#">Flickr</a></li>
-                            <li><a href="#">Google</a></li>
-                            <li><a href="#">Forum</a></li>
+                            <li><a class="external" href="http://dapper.codes/">Github</a></li>
+                            <li><a class="external" href="https://discord.gg/sn9xXK4">Discord</a></li>
+                            <li><a class="external" href="https://twitter.com/DapperDino4">Twitter</a></li>
                         </ul>
                     </div>
                 </div>
@@ -138,10 +134,8 @@
                     <div class="footer-single">
                         <h6>Support</h6>
                         <ul>
-                            <li><a href="#">Contact Us</a></li>
-                            <li><a href="#">Market Blog</a></li>
-                            <li><a href="#">Help Center</a></li>
-                            <li><a href="#">Pressroom</a></li>
+                            <li><a class="external" href="/Contact">Contact Us</a></li>
+                            <li><a class="external" href="https://discord.gg/sn9xXK4">Discord</a></li>
                         </ul>
                     </div>
                 </div>
