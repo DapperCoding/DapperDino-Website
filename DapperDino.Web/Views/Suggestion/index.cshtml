@@ -19,28 +19,28 @@
         </div>
 
         <div class="row">
-            <form asp-controller="Suggestion" asp-action="Contact" method="post">
+            <form asp-controller="Suggestion" asp-action="Contact" method="post" bc-validation="true">
 
 
-                <div class="form-group">
+                <form-group>
                     <label for="Description">Your Suggestion</label>
 
                     <input class="form-control" asp-for="Description" />
-                </div>
+                </form-group>
 
-                <div class="form-group">
+                <form-group>
                     <label asp-for="DiscordId"></label>
 
                     <input class="form-control" asp-for="DiscordId" />
-                </div>
+                </form-group>
 
-                <div class="form-group">
+                <form-group>
                     <label asp-for="Type"></label>
 
                     @Html.DropDownList("Type",
                         Html.GetEnumSelectList<SuggestionTypes>(),
                         "Select Suggestion Type",new { @class = "form-control" })
-                </div>
+                </form-group>
 
                 <input class="btn btn-primary" type="submit" value="Contact me" name="submit" />
             </form>

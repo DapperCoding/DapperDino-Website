@@ -15,17 +15,18 @@
                 {
                     i++;
                     <div class="col-md-4">
-                        <div class="card">
-                            <div class="card-body">
+                        <card>
+                            <card-body>
                                 <h5 class="card-title">@faq.Question</h5>
                                 <p class="card-text">@faq.Answer</p>
-
-                            </div>
-                            @if (faq.ResourceLink != null && !string.IsNullOrEmpty(faq.ResourceLink.Link))
-                            {
-                                <a href="@faq.ResourceLink.Link" class="btn btn-primary">@faq.ResourceLink.DisplayName</a>
-                            }
-                        </div>
+                            </card-body>
+                            <card-footer>
+                                @if (faq.ResourceLink != null && !string.IsNullOrEmpty(faq.ResourceLink.Link))
+                                {
+                                    <a href="@faq.ResourceLink.Link" class="btn btn-primary">@faq.ResourceLink.DisplayName</a>
+                                }
+                            </card-footer>
+                        </card>
                     </div>
                     if (i % 3 == 0)
                     {
