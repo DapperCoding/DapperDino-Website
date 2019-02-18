@@ -4,7 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using DapperDino.Api.Models;
 using DapperDino.DAL;
+using DapperDino.DAL.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DapperDino.Api.Controllers
@@ -15,14 +17,16 @@ namespace DapperDino.Api.Controllers
         #region Fields
 
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
         #endregion
 
         #region Constructor(s)
 
-        public XpController(ApplicationDbContext context)
+        public XpController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         #endregion
@@ -49,7 +53,7 @@ namespace DapperDino.Api.Controllers
         }
 
         [HttpGet("{discordId}")]
-        public IActionResult ById(string discordId)
+        public async Task<IActionResult> ById(string discordId)
         {
             var discordUser = _context.DiscordUsers.FirstOrDefault(x => x.DiscordId == discordId);
 
@@ -68,8 +72,20 @@ namespace DapperDino.Api.Controllers
 
         [HttpPost("{discordId}")]
         [Authorize]
-        public IActionResult Add(string discordId, [FromBody]XpViewModel model)
+        public async Task<IActionResult> Add(string discordId, [FromBody]XpViewModel model)
         {
+            var appUser = await _userManager.GetUserAsync(User);
+
+            if (appUser == null)
+            {
+                return Unauthorized();
+            }
+
+            if (!await _userManager.IsInRoleAsync(appUser, RoleNames.Admin))
+            {
+                return StatusCode(403, "Trying to add xp to one of our users huh? NOOOOPE!");
+            }
+
             if (model == null)
             {
                 return BadRequest("No xp model found in body.");

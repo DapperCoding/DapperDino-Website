@@ -6,6 +6,7 @@ using DapperDino.Api.Models.Discord;
 using DapperDino.DAL;
 using DapperDino.DAL.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DapperDino.Api.Controllers
@@ -17,13 +18,15 @@ namespace DapperDino.Api.Controllers
         #region Fields
 
         private readonly ApplicationDbContext _dbContext;
+        private readonly UserManager<ApplicationUser> _userManager;
 
         #endregion
 
         #region Constructor(s)
-        public DiscordMessageController(ApplicationDbContext dbContext)
+        public DiscordMessageController(ApplicationDbContext dbContext, UserManager<ApplicationUser> userManager)
         {
             _dbContext = dbContext;
+            _userManager = userManager;
         }
 
         #endregion
@@ -76,8 +79,20 @@ namespace DapperDino.Api.Controllers
 
         [HttpPost("{id:int?}")]
         [Authorize]
-        public IActionResult CreateOrEdit(int? id, [FromBody]DiscordMessageModel message)
+        public async Task<IActionResult> CreateOrEdit(int? id, [FromBody]DiscordMessageModel message)
         {
+            var appUser = await _userManager.GetUserAsync(User);
+
+            if (appUser == null)
+            {
+                return Unauthorized();
+            }
+
+            if (!await _userManager.IsInRoleAsync(appUser, RoleNames.Admin))
+            {
+                return StatusCode(403, "Trying to create or edit a discordmessage huh? NOOOOPE!");
+            }
+
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
 

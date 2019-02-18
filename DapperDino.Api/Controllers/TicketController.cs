@@ -7,6 +7,7 @@ using DapperDino.DAL;
 using DapperDino.DAL.Models;
 using DapperDino.Jobs;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.AspNetCore.SignalR.Client;
@@ -24,15 +25,17 @@ namespace DapperDino.Api.Controllers
         private readonly ApplicationDbContext _context;
         private readonly HubConnection _connection;
         private readonly IHubContext<DiscordBotHub> _hubContext;
+        private readonly UserManager<ApplicationUser> _userManager;
 
         #endregion
 
         #region Constructor(s)
 
-        public TicketController(ApplicationDbContext context, IHubContext<DiscordBotHub> hubContext)
+        public TicketController(ApplicationDbContext context, IHubContext<DiscordBotHub> hubContext, UserManager<ApplicationUser> userManager)
         {
             _context = context;
             _hubContext = hubContext;
+            _userManager = userManager;
         }
 
         #endregion
@@ -59,20 +62,23 @@ namespace DapperDino.Api.Controllers
             return Json(ticket);
         }
 
-
-        [Route("test")]
-        public async Task<ActionResult> Test()
-        {
-            await _hubContext.Clients.All.SendAsync("TicketCreated", "test");
-
-            return Ok();
-        }
-
         // POST api/ticket
         [HttpPost]
         [Authorize]
         public async Task<IActionResult> Post([FromBody]Ticket value)
         {
+            var user = await _userManager.GetUserAsync(User);
+
+            if (user == null)
+            {
+                return Unauthorized();
+            }
+
+            if (!await _userManager.IsInRoleAsync(user, RoleNames.Admin))
+            {
+                return StatusCode(403, "Trying to add items to our tickets huh? NOOOOPE!");
+            }
+
             if (!TryValidateModel(value)) return StatusCode(500);
 
             if (value.Applicant == null)
@@ -123,8 +129,20 @@ namespace DapperDino.Api.Controllers
         // POST api/Ticket/AddAssignee
         [HttpPost("{ticketId}/AddAssignee")]
         [Authorize]
-        public IActionResult AddAssignee(int ticketId, [FromBody]DiscordUser value)
+        public async Task<IActionResult> AddAssignee(int ticketId, [FromBody]DiscordUser value)
         {
+            var user = await _userManager.GetUserAsync(User);
+
+            if (user == null)
+            {
+                return Unauthorized();
+            }
+
+            if (!await _userManager.IsInRoleAsync(user, RoleNames.Admin))
+            {
+                return StatusCode(403, "Trying to add items to our tickets huh? NOOOOPE!");
+            }
+
             var ticket = _context.Tickets
                 .Include(x => x.Assignees)
                     .ThenInclude(x => x.DiscordUser)
@@ -164,8 +182,20 @@ namespace DapperDino.Api.Controllers
         // PUT api/ticket/5
         [HttpPut("{id}")]
         [Authorize]
-        public IActionResult Put(int id, [FromBody]FrequentlyAskedQuestion value)
+        public async Task<IActionResult> Put(int id, [FromBody]FrequentlyAskedQuestion value)
         {
+            var user = await _userManager.GetUserAsync(User);
+
+            if (user == null)
+            {
+                return Unauthorized();
+            }
+
+            if (!await _userManager.IsInRoleAsync(user, RoleNames.Admin))
+            {
+                return StatusCode(403, "Trying to edit a tickets huh? NOOOOPE!");
+            }
+
             var ticket = _context.Tickets.FirstOrDefault(x => x.Id == id);
 
             if (ticket == null) return NotFound(value);
@@ -180,8 +210,20 @@ namespace DapperDino.Api.Controllers
         // POST api/Ticket/{ticketId}/CloseTicket
         [HttpPost("{ticketId}/Close")]
         [Authorize]
-        public IActionResult CloseTicket(int ticketId)
+        public async Task<IActionResult> CloseTicket(int ticketId)
         {
+            var user = await _userManager.GetUserAsync(User);
+
+            if (user == null)
+            {
+                return Unauthorized();
+            }
+
+            if (!await _userManager.IsInRoleAsync(user, RoleNames.Admin))
+            {
+                return StatusCode(403, "Trying to close a ticket huh? NOOOOPE!");
+            }
+
             var ticket = _context.Tickets.FirstOrDefault(x => x.Id == ticketId);
 
             ticket.Status = TicketStatus.Closed;
@@ -194,8 +236,20 @@ namespace DapperDino.Api.Controllers
         // DELETE api/ticket/5
         [HttpDelete("{id}")]
         [Authorize]
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
+            var user = await _userManager.GetUserAsync(User);
+
+            if (user == null)
+            {
+                return Unauthorized();
+            }
+
+            if (!await _userManager.IsInRoleAsync(user, RoleNames.Admin))
+            {
+                return StatusCode(403, "Trying to delete tickets huh? NOOOOPE!");
+            }
+
             var ticket = _context.Tickets.FirstOrDefault(x => x.Id == id);
 
             if (ticket == null) return NotFound();
@@ -203,7 +257,7 @@ namespace DapperDino.Api.Controllers
             _context.Tickets.Remove(ticket);
             _context.SaveChanges();
 
-            return Delete(id);
+            return Ok(id);
 
         }
 

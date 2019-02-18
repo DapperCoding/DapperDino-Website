@@ -6,6 +6,7 @@ using DapperDino.Api.Models.Discord;
 using DapperDino.DAL;
 using DapperDino.DAL.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -17,14 +18,16 @@ namespace DapperDino.Api.Controllers
         #region Fields
 
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
         #endregion
 
         #region Constructor(s)
 
-        public TicketReactionController(ApplicationDbContext context)
+        public TicketReactionController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         #endregion
@@ -41,8 +44,20 @@ namespace DapperDino.Api.Controllers
         // POST api/ticket/reaction
         [HttpPost]
         [Authorize]
-        public IActionResult Post([FromBody]TicketReactionViewModel value)
+        public async Task<IActionResult> Post([FromBody]TicketReactionViewModel value)
         {
+            var appUser = await _userManager.GetUserAsync(User);
+
+            if (appUser == null)
+            {
+                return Unauthorized();
+            }
+
+            if (!await _userManager.IsInRoleAsync(appUser, RoleNames.Admin))
+            {
+                return StatusCode(403, "Trying to add reactions to our tickets huh? NOOOOPE!");
+            }
+
             if (!TryValidateModel(value)) return StatusCode(500, ModelState);
 
             var reaction = new TicketReaction();
@@ -109,37 +124,31 @@ namespace DapperDino.Api.Controllers
 
         }
 
-        // PUT api/faq/5
-        [HttpPut("{id}")]
-        [Authorize]
-        public IActionResult Put(int id, [FromBody]FrequentlyAskedQuestion value)
-        {
-            var faq = _context.FrequentlyAskedQuestions.FirstOrDefault(x => x.Id == id);
-
-            if (faq == null) return NotFound();
-
-            faq.Answer = value.Answer;
-            faq.Description = value.Description;
-            faq.Question = value.Question;
-
-            _context.SaveChanges();
-
-            return Ok(faq);
-        }
-
         // DELETE api/faq/5
         [HttpDelete("{id}")]
         [Authorize]
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            var faq = _context.FrequentlyAskedQuestions.FirstOrDefault(x => x.Id == id);
+            var appUser = await _userManager.GetUserAsync(User);
 
-            if (faq == null) return NotFound();
+            if (appUser == null)
+            {
+                return Unauthorized();
+            }
 
-            _context.FrequentlyAskedQuestions.Remove(faq);
+            if (!await _userManager.IsInRoleAsync(appUser, RoleNames.Admin))
+            {
+                return StatusCode(403, "Trying to delete ticket reactions huh? NOOOOPE!");
+            }
+
+            var ticketReaction = _context.TicketReactions.FirstOrDefault(x => x.Id == id);
+
+            if (ticketReaction == null) return NotFound();
+
+            _context.TicketReactions.Remove(ticketReaction);
             _context.SaveChanges();
 
-            return Delete(id);
+            return Ok(id);
 
         }
     }

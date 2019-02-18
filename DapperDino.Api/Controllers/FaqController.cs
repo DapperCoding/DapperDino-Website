@@ -107,8 +107,20 @@ namespace DapperDino.Api.Controllers
         // PUT api/faq/5
         [HttpPut("{id}")]
         [Authorize]
-        public IActionResult Put(int id, [FromBody]FrequentlyAskedQuestion value)
+        public async Task<IActionResult> Put(int id, [FromBody]FrequentlyAskedQuestion value)
         {
+            var user = await _userManager.GetUserAsync(User);
+
+            if (user == null)
+            {
+                return Unauthorized();
+            }
+
+            if (!await _userManager.IsInRoleAsync(user, RoleNames.Admin))
+            {
+                return StatusCode(403, "Trying to change items from our faq huh? NOOOOPE!");
+            }
+
             var faq = _context.FrequentlyAskedQuestions.FirstOrDefault(x => x.Id == id);
 
             if (faq == null) return NotFound();
@@ -125,8 +137,20 @@ namespace DapperDino.Api.Controllers
         // POST api/faq/5
         [HttpPost("/api/faq/addmessageid")]
         [Authorize]
-        public IActionResult AddFaqMessage([FromBody]FaqMessageIdViewModel value)
+        public async Task<IActionResult> AddFaqMessage([FromBody]FaqMessageIdViewModel value)
         {
+            var user = await _userManager.GetUserAsync(User);
+
+            if (user == null)
+            {
+                return Unauthorized();
+            }
+
+            if (!await _userManager.IsInRoleAsync(user, RoleNames.Admin))
+            {
+                return StatusCode(403, "Trying to change items from our faq huh? NOOOOPE!");
+            }
+
             var faq = _context.FrequentlyAskedQuestions.SingleOrDefault(x => x.Id == value.Id);
             
             if (faq == null) return NotFound($"Faq with id ${value.Id} couldn't be found");
@@ -164,8 +188,20 @@ namespace DapperDino.Api.Controllers
         // DELETE api/faq/5
         [HttpDelete("{id}")]
         [Authorize]
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
+            var user = await _userManager.GetUserAsync(User);
+
+            if (user == null)
+            {
+                return Unauthorized();
+            }
+
+            if (!await _userManager.IsInRoleAsync(user, RoleNames.Admin))
+            {
+                return StatusCode(403, "Trying to change items from our faq huh? NOOOOPE!");
+            }
+
             var faq = _context.FrequentlyAskedQuestions.FirstOrDefault(x => x.Id == id);
 
             if (faq == null) return NotFound();
@@ -173,7 +209,7 @@ namespace DapperDino.Api.Controllers
             _context.FrequentlyAskedQuestions.Remove(faq);
             _context.SaveChanges();
 
-            return Delete(id);
+            return Ok(id);
 
         }
     }

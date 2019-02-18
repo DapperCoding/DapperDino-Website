@@ -6,6 +6,7 @@ using DapperDino.DAL;
 using DapperDino.DAL.Models;
 using DapperDino.Jobs;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
@@ -19,15 +20,17 @@ namespace DapperDino.Api.Controllers
 
         private readonly ApplicationDbContext _context;
         private readonly IHubContext<DiscordBotHub> _hubContext;
+        private readonly UserManager<ApplicationUser> _userManager;
 
         #endregion
 
         #region Constructor
 
-        public SuggestionController(ApplicationDbContext context, IHubContext<DiscordBotHub> hubContext)
+        public SuggestionController(ApplicationDbContext context, IHubContext<DiscordBotHub> hubContext, UserManager<ApplicationUser> userManager)
         {
             _context = context;
             _hubContext = hubContext;
+            _userManager = userManager;
         }
 
         #endregion
@@ -56,8 +59,20 @@ namespace DapperDino.Api.Controllers
         // POST api/suggestion
         [HttpPost]
         [Authorize]
-        public IActionResult Post([FromBody]Suggestion value)
+        public async Task<IActionResult> Post([FromBody]Suggestion value)
         {
+            var user = await _userManager.GetUserAsync(User);
+
+            if (user == null)
+            {
+                return Unauthorized();
+            }
+
+            if (!await _userManager.IsInRoleAsync(user, RoleNames.Admin))
+            {
+                return StatusCode(403, "Trying to add items to our suggestions huh? NOOOOPE!");
+            }
+
             if (!TryValidateModel(value)) return StatusCode(500, ModelState);
 
             if (value.DiscordUser == null)
@@ -100,7 +115,7 @@ namespace DapperDino.Api.Controllers
             
             value.DiscordUser = discordUser;
 
-            _hubContext.Clients.All.SendAsync("Suggestion", value);
+            await _hubContext.Clients.All.SendAsync("Suggestion", value);
 
             return Created(Url.Action("Get", new { id = value.Id }), value);
         }
@@ -108,8 +123,20 @@ namespace DapperDino.Api.Controllers
         // PUT api/suggestion/5
         [HttpPut("{id}")]
         [Authorize]
-        public IActionResult Put(int id, [FromBody]Suggestion value)
+        public async Task<IActionResult> Put(int id, [FromBody]Suggestion value)
         {
+            var user = await _userManager.GetUserAsync(User);
+
+            if (user == null)
+            {
+                return Unauthorized();
+            }
+
+            if (!await _userManager.IsInRoleAsync(user, RoleNames.Admin))
+            {
+                return StatusCode(403, "Trying to add items to our suggestions huh? NOOOOPE!");
+            }
+
             var suggestion = _context.Suggestions.FirstOrDefault(x => x.Id == id);
 
             if (suggestion == null) return NotFound();
@@ -126,8 +153,20 @@ namespace DapperDino.Api.Controllers
         // DELETE api/suggestion/5
         [HttpDelete("{id}")]
         [Authorize]
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
+            var user = await _userManager.GetUserAsync(User);
+
+            if (user == null)
+            {
+                return Unauthorized();
+            }
+
+            if (!await _userManager.IsInRoleAsync(user, RoleNames.Admin))
+            {
+                return StatusCode(403, "Trying to add items to our suggestions huh? NOOOOPE!");
+            }
+
             var suggestion = _context.Suggestions.FirstOrDefault(x => x.Id == id);
 
             if (suggestion == null) return NotFound();
@@ -135,7 +174,7 @@ namespace DapperDino.Api.Controllers
             _context.Suggestions.Remove(suggestion);
             _context.SaveChanges();
 
-            return Delete(id);
+            return Ok(id);
 
         }
     }
