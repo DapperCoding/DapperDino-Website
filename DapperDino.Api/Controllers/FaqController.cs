@@ -146,7 +146,7 @@ namespace DapperDino.Api.Controllers
             discordMessage.GuildId = value.Message.GuildId;
             discordMessage.IsDm = value.Message.IsDm;
             discordMessage.IsEmbed = value.Message.IsEmbed;
-            discordMessage.Message = value.Message.Message;
+            discordMessage.Message = string.IsNullOrWhiteSpace(value.Message.Message) ? "" : value.Message.Message;
             discordMessage.MessageId = value.Message.MessageId;
             discordMessage.Timestamp = value.Message.Timestamp;
 

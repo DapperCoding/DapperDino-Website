@@ -2,13 +2,76 @@
     Layout = "~/Areas/Client/Views/Shared/_Layout.cshtml";
 }
 
-
-
+@model DapperDino.Areas.Client.Models.HomeViewModel
 
 <section id="features" class="features">
-    <div class="container">
+    <div class="container" style="margin-bottom:20px;">
         <div class="row">
-            <h3>Your dashboard</h3>
+            <div class="col-md-12">
+                <h2>Dashboard</h2>
+            </div>
         </div>
     </div>
+    <div class="container">
+        @if (Model.ConnectedDiscordAccount)
+        {
+
+            <div class="row">
+                <div class="col-md-6">
+                    <h4>Your suggestions</h4>
+
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Suggestion</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                            @foreach (var suggestion in Model.Suggestions)
+                            {
+                                <tr>
+                                    <td>@suggestion.Description</td>
+                                    <td>@suggestion.Status</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                    <a href="/Client/Suggestion">Show me more of my suggestions</a>
+                </div>
+                <div class="col-md-6">
+                    <h4>Your tickets</h4>
+
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                            @foreach (var ticket in Model.Tickets)
+                            {
+                                <tr>
+                                    <td>@ticket.Subject</td>
+                                    <td>@ticket.Description</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                    
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="col-md-12">You haven't connected your discord account yet, please do so by <a class="externale" href="/Manage/Index">clicking here</a>. And using the ?connect command.</div>
+        }
+
+    </div>
+
 </section>

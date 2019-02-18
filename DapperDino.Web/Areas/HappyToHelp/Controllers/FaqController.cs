@@ -173,6 +173,7 @@ namespace DapperDino.Areas.HappyToHelp.Controllers
                 // Edit values of ResourceLink
                 resourceLink.Link = viewModel.ResourceLink.Link;
                 resourceLink.DisplayName = viewModel.ResourceLink.DisplayName;
+                addedResourceLink = true;
             }
 
             // If not, check if viewModel.ResourceLink is filled
@@ -194,7 +195,11 @@ namespace DapperDino.Areas.HappyToHelp.Controllers
                 // Set to true, for adding id after resourceLink is created
                 addedResourceLink = true;
             }
-
+            else
+            {
+                faq.ResourceLinkId = null;
+            }
+                
             // Save changes in db
             _context.SaveChanges();
 

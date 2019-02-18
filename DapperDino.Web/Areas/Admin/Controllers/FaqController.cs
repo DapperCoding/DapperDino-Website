@@ -137,7 +137,7 @@ namespace DapperDino.Areas.Admin.Controllers
             var addedResourceLink = false;
 
             // Get faq by id
-            var faq = _context.FrequentlyAskedQuestions.Include(x=>x.DiscordMessage).FirstOrDefault(x => x.Id == id);
+            var faq = _context.FrequentlyAskedQuestions.Include(x => x.DiscordMessage).FirstOrDefault(x => x.Id == id);
 
             // Check if null / not found in db
             if (faq == null)
@@ -173,6 +173,7 @@ namespace DapperDino.Areas.Admin.Controllers
                 // Edit values of ResourceLink
                 resourceLink.Link = viewModel.ResourceLink.Link;
                 resourceLink.DisplayName = viewModel.ResourceLink.DisplayName;
+                addedResourceLink = true;
             }
 
             // If not, check if viewModel.ResourceLink is filled
@@ -193,6 +194,10 @@ namespace DapperDino.Areas.Admin.Controllers
 
                 // Set to true, for adding id after resourceLink is created
                 addedResourceLink = true;
+            }
+            else
+            {
+                faq.ResourceLinkId = null;
             }
 
             // Save changes in db
