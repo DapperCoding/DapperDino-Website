@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
@@ -8,6 +9,7 @@ namespace DapperDino.DAL.Models
     public class Suggestion
     {
         public int Id { get; set; }
+        [Required]
         public string Description { get; set; }
         public SuggestionTypes Type { get; set; }
         public SuggestionStatus Status { get; set; } = SuggestionStatus.NotLookedAt;
