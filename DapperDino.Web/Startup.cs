@@ -162,6 +162,10 @@ namespace DapperDino
             // Add a singleton for IActionContextAccessor
             services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
 
+            // Register SendGrid EmailSender used by account confirmation and password reset during
+            services.AddSingleton<IEmailSender, EmailSender>();
+            services.Configure<AuthMessageSenderOptions>(Configuration);
+
             services.AddMvc();
             services.AddSignalR();
         }

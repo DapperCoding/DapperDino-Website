@@ -21,37 +21,42 @@
         <form-group class="row">
             <form asp-controller="Apply" asp-action="Post" method="post" bc-validation="true">
 
-                <form-group>
+                <div class="form-group">
                     <label asp-for="FirstName"></label>
 
                     <input class="form-control" asp-for="FirstName" />
-                </form-group>
+                    <span asp-validation-for="FirstName" class="text-danger"></span>
+                </div>
 
-                <form-group>
+                <div class="form-group">
                     <label asp-for="LastName"></label>
 
                     <input class="form-control" asp-for="LastName" />
-                </form-group>
+                    <span asp-validation-for="LastName" class="text-danger"></span>
+                </div>
 
-                <form-group>
+                <div class="form-group">
                     <label asp-for="DiscordId"></label>
 
                     <input class="form-control" asp-for="DiscordId" />
-                </form-group>
+                    <span asp-validation-for="DiscordId" class="text-danger"></span>
+                </div>
 
                 <div class="divider"></div>
 
-                <form-group>
+                <div class="form-group">
                     <label asp-for="Explanation"></label>
 
                     <input class="form-control" asp-for="Explanation" />
-                </form-group>
+                    <span asp-validation-for="Explanation" class="text-danger"></span>
+                </div>
 
-                <form-group>
+                <div class="form-group">
                     <label asp-for="Links"></label>
 
                     <input class="form-control" asp-for="Links" />
-                </form-group>
+                    <span asp-validation-for="Links" class="text-danger"></span>
+                </div>
 
                 <input class="btn btn-primary" type="submit" value="Apply" name="submit" />
             </form>
@@ -59,11 +64,5 @@
 </section>
 
 @section Scripts {
-    <script>
-        jQuery(window).load(function () {
-
-            $("#preloader").fadeOut("slow");
-
-        });
-    </script>
+    @await Html.PartialAsync("_ValidationScriptsPartial")
 }

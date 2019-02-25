@@ -19,28 +19,32 @@
         </div>
 
         <div class="row">
-            <form asp-controller="Suggestion" asp-action="Contact" method="post" bc-validation="true">
+            <form asp-controller="Suggestion" asp-action="Contact" method="post">
 
 
-                <form-group>
+                <div class="form-group">
                     <label for="Description">Your Suggestion</label>
 
                     <input class="form-control" asp-for="Description" />
-                </form-group>
+                    <span asp-validation-for="Description" class="text-danger"></span>
 
-                <form-group>
+                </div>
+
+                <div class="form-group">
                     <label asp-for="DiscordId"></label>
 
                     <input class="form-control" asp-for="DiscordId" />
-                </form-group>
+                    <span asp-validation-for="DiscordId" class="text-danger"></span>
+                </div>
 
-                <form-group>
+                <div class="form-group">
                     <label asp-for="Type"></label>
 
                     @Html.DropDownList("Type",
                         Html.GetEnumSelectList<SuggestionTypes>(),
                         "Select Suggestion Type",new { @class = "form-control" })
-                </form-group>
+                    <span asp-validation-for="Type" class="text-danger"></span>
+                </div>
 
                 <input class="btn btn-primary" type="submit" value="Contact me" name="submit" />
             </form>
@@ -49,11 +53,5 @@
 </section>
 
 @section Scripts {
-    <script>
-        jQuery(window).load(function () {
-
-            $("#preloader").fadeOut("slow");
-
-        });
-    </script>
+    @await Html.PartialAsync("_ValidationScriptsPartial")
 }
