@@ -86,8 +86,21 @@
                     <li><a class="external" href="@Url.Action("Index", "Applicant" )">Applications</a></li>
                     <li><a class="external" href="@Url.Action("Index", "Hosting" )">Hosting</a></li>
                     <li><a class="external" href="@Url.Action("Index", "Suggestion" )">Suggestion</a></li>
-                    <li><a class="external" href="">Tickets</a></li>   @*Url.Action("Index", "Suggestion")*@
+                    <li><a class="external" href="@Url.Action("Index", "Ticket")">Tickets</a></li>
                     <li><a class="external" href="@Url.Action("Index", "Faq")">Faq</a></li>
+                    <li role="presentation" class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                            Products <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a asp-area="Admin" asp-controller="Product" asp-action="Index" title="Product overview">Products</a>
+                            </li>
+                            <li>
+                                <a asp-area="Admin" asp-controller="ProductCategories" asp-action="Index" title="Product category overview">Categories</a>
+                            </li>
+                        </ul>
+                    </li>
                 </ul>
 
                 @await Html.PartialAsync("_LoginPartial")

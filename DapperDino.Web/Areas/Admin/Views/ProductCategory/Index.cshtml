@@ -8,7 +8,7 @@
 <section id="features" class="features">
     <div class="container">
         <div class="row">
-            <div><a href="~/Admin/ProductCategories/Add"></a></div>
+            <div class="col-xs-12"><a style="margin-bottom:15px;" class="btn btn-primary pull-right" href="~/Admin/ProductCategories/Add">Add</a></div> <!-- TODO Add class for buttons -->
         </div>
         <div class="row">
             <table class="table">
@@ -31,8 +31,8 @@
                         </td>
                         <td>
                             <a href="~/Admin/ProductCategories/@category.Id">Edit</a>
-                            <!--&nbsp;&nbsp;
-                            <a href="@*Url.Action("Delete", "Category", new { id = category.Id})*@">Delete</a>-->
+                            &nbsp;&nbsp;
+                            <a href="@Url.Action("Delete", "ProductCategories", new { id = category.Id})">Delete</a>
                         </td>
                     </tr>
                 }

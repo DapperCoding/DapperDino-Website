@@ -4,7 +4,11 @@
   "description": "Hello everyone, here is where you'll find my project where I am creating a website for discord server and bot to have the usual functionality of commands and events like any other Discord bot whilst also eventually adding the functionality to be able to connect with the backend of my upcoming website so that certain aspects of the Discord server will be linked online, such as leaderboards and FAQ's. The code is here so that anyone (mainly people from my server) can see how it all works and they can then impliment similar funcitonality in their own creations.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "./node_modules/.bin/webpack --mode development --watch --config webpack.config.js",
+    "build:dev": "./node_modules/.bin/webpack --mode development --config webpack.config.js",
+    "build:prod": "./node_modules/.bin/webpack --mode production --config webpack.config.js",
+    "publish": "npm install && ./node_modules/.bin/webpack --mode production --config webpack.config.js && dotnet publish --configuration Release"
   },
   "repository": {
     "type": "git",
@@ -18,6 +22,93 @@
   },
   "homepage": "https://github.com/mickie456/DapperDino-Website#readme",
   "dependencies": {
-    "@aspnet/signalr": "^1.0.3"
-  }
+    "@aspnet/signalr": "^1.1.2",
+    "axios": "0.18.0",
+    "bulma": "0.7.2",
+    "bulmaswatch": "0.7.2",
+    "vue": "2.5.22",
+    "vue-flatpickr-component": "8.1.1",
+    "vue-multiselect": "2.1.3",
+    "vue-notification": "^1.3.14",
+    "vue-router": "3.0.2",
+    "vuex": "3.1.0"
+  },
+  "devDependencies": {
+    "@types/jquery": "3.3.29",
+    "@types/node": "10.12.18",
+    "@vue/test-utils": "1.0.0-beta.28",
+    "aspnet-webpack": "3.0.0",
+    "babel-core": "6.26.3",
+    "babel-jest": "23.6.0",
+    "babel-loader": "7.1.5",
+    "babel-plugin-dynamic-import-node": "2.2.0",
+    "babel-plugin-syntax-dynamic-import": "6.18.0",
+    "babel-plugin-transform-es2015-modules-commonjs": "6.26.2",
+    "babel-plugin-transform-export-extensions": "6.22.0",
+    "babel-plugin-transform-runtime": "6.23.0",
+    "babel-polyfill": "6.26.0",
+    "babel-preset-env": "1.7.0",
+    "babel-preset-stage-2": "6.24.1",
+    "clean-webpack-plugin": "1.0.0",
+    "compression-webpack-plugin": "2.0.0",
+    "css-loader": "2.1.0",
+    "es6-promise-promise": "1.0.0",
+    "extract-text-webpack-plugin": "4.0.0-beta.0",
+    "file-loader": "3.0.1",
+    "html-webpack-plugin": "3.2.0",
+    "jest": "23.6.0",
+    "jest-serializer-vue": "2.0.2",
+    "node-sass": "^4.11.0",
+    "optimize-css-assets-webpack-plugin": "5.0.1",
+    "resolve-url-loader": "3.0.0",
+    "sass-loader": "^7.1.0",
+    "style-loader": "0.23.1",
+    "ts-loader": "5.3.3",
+    "typescript": "3.2.4",
+    "vue-class-component": "6.3.2",
+    "vue-jest": "3.0.2",
+    "vue-loader": "15.5.1",
+    "vue-property-decorator": "^7.3.0",
+    "vue-style-loader": "4.1.2",
+    "vue-template-compiler": "2.5.22",
+    "webpack": "4.29.0",
+    "webpack-cli": "3.2.1",
+    "webpack-dev-server": "3.1.14",
+    "webpack-hot-middleware": "2.24.3"
+  },
+  "jest": {
+    "moduleFileExtensions": [
+      "js",
+      "vue"
+    ],
+    "moduleNameMapper": {
+      "^@/(.*)$": "<rootDir>/VueApp/$1"
+    },
+    "transform": {
+      "^.+\\.js$": "<rootDir>/node_modules/babel-jest",
+      ".*\\.(vue)$": "<rootDir>/node_modules/vue-jest"
+    },
+    "snapshotSerializers": [
+      "<rootDir>/node_modules/jest-serializer-vue"
+    ],
+    "collectCoverage": true,
+    "collectCoverageFrom": [
+      "<rootDir>/VueApp/**/*.{js,vue}",
+      "!**/node_modules/**"
+    ],
+    "coverageDirectory": "<rootDir>/VueApp/__tests__/TestCoverage",
+    "coverageThreshold": {
+      "global": {
+        "branches": 10,
+        "functions": 10,
+        "lines": 10,
+        "statements": -10
+      }
+    }
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not ie <= 8"
+  ]
 }

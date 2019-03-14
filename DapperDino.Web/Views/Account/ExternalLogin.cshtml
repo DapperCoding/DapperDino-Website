@@ -3,11 +3,16 @@
     ViewData["Title"] = "Register";
 }
 
-<section id="features" class="features">
+<section id="features" class="features  faq-cards">
     <div class="container">
-        <h2>@ViewData["Title"]</h2>
-        <h4>Associate your @ViewData["LoginProvider"] account.</h4>
-        <hr />
+        <div class="row text-center">
+
+            <div class="sec-title text-center wow bounceInDown animated" data-wow-duration="500ms" style="margin-bottom:30px;">
+                <h2>@ViewData["Title"]</h2>
+                <div class="devider"><i class="fa fa-heart-o fa-lg"></i></div>
+                <p>Associate your @ViewData["LoginProvider"] account.</p>
+            </div>
+        </div>
 
         <p class="text-info">
             You've successfully authenticated with <strong>@ViewData["LoginProvider"]</strong>.

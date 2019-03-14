@@ -166,7 +166,7 @@ namespace DapperDino
             services.AddSingleton<IEmailSender, EmailSender>();
             services.Configure<AuthMessageSenderOptions>(Configuration);
 
-            services.AddMvc();
+            services.AddMvc().AddJsonOptions(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
             services.AddSignalR();
         }
 
@@ -203,10 +203,26 @@ namespace DapperDino
                 routes.MapRoute(
                     name: "areaRoute",
                     template: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+                
+                //routes.MapSpaFallbackRoute(
+                //    name: "spa-fallback-admin",
+                //    defaults: new { area = "Admin", controller = "Ticket", action = "Index" });
+
+                //routes.MapSpaFallbackRoute(
+                //    name: "spa-fallback-h2h",
+                //    defaults: new { area = "HappyToHelp", controller = "Ticket", action = "Index" });
+
+                
 
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
+
+                routes.MapRoute("Wildcard Routing",
+                    "{area:exists}/{controller=Ticket}/{*anything}",
+                    new {  action = "Index" },
+                    new { anything = @"^(.*)?$" });
+
             });
 
             //CreateUserRoles(services).Wait();

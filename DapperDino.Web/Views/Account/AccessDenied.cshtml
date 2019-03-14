@@ -2,11 +2,15 @@
     ViewData["Title"] = "Access denied";
 }
 
-<section id="features" class="features">
+<section id="features" class="features  faq-cards">
     <div class="container">
-        <header>
-            <h2 class="text-danger">@ViewData["Title"]</h2>
-            <p class="text-danger">You do not have access to this resource.</p>
-        </header>
+        <div class="row text-center">
+
+            <div class="sec-title text-center wow bounceInDown animated" data-wow-duration="500ms" style="margin-bottom:30px;">
+                <h2 class="text-danger">@ViewData["Title"]</h2>
+                <div class="devider"><i class="fa fa-heart-o fa-lg"></i></div>
+                <p class="text-danger">You do not have access to this resource.</p>
+            </div>
+        </div>
     </div>
 </section>

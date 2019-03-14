@@ -8,15 +8,18 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-
-<section id="features" class="features faq-cards">
+<section id="features" class="features  faq-cards">
     <div class="container">
-        <div class="row">
-            <!-- Overview -->
-            <h1>Become a Happy To Help member!</h1>
-            <p>To become a Happy To Help member, please fill out this form.</p>
-            <p>You should be redirected to the homepage if you fill it in correctly/</p>
+        <div class="row text-center">
+
+            <div class="sec-title text-center mb50 wow bounceInDown animated" data-wow-duration="500ms">
+                <h2>I want to become a 'Happy To Help' member!</h2>
+                <div class="devider"><i class="fa fa-heart-o fa-lg"></i></div>
+                <p>To become a Happy To Help member, please fill out this form.</p>
+                <p>You should be redirected to the homepage if you fill it in correctly/</p>
+            </div>
         </div>
+
 
         <form-group class="row">
             <form asp-controller="Apply" asp-action="Post" method="post" bc-validation="true">

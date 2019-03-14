@@ -3,6 +3,8 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 Object.defineProperty(exports, "__esModule", { value: true });
 var TextMessageFormat_1 = require("./TextMessageFormat");
+var Utils_1 = require("./Utils");
+/** @private */
 var HandshakeProtocol = /** @class */ (function () {
     function HandshakeProtocol() {
     }
@@ -14,7 +16,7 @@ var HandshakeProtocol = /** @class */ (function () {
         var responseMessage;
         var messageData;
         var remainingData;
-        if (data instanceof ArrayBuffer) {
+        if (Utils_1.isArrayBuffer(data) || (typeof Buffer !== "undefined" && data instanceof Buffer)) {
             // Format is binary but still need to read JSON text from handshake response
             var binaryData = new Uint8Array(data);
             var separatorIndex = binaryData.indexOf(TextMessageFormat_1.TextMessageFormat.RecordSeparatorCode);
@@ -41,7 +43,11 @@ var HandshakeProtocol = /** @class */ (function () {
         }
         // At this point we should have just the single handshake message
         var messages = TextMessageFormat_1.TextMessageFormat.parse(messageData);
-        responseMessage = JSON.parse(messages[0]);
+        var response = JSON.parse(messages[0]);
+        if (response.type) {
+            throw new Error("Expected a handshake response from the server.");
+        }
+        responseMessage = response;
         // multiple messages could have arrived with handshake
         // return additional data to be parsed as usual, or null if all parsed
         return [remainingData, responseMessage];

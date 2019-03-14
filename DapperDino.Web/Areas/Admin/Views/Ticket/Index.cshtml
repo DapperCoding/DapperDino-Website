@@ -1,0 +1,22 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}}
+
+@section scripts{
+
+    <environment names="Development,Production,Staging">
+        <script src="~/dist/js/ticketWrapper/bundle.js" asp-append-version="true"></script>
+    </environment>
+
+}
+
+<section id="features" class="features pricing">
+
+    <div>
+        <div id="app">
+
+        </div>
+    </div>
+</section>

@@ -14,17 +14,22 @@
     var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();
 }
 
-<section id="features" class="features">
+<section id="features" class="features  faq-cards">
     <div class="container">
+        <div class="row text-center">
+
+            <div class="sec-title text-center wow bounceInDown animated" data-wow-duration="500ms" style="margin-bottom:30px;">
+                <h2>@ViewData["Title"]</h2>
+                <div class="devider"><i class="fa fa-heart-o fa-lg"></i></div>
+                <p>Use a local account to log in.</p>
+            </div>
+        </div>
         <div class="row">
-            <h2>@ViewData["Title"]</h2>
             @{
                 Html.Raw(hasExternalLogins ? "<div class=\"col-md-4\">" : "<div class=\"col-md-12\">");
             }
             <section>
                 <form asp-route-returnurl="@ViewData["ReturnUrl"]" method="post">
-                    <h4>Use a local account to log in.</h4>
-                    <hr />
                     <div asp-validation-summary="All" class="text-danger"></div>
                     <div class="form-group">
                         <label asp-for="Email"></label>

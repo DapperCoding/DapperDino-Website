@@ -85,6 +85,12 @@ namespace DapperDino.Api
                     };
                 });
 
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowMyOrigin",
+                builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+            });
+
             services.AddMvc().AddJsonOptions(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
             services.AddSignalR();
             services.AddSwaggerGen(c=>
@@ -109,6 +115,9 @@ namespace DapperDino.Api
             {
                 //app.UseHsts(h => h.MaxAge(days: 365).Preload());
             }
+
+
+            app.UseCors("AllowMyOrigin");
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {

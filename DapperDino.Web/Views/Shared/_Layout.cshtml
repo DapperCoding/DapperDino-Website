@@ -23,6 +23,15 @@
 
     <link href="//fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800" rel="stylesheet" type="text/css">
 
+    <environment include="Development">
+        <link rel="stylesheet" href="~/dist/css/vendor/main.css" asp-append-version="true" />
+    </environment>
+    <environment exclude="Development">
+        <link rel="stylesheet" href="~/dist/css/vendor/main.css" asp-append-version="true" />
+    </environment>
+
+    @RenderSection("Styles", required: false)
+
     <!-- CSS
     ================================================== -->
     <!-- Fontawesome Icon font -->
@@ -43,6 +52,8 @@
     <link rel="stylesheet" href="/css/custom-media-queries.css">
     <!-- Card Stylesheet -->
     <link rel="stylesheet" href="/css/card.css">
+
+
 
     <!-- Modernizer Script for old Browsers -->
     <script src="/js/modernizr-2.6.2.min.js"></script>

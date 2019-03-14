@@ -13,6 +13,13 @@ using Microsoft.Extensions.Options;
 using DapperDino.Models;
 using DapperDino.Models.AccountViewModels;
 using DapperDino.Services;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Text;
+using Microsoft.Extensions.Configuration;
+using System.Net.Http;
+using Newtonsoft.Json;
+using DapperDino.DAL;
 
 namespace DapperDino.Controllers
 {
@@ -22,19 +29,26 @@ namespace DapperDino.Controllers
     {
         private readonly SignInManager<DAL.Models.ApplicationUser> _signInManager;
         private readonly UserManager<DAL.Models.ApplicationUser> _userManager;
+        private readonly IConfiguration _configuration;
+        private readonly ApplicationDbContext _context;
         private readonly IEmailSender _emailSender;
         private readonly ILogger _logger;
+        //private readonly static HttpClient _httpClient = new HttpClient();
 
         public AccountController(
             UserManager<DAL.Models.ApplicationUser> userManager,
             SignInManager<DAL.Models.ApplicationUser> signInManager,
             IEmailSender emailSender,
-            ILogger<AccountController> logger)
+            IConfiguration configuration,
+            ILogger<AccountController> logger,
+            ApplicationDbContext context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
             _logger = logger;
+            _configuration = configuration;
+            _context = context;
         }
 
         [TempData]
@@ -66,7 +80,27 @@ namespace DapperDino.Controllers
                     var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, false, false);
                     if (result.Succeeded)
                     {
+                        //var values = new Dictionary<string, string>
+                        //{
+                        //   { "Email", model.Email },
+                        //   { "Password", model.Password }
+                        //};
+                        //var json = JsonConvert.SerializeObject(values);
+
+                        //var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                        //var response = await _httpClient.PostAsync("https://api.dapperdino.co.uk/api/Account/Login", content);
+
+                        //var responseString = await response.Content.ReadAsStringAsync();
+
+                        //var user = _context.ApplicationUsers.SingleOrDefault(x => x.Email == model.Email);
+                        //user.WebsiteApiToken = responseString;
+                        //await _context.SaveChangesAsync();
+
+                        
                         _logger.LogInformation("User logged in.");
+
+
                         return RedirectToLocal(returnUrl);
                     }
                     if (result.RequiresTwoFactor)
@@ -89,11 +123,35 @@ namespace DapperDino.Controllers
                     Console.WriteLine(e);
                     throw;
                 }
-                
+
             }
 
             // If we got this far, something failed, redisplay form
             return View(model);
+        }
+
+        private async Task<object> GenerateJwtToken(string email, IdentityUser user)
+        {
+            var claims = new List<Claim>
+            {
+                new Claim(JwtRegisteredClaimNames.Sub, email),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                new Claim(ClaimTypes.NameIdentifier, user.Id)
+            };
+
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JwtKey"]));
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+            var expires = DateTime.Now.AddDays(Convert.ToDouble(_configuration["JwtExpireDays"]));
+
+            var token = new JwtSecurityToken(
+                _configuration["JwtIssuer"],
+                _configuration["JwtIssuer"],
+                claims,
+                expires: expires,
+                signingCredentials: creds
+            );
+
+            return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
         [HttpGet]

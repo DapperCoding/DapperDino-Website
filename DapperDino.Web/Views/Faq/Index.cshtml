@@ -5,41 +5,49 @@
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<section id="features" class="features faq-cards">
-    <div class="container">
-        <div class="row">
 
-            @{
-                var i = 0;
-                foreach (var faq in Model.FrequentlyAskedQuestions)
-                {
-                    i++;
-                    <div class="col-md-4">
-                        <div class="card shadow-sm">
-                            <div class="card-body">
-                                <h5 class="card-title">@faq.Question</h5>
-                                <p class="card-text">@faq.Answer</p>
-                            </div>
-                            <div class="card-footer">
-                                @if (faq.ResourceLink != null && !string.IsNullOrEmpty(faq.ResourceLink.Link))
-                                {
-                                    <a href="@faq.ResourceLink.Link" class="btn btn-primary">@faq.ResourceLink.DisplayName</a>
-                                }
-                            </div>
+<section id="features" class="features  faq-cards">
+    <div class="container">
+        <div class="row text-center">
+
+            <div class="sec-title text-center mb50 wow bounceInDown animated" data-wow-duration="500ms">
+                <h2>DapperDino's FAQ's</h2>
+                <div class="devider"><i class="fa fa-heart-o fa-lg"></i></div>
+                <p>You can read all of our FAQ's here as a reference to look through before creating a ticket.</p>
+            </div>
+        </div>
+        @Html.Raw("<div class='row'>")
+
+        @{
+            var i = 0;
+            foreach (var faq in Model.FrequentlyAskedQuestions)
+            {
+                i++;
+                <div class="col-md-4">
+                    <div class="card mb50 wow bounceInDown animated" data-wow-duration="500ms">
+                        <div class="card-body">
+                            <h5 class="card-title">@faq.Question</h5>
+                            <p class="card-text">@faq.Answer</p>
+                        </div>
+                        <div class="card-footer">
+                            @if (faq.ResourceLink != null && !string.IsNullOrEmpty(faq.ResourceLink.Link))
+                            {
+                                <a href="@faq.ResourceLink.Link" class="btn btn-primary">@faq.ResourceLink.DisplayName</a>
+                            }
                         </div>
                     </div>
-                    if (i % 3 == 0)
-                    {
-                        @Html.Raw("</div>")
-                        @Html.Raw("<div class='row'>")
-                    }
-                    else if (i == Model.FrequentlyAskedQuestions.Count)
-                    {
-                        @Html.Raw("</div>")
-                    }
+                </div>
+                if (i % 3 == 0)
+                {
+                    @Html.Raw("</div>")
+                    @Html.Raw("<div class='row'>")
+                }
+                else if (i == Model.FrequentlyAskedQuestions.Count)
+                {
+                    @Html.Raw("</div>")
                 }
             }
-        </div>
+        }
     </div>
 </section>
 

@@ -5,9 +5,11 @@ using System.Threading.Tasks;
 using DapperDino.Api.Models.Discord;
 using DapperDino.DAL;
 using DapperDino.DAL.Models;
+using DapperDino.Jobs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 
 namespace DapperDino.Api.Controllers
@@ -19,15 +21,17 @@ namespace DapperDino.Api.Controllers
 
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IHubContext<DiscordBotHub> _hubContext;
 
         #endregion
 
         #region Constructor(s)
 
-        public TicketReactionController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
+        public TicketReactionController(ApplicationDbContext context, UserManager<ApplicationUser> userManager, IHubContext<DiscordBotHub> hubContext)
         {
             _context = context;
             _userManager = userManager;
+            _hubContext = hubContext;
         }
 
         #endregion
@@ -105,6 +109,12 @@ namespace DapperDino.Api.Controllers
             _context.TicketReactions.Add(reaction);
             _context.SaveChanges();
 
+            reaction.From = user;
+
+            //_hubContext.Clients.Group(RoleNames.HappyToHelp).SendAsync("TicketReaction", reaction);
+            //_hubContext.Clients.Group($"Ticket${reaction.TicketId}").SendAsync("TicketReaction", reaction);
+            _hubContext.Clients.All.SendAsync("TicketReaction", reaction);
+
             return Created(Url.Action("Get", new { id = reaction.Id }), reaction);
         }
 
@@ -147,6 +157,9 @@ namespace DapperDino.Api.Controllers
 
             _context.TicketReactions.Remove(ticketReaction);
             _context.SaveChanges();
+
+
+            _hubContext.Clients.All.SendAsync("DeleteTicketReaction", ticketReaction);
 
             return Ok(id);
 

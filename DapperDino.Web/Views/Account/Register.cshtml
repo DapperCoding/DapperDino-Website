@@ -2,14 +2,19 @@
 @{
     ViewData["Title"] = "Register";
 }
-
-<section id="features" class="features">
+<section id="features" class="features  faq-cards">
     <div class="container">
+        <div class="row text-center">
+
+            <div class="sec-title text-center wow bounceInDown animated" data-wow-duration="500ms" style="margin-bottom:30px;">
+                <h2>@ViewData["Title"]</h2>
+                <div class="devider"><i class="fa fa-heart-o fa-lg"></i></div>
+                <p>Register an account by sending this form to us.</p>
+            </div>
+        </div>
         <div class="row">
             <div class="col-md-12">
                 <form asp-route-returnUrl="@ViewData["ReturnUrl"]" method="post">
-                    <h4>Create a new account.</h4>
-                    <hr />
                     <div asp-validation-summary="All" class="text-danger"></div>
                     <div class="form-group">
                         <label asp-for="Email"></label>

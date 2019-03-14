@@ -91,6 +91,8 @@ namespace DapperDino.DAL.Migrations
                     b.Property<string>("UserName")
                         .HasMaxLength(256);
 
+                    b.Property<string>("WebsiteApiToken");
+
                     b.HasKey("Id");
 
                     b.HasIndex("DiscordUserId");

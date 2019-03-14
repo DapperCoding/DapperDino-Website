@@ -37,3 +37,5 @@ msbuild.wrn
 *.pubxml
 dapperdino.api/appsettings.json
 dapperdino.api/appsettings.Development.json
+node_modules/
+

@@ -1,5 +1,6 @@
 ﻿using DapperDino.Areas.Admin.Models.Products;
 using DapperDino.DAL;
+using DapperDino.DAL.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 namespace DapperDino.Areas.Admin.Controllers
 {
     [Route("Admin/Product")]
-    public class ProductController:BaseController
+    public class ProductController : BaseController
     {
         #region Fields
 
@@ -32,12 +33,12 @@ namespace DapperDino.Areas.Admin.Controllers
         public IActionResult Index()
         {
             // Get list of all products
-            var products = _context.Products.Include(x => x.Categories).Include(x=>x.Instructions).ToList();
+            var products = _context.Products.Include(x => x.Categories).Include(x => x.Instructions).ToList();
 
             // Generate IndexViewModel using the products list
             var viewModel = new IndexViewModel()
             {
-                
+
                 Products = products
             };
 
@@ -49,15 +50,28 @@ namespace DapperDino.Areas.Admin.Controllers
         public IActionResult Get(int id)
         {
             // Get list of all products
-            var product = _context.Products.Include(x => x.Categories).Include(x => x.Instructions).FirstOrDefault(x=>x.Id == id);
+            var product = _context.Products.Include(x => x.Categories).Include(x => x.Instructions).FirstOrDefault(x => x.Id == id);
 
             // Does the product exist?
             if (product == null) return NotFound("Product can't be found");
 
+            var viewModel = new ProductEditViewModel();
+
+            viewModel.Description = product.Description;
+            viewModel.Id = product.Id;
+            viewModel.ShortDescription = product.ShortDescription;
+            viewModel.SalePercentage = product.SalePercentage;
+            viewModel.Price = product.Price;
+            viewModel.Categories = product.Categories;
+
+            viewModel.AllCategories = _context.ProductCategories
+                .Select(x => new ProductProductCategory() { ProductCategory = x, ProductCategoryId = x.Id, Product = product, ProductId = product.Id })
+                .ToList();
+
             // Return the view -> using viewModel
-            return View(product);
+            return View(viewModel);
         }
 
-        
+
     }
 }

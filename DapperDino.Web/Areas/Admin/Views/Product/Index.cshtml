@@ -11,6 +11,8 @@
                 <thead>
                     <tr>
                         <th>Product</th>
+                        <th>Short Description</th>
+                        <th>Price</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -22,8 +24,14 @@
                             @product.Name
                         </td>
                         <td>
-                            <a href="~/Admin/Product/Edit/@product.Id">Edit</a>&nbsp;&nbsp;
-                            <a href="@Url.Action("Delete", "Faq", new { id = product.Id})">Delete</a>
+                            @product.ShortDescription
+                        </td>
+                        <td>
+                            @product.Price
+                        </td>
+                        <td>
+                            <a href="@Url.Action("Get", "Product", new { id = product.Id})">Edit</a>&nbsp;&nbsp;
+                            <a href="@Url.Action("Delete", "Product", new { id = product.Id})">Delete</a>
                         </td>
                     </tr>
                 }

@@ -14,5 +14,6 @@ namespace DapperDino.DAL.Models
 
         public Guid DiscordRegistrationCode { get; set; } = Guid.NewGuid();
         public bool RegisteredDiscordAccount { get; set; }
+        public string WebsiteApiToken { get; set; }
     }
 }

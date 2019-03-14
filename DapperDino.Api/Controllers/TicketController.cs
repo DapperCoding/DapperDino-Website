@@ -52,7 +52,7 @@ namespace DapperDino.Api.Controllers
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            var ticket = _context.Tickets.Include(x => x.Applicant).Include(x => x.Assignees).Include(x => x.Reactions).FirstOrDefault(x => x.Id == id);
+            var ticket = _context.Tickets.Include(x => x.Applicant).Include(x => x.Assignees).Include(x => x.Reactions).ThenInclude(x=>x.DiscordMessage).FirstOrDefault(x => x.Id == id);
 
             if (ticket == null)
             {
@@ -114,7 +114,11 @@ namespace DapperDino.Api.Controllers
             _context.SaveChanges();
             try
             {
-
+                /*
+                 * 
+                await _hubContext.Clients.Group(RoleNames.HappyToHelp).SendAsync("TicketCreated", ticket);
+                await _hubContext.Clients.Group($"Ticket${ticket.Id}").SendAsync("TicketCreated", ticket);
+                 */
                 await _hubContext.Clients.All.SendAsync("TicketCreated", ticket);
             }
             catch (Exception e)

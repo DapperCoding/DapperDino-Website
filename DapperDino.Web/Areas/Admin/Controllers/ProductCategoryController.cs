@@ -1,4 +1,5 @@
-﻿using DapperDino.DAL;
+﻿using DapperDino.Areas.Admin.Models.Products;
+using DapperDino.DAL;
 using DapperDino.DAL.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -44,34 +45,90 @@ namespace DapperDino.Areas.Admin.Controllers
 
             if (category == null) return NotFound("Product category not found");
 
-            return View(category);
+            var viewModel = new ProductCategoryEditViewModel();
+
+            viewModel.Categories = category.Categories;
+            viewModel.Description = category.Description;
+            viewModel.Id = category.Id;
+            viewModel.Name = category.Name;
+            viewModel.Parent = category.Parent;
+            viewModel.ParentId = category.ParentId;
+
+            viewModel.AllCategories = _context.ProductCategories.Where(x => x.Id != viewModel.Id).ToList();
+
+            return View(viewModel);
         }
 
         [Route("Add")]
-        public IActionResult Add()
+        public IActionResult Add(ProductCategoryEditViewModel viewModel = null)
         {
-            var category = new ProductCategory();
+            if (viewModel == null) viewModel = new ProductCategoryEditViewModel();
 
-            return View(category);
+            return View(viewModel);
         }
 
-        [Route("{id?}")]
-        [HttpPost]
-        public IActionResult Post(ProductCategory category, int? id = null)
+        [Route("Delete/{id}")]
+        public IActionResult Delete(int id)
         {
-            if (!ModelState.IsValid) return View(category);
+            // Get category from db
+            var category = _context.ProductCategories.SingleOrDefault(x => x.Id == id);
 
-            if(id == null)
+            // If not found, return not found page
+            if (category == null)
             {
-                //add
-                _context.Add(category);
-                _context.SaveChanges();
+                return NotFound();
+            }
+
+            // Remove from db
+            _context.ProductCategories.Remove(category);
+
+            // Save db
+            _context.SaveChanges();
+
+            // Return to overview
+            return RedirectToAction("Index");
+        }
+
+
+        [HttpPost("Post")]
+        public IActionResult Post(ProductCategoryEditViewModel category)
+        {
+            // Change to correct view
+            // Validate category
+            if (!ModelState.IsValid)
+            {
+                if (category.Id > 0)
+                {
+                    return RedirectToAction("Get", new { id = category.Id });
+                }
+
+                return RedirectToAction("Add", category);
+            }
+
+            // Update if id is present
+            if (category.Id > 0)
+            {
+                // Update category
+                var current = _context.ProductCategories.SingleOrDefault(x => x.Id == category.Id);
+
+                // Shouldn't be possible
+                if (current == null)
+                    return RedirectToAction("Get", new { id = category.Id });
+
+                // Set new values
+                current.Name = category.Name;
+                current.Description = category.Description;
             }
             else
             {
-                //Edit
+                // Add category
+                _context.ProductCategories.Add(category);
             }
 
+            // Save in db
+            _context.SaveChanges();
+
+            // Redirect to updated
             return RedirectToAction("Get", new { id = category.Id });
         }
     }
