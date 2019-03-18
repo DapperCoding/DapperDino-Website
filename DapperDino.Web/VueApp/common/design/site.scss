@@ -39,23 +39,6 @@ $blue: #94C2ED;
 $orange: #E38968;
 $gray: #92959E;
 
-*, *:before, *:after {
-    box-sizing: border-box;
-}
-
-body {
-    background: #C5DDEB;
-    padding: 40px 0;
-    color: white;
-}
-
-.container {
-    margin: 0 auto;
-    width: 750px;
-    background: #444753;
-    border-radius: 5px;
-    font: 14px/20px "Lato", Arial, sans-serif;
-}
 
 .people-list {
     width: 260px;

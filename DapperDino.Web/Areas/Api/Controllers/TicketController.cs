@@ -324,5 +324,48 @@ namespace DapperDino.Areas.Api.Controllers
             return Json(discordUser);
         }
 
+        [HttpPost("Create")]
+        public async Task<IActionResult> CreateTicket(TicketCreationModel model)
+        {
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+
+            if (user == null || !user.DiscordUserId.HasValue)
+            {
+                return BadRequest();
+            }
+
+            var discordUser = await _context.DiscordUsers.SingleOrDefaultAsync(x => x.Id == user.DiscordUserId.Value);
+
+            if (discordUser == null)
+            {
+                return BadRequest();
+            }
+
+            var ticket = new Ticket()
+            {
+                Subject = model.Title,
+                Description = model.Description,
+                ApplicantId = discordUser.Id
+            };
+
+            _context.Tickets.Add(ticket);
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                
+                throw ex;
+            }
+
+            ticket = await _context.Tickets.Include(x => x.Applicant).SingleOrDefaultAsync(x => x.Id == ticket.Id);
+
+            _hubContext.Clients.All.SendAsync("AddTicket", ticket);
+
+            return Json(ticket);
+        }
+
     }
 }

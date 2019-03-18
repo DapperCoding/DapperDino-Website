@@ -2,56 +2,58 @@
 
 
     <div>
-        <div class="row">
-            <div class="col-md-2">
-                <h6>{{ tickets.length }} open tickets</h6>
-                <ul>
-                    <li>open tickets</li>
-                    <li>closed tickets</li>
-                </ul>
-            </div>
-            <div class="col-xs-7">
-                <div class="row">
-                    <div class="col-xs-12">
-                        <h2>{{ ticket.subject }}</h2>
-                        <p>{{ ticket.description }}</p>
-                    </div>
+        <div class="clearfix container-flex">
+            <div class="clearfix flex-row">
+                <div class="flex-column col-md-2">
+                    <h6>{{ tickets.length }} open tickets</h6>
+                    <ul>
+                        <li>open tickets</li>
+                        <li>closed tickets</li>
+                    </ul>
                 </div>
-                <div class="row">
-                    <div class="col-xs-12">
-                        <form id="sendMessageForm" @submit="sendMessage">
-                            <div class="input-group">
-                                <input class="form-control" type="text" name="description" id="description" v-model="chatmessage" placeholder="Type your message here">
-                                <span class="input-group-btn">
-                                    <input class="btn btn-primary" type="submit" value="Send">
-                                </span>
-                            </div><!-- /input-group -->
-
-                        </form>
+                <div class="col-xs-7">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <h2>{{ ticket.subject }}</h2>
+                            <p>{{ ticket.description }}</p>
+                        </div>
                     </div>
+                    <div class="row">
+                        <div class="flex-column col-xs-12">
+                            <form id="sendMessageForm" @submit="sendMessage">
+                                <div class="input-group">
+                                    <input class="form-control" type="text" name="description" id="description" v-model="chatmessage" placeholder="Type your message here">
+                                    <span class="input-group-btn">
+                                        <input class="btn btn-primary" type="submit" value="Send">
+                                    </span>
+                                </div><!-- /input-group -->
+
+                            </form>
+                        </div>
+                    </div>
+
                 </div>
+                <div class="flex-column col-md-3">
+                    <h2>Quick Tools</h2>
+                </div>
+            </div>
+            <div class="clearfix flex-row">
+                <div class="flex-column col-md-2" style="max-height:500px;overflow-y:scroll;">
 
+                    <TicketList v-bind:ticketId="ticketId"></TicketList>
+
+                </div>
+                <div class="flex-column col-xs-7" style="max-height:500px;overflow-y:scroll;word-break:break-all;">
+
+                    <TicketReactions></TicketReactions>
+
+                </div>
+                <div class="flex-column col-md-3">
+                    <QuickTools v-bind:ticketId="ticketId"></QuickTools>
+                </div>
             </div>
-            <div class="col-md-3">
-                <h2>Quick Tools</h2>
-            </div>
+            <notifications group="TicketWrapper" />
         </div>
-        <div class="row">
-            <div class="col-md-2" style="max-height:500px;overflow-y:scroll;">
-
-                <TicketList v-bind:ticketId="ticketId"></TicketList>
-
-            </div>
-            <div class="col-xs-7" style="max-height:500px;overflow-y:scroll;word-break:break-all;">
-
-                <TicketReactions></TicketReactions>
-
-            </div>
-            <div class="col-md-3">
-                <QuickTools v-bind:ticketId="ticketId"></QuickTools>
-            </div>
-        </div>
-        <notifications group="TicketWrapper" />
     </div>
 </template>
 
@@ -199,6 +201,10 @@
                 // On 'TicketReaction' -> fires when ticket reaction has been added to an existing ticket
                 connection.on("TicketReaction", async (reaction: TicketReaction) => {
                     self.addReaction(reaction);
+                });
+
+                connection.on("AddTicket", async (ticket: Ticket) => {
+                    self.addTicket(ticket);
                 });
 
                 resolve(true);
