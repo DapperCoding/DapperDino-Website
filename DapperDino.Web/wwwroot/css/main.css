@@ -751,3 +751,6 @@ a {
 h2 {
     margin-bottom:5px;
 }
+.img-responsive, .thumbnail > img, .thumbnail a > img, .carousel-inner > .item > img, .carousel-inner > .item > a > img {
+    min-width:100%;
+}

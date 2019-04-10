@@ -1,5 +1,5 @@
 {
-    "include": ["./VueApp/**/*", "vue-shims.d.ts", "Areas/Api/Controllers/BaseController.cs", "Areas/HappyToHelp/Views/Ticket/_TicketLayout.cshtml"],
+    "include": ["./VueApp/**/*", "vue-shims.d.ts", "Areas/Api/Controllers/BaseController.cs", "Areas/HappyToHelp/Views/Ticket/_TicketLayout.cshtml", "Areas/Api/Controllers/ProductController.cs"],
     "compilerOptions": {
       "strict": true,
       "target": "es5",

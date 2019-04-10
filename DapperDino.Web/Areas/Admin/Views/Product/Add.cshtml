@@ -45,7 +45,7 @@
                 <div class="form-group">
                     <label asp-for="Categories"></label>
 
-                    <select class="form-control" asp-for="SelectedProductCategories" asp-items="Model.AllCategories.Select(x=>new SelectListItem() { Text = x.ProductCategory.Name, Value = x.ProductCategoryId.ToString(), Selected = Model.Categories.Select(y => y.ProductCategoryId).Any(y => y == x.ProductCategoryId) })" multiple="multiple"></select>
+                    <select class="form-control" asp-for="SelectedProductCategories" asp-items="Model.AllCategories.Select(x=>new SelectListItem() { Text = x.ProductCategory.Name, Value = x.ProductCategoryId.ToString()})" multiple="multiple"></select>
                 </div>
 
 

@@ -1,22 +1,22 @@
 ﻿
 @{
+    Layout = null;
     ViewData["Title"] = "Index";
-    Layout = "~/Areas/HappyToHelp/Views/Shared/_Layout.cshtml";
-}}
+}
+<!DOCTYPE html>
 
-@section scripts{
-
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>View</title>
     <environment names="Development,Production,Staging">
         <script src="~/dist/js/ticketWrapper/bundle.js" asp-append-version="true"></script>
     </environment>
 
-}
+</head>
+<body>
+    <div id="app">
 
-<section id="features" class="features pricing">
-
-    <div>
-        <div id="app">
-
-        </div>
     </div>
-</section>
+</body>
+</html>

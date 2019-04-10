@@ -1,28 +1,10 @@
 <template>
     <div>
-        <div class="container-flex">
+        <div class="container">
             <div class="row">
                 <div class="col-xs-12">
-                    <section class="section">
-                        <aside class="menu">
-                            <ul class="menu-list">
-                                <li>
-                                    <!--<router-link :to="{ name: 'ticketWrapper' }">Tickets</router-link>-->
-                                </li>
-                            </ul>
-                        </aside>
-                    </section>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-xs-12">
-
-                    <section class="section">
-                        <transition name="component-fade"
-                                    mode="out-in">
-                            <router-view></router-view>
-                        </transition>
-                    </section>
+                   
+                    <Products />
 
                 </div>
             </div>

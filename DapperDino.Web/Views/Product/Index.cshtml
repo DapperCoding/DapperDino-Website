@@ -1,0 +1,16 @@
+﻿<!--
+        Features
+        ==================================== -->
+
+@section scripts{
+    <script src="https://js.stripe.com/v3/"></script>
+    <environment names="Development,Production,Staging">
+        <script src="~/dist/js/products/bundle.js" asp-append-version="true"></script>
+    </environment>
+
+}
+
+<section id="features" class="features pricing">
+    <div id="app"></div>
+</section>
+

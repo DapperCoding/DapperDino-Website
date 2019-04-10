@@ -12,7 +12,7 @@
                     </ul>
                 </div>
                 <div class="col-xs-7">
-                    <div class="row">
+                    <div class="row" v-cloak="ticket != null">
                         <div class="col-xs-12">
                             <h2>{{ ticket.subject }}</h2>
                             <p>{{ ticket.description }}</p>
@@ -203,7 +203,7 @@
                     self.addReaction(reaction);
                 });
 
-                connection.on("AddTicket", async (ticket: Ticket) => {
+                connection.on("AddTicket", async (ticket: Ticket)=> {
                     self.addTicket(ticket);
                 });
 

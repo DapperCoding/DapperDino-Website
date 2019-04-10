@@ -363,6 +363,7 @@ namespace DapperDino.Areas.Api.Controllers
             ticket = await _context.Tickets.Include(x => x.Applicant).SingleOrDefaultAsync(x => x.Id == ticket.Id);
 
             _hubContext.Clients.All.SendAsync("AddTicket", ticket);
+            _hubContext.Clients.All.SendAsync("TicketCreated", ticket);
 
             return Json(ticket);
         }
