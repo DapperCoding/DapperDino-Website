@@ -15,7 +15,7 @@ namespace DapperDino.DAL.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.1.8-servicing-32085")
+                .HasAnnotation("ProductVersion", "2.1.1-rtm-30846")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -108,6 +108,241 @@ namespace DapperDino.DAL.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("DapperDino.DAL.Models.DiscordAttachment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("DiscordAttachmentId");
+
+                    b.Property<int>("DiscordMessageId");
+
+                    b.Property<string>("FileName");
+
+                    b.Property<int>("FileSize");
+
+                    b.Property<int>("Height");
+
+                    b.Property<string>("ProxyUrl");
+
+                    b.Property<string>("Url");
+
+                    b.Property<int>("Width");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DiscordMessageId");
+
+                    b.ToTable("DiscordAttachment");
+                });
+
+            modelBuilder.Entity("DapperDino.DAL.Models.DiscordColor", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<byte>("B");
+
+                    b.Property<int>("DiscordEmbedId");
+
+                    b.Property<byte>("G");
+
+                    b.Property<byte>("R");
+
+                    b.Property<int>("Value");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DiscordEmbedId")
+                        .IsUnique();
+
+                    b.ToTable("DiscordColors");
+                });
+
+            modelBuilder.Entity("DapperDino.DAL.Models.DiscordEmbed", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Description");
+
+                    b.Property<int>("DiscordMessageId");
+
+                    b.Property<DateTimeOffset?>("Timestamp");
+
+                    b.Property<string>("Title");
+
+                    b.Property<string>("Type");
+
+                    b.Property<string>("Url");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DiscordMessageId");
+
+                    b.ToTable("DiscordEmbeds");
+                });
+
+            modelBuilder.Entity("DapperDino.DAL.Models.DiscordEmbedAuthor", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("DiscordEmbedId");
+
+                    b.Property<string>("IconUrl");
+
+                    b.Property<string>("Name");
+
+                    b.Property<string>("ProxyIconUrl");
+
+                    b.Property<string>("Url");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DiscordEmbedId")
+                        .IsUnique();
+
+                    b.ToTable("DiscordEmbedAuthors");
+                });
+
+            modelBuilder.Entity("DapperDino.DAL.Models.DiscordEmbedField", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("EmbedId");
+
+                    b.Property<bool>("Inline");
+
+                    b.Property<string>("Name");
+
+                    b.Property<string>("Value");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EmbedId");
+
+                    b.ToTable("DiscordEmbedFields");
+                });
+
+            modelBuilder.Entity("DapperDino.DAL.Models.DiscordEmbedFooter", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("DiscordEmbedId");
+
+                    b.Property<string>("IconUrl");
+
+                    b.Property<string>("ProxyIconUrl");
+
+                    b.Property<string>("Text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DiscordEmbedId")
+                        .IsUnique();
+
+                    b.ToTable("DiscordEmbedFooters");
+                });
+
+            modelBuilder.Entity("DapperDino.DAL.Models.DiscordEmbedImage", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("DiscordEmbedId");
+
+                    b.Property<int>("Height");
+
+                    b.Property<string>("ProxyUrl");
+
+                    b.Property<string>("Url");
+
+                    b.Property<int>("Width");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DiscordEmbedId")
+                        .IsUnique();
+
+                    b.ToTable("DiscordEmbedImages");
+                });
+
+            modelBuilder.Entity("DapperDino.DAL.Models.DiscordEmbedProvider", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("DiscordEmbedId");
+
+                    b.Property<string>("Name");
+
+                    b.Property<string>("Url");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DiscordEmbedId")
+                        .IsUnique();
+
+                    b.ToTable("DiscordEmbedProviders");
+                });
+
+            modelBuilder.Entity("DapperDino.DAL.Models.DiscordEmbedThumbnail", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("DiscordEmbedId");
+
+                    b.Property<int>("Height");
+
+                    b.Property<string>("ProxyUrl");
+
+                    b.Property<string>("Url");
+
+                    b.Property<int>("Width");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DiscordEmbedId")
+                        .IsUnique();
+
+                    b.ToTable("DiscordEmbedThumbnails");
+                });
+
+            modelBuilder.Entity("DapperDino.DAL.Models.DiscordEmbedVideo", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("DiscordEmbedId");
+
+                    b.Property<int>("Height");
+
+                    b.Property<string>("Url");
+
+                    b.Property<int>("Width");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DiscordEmbedId")
+                        .IsUnique();
+
+                    b.ToTable("DiscordEmbedVideos");
+                });
+
             modelBuilder.Entity("DapperDino.DAL.Models.DiscordMessage", b =>
                 {
                     b.Property<int>("Id")
@@ -149,6 +384,10 @@ namespace DapperDino.DAL.Migrations
 
                     b.Property<string>("DiscordId");
 
+                    b.Property<string>("Discriminator");
+
+                    b.Property<bool>("IsBot");
+
                     b.Property<int>("Level");
 
                     b.Property<string>("Name");
@@ -160,6 +399,27 @@ namespace DapperDino.DAL.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("DiscordUsers");
+                });
+
+            modelBuilder.Entity("DapperDino.DAL.Models.DiscordUserProficiency", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("DiscordUserId");
+
+                    b.Property<int>("ProficiencyId");
+
+                    b.Property<int>("ProficiencyLevel");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DiscordUserId");
+
+                    b.HasIndex("ProficiencyId");
+
+                    b.ToTable("DiscordUserProficiencies");
                 });
 
             modelBuilder.Entity("DapperDino.DAL.Models.FrequentlyAskedQuestion", b =>
@@ -409,6 +669,21 @@ namespace DapperDino.DAL.Migrations
                     b.ToTable("ProductProductEditions");
                 });
 
+            modelBuilder.Entity("DapperDino.DAL.Models.Proficiency", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name");
+
+                    b.Property<int>("ProficiencyType");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Proficiencies");
+                });
+
             modelBuilder.Entity("DapperDino.DAL.Models.ResourceLink", b =>
                 {
                     b.Property<int>("Id")
@@ -483,6 +758,10 @@ namespace DapperDino.DAL.Migrations
 
                     b.Property<string>("Description");
 
+                    b.Property<int?>("FrameworkId");
+
+                    b.Property<int?>("LanguageId");
+
                     b.Property<DateTime>("LastModified");
 
                     b.Property<int>("Priority");
@@ -495,6 +774,10 @@ namespace DapperDino.DAL.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("ApplicantId");
+
+                    b.HasIndex("FrameworkId");
+
+                    b.HasIndex("LanguageId");
 
                     b.ToTable("Tickets");
                 });
@@ -660,11 +943,104 @@ namespace DapperDino.DAL.Migrations
                         .HasForeignKey("DiscordUserId");
                 });
 
+            modelBuilder.Entity("DapperDino.DAL.Models.DiscordAttachment", b =>
+                {
+                    b.HasOne("DapperDino.DAL.Models.DiscordMessage", "DiscordMessage")
+                        .WithMany("Attachments")
+                        .HasForeignKey("DiscordMessageId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("DapperDino.DAL.Models.DiscordColor", b =>
+                {
+                    b.HasOne("DapperDino.DAL.Models.DiscordEmbed", "DiscordEmbed")
+                        .WithOne("Color")
+                        .HasForeignKey("DapperDino.DAL.Models.DiscordColor", "DiscordEmbedId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("DapperDino.DAL.Models.DiscordEmbed", b =>
+                {
+                    b.HasOne("DapperDino.DAL.Models.DiscordMessage", "DiscordMessage")
+                        .WithMany("Embeds")
+                        .HasForeignKey("DiscordMessageId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("DapperDino.DAL.Models.DiscordEmbedAuthor", b =>
+                {
+                    b.HasOne("DapperDino.DAL.Models.DiscordEmbed", "DiscordEmbed")
+                        .WithOne("Author")
+                        .HasForeignKey("DapperDino.DAL.Models.DiscordEmbedAuthor", "DiscordEmbedId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("DapperDino.DAL.Models.DiscordEmbedField", b =>
+                {
+                    b.HasOne("DapperDino.DAL.Models.DiscordEmbed", "Embed")
+                        .WithMany("Fields")
+                        .HasForeignKey("EmbedId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("DapperDino.DAL.Models.DiscordEmbedFooter", b =>
+                {
+                    b.HasOne("DapperDino.DAL.Models.DiscordEmbed", "DiscordEmbed")
+                        .WithOne("Footer")
+                        .HasForeignKey("DapperDino.DAL.Models.DiscordEmbedFooter", "DiscordEmbedId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("DapperDino.DAL.Models.DiscordEmbedImage", b =>
+                {
+                    b.HasOne("DapperDino.DAL.Models.DiscordEmbed", "DiscordEmbed")
+                        .WithOne("Image")
+                        .HasForeignKey("DapperDino.DAL.Models.DiscordEmbedImage", "DiscordEmbedId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("DapperDino.DAL.Models.DiscordEmbedProvider", b =>
+                {
+                    b.HasOne("DapperDino.DAL.Models.DiscordEmbed", "DiscordEmbed")
+                        .WithOne("Provider")
+                        .HasForeignKey("DapperDino.DAL.Models.DiscordEmbedProvider", "DiscordEmbedId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("DapperDino.DAL.Models.DiscordEmbedThumbnail", b =>
+                {
+                    b.HasOne("DapperDino.DAL.Models.DiscordEmbed", "DiscordEmbed")
+                        .WithOne("Thumbnail")
+                        .HasForeignKey("DapperDino.DAL.Models.DiscordEmbedThumbnail", "DiscordEmbedId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("DapperDino.DAL.Models.DiscordEmbedVideo", b =>
+                {
+                    b.HasOne("DapperDino.DAL.Models.DiscordEmbed", "DiscordEmbed")
+                        .WithOne("Video")
+                        .HasForeignKey("DapperDino.DAL.Models.DiscordEmbedVideo", "DiscordEmbedId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("DapperDino.DAL.Models.DiscordMessage", b =>
                 {
                     b.HasOne("DapperDino.DAL.Models.DiscordUser", "DiscordUser")
                         .WithMany()
                         .HasForeignKey("DiscordUserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("DapperDino.DAL.Models.DiscordUserProficiency", b =>
+                {
+                    b.HasOne("DapperDino.DAL.Models.DiscordUser", "DiscordUser")
+                        .WithMany("Proficiencies")
+                        .HasForeignKey("DiscordUserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("DapperDino.DAL.Models.Proficiency", "Proficiency")
+                        .WithMany()
+                        .HasForeignKey("ProficiencyId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -788,6 +1164,14 @@ namespace DapperDino.DAL.Migrations
                         .WithMany()
                         .HasForeignKey("ApplicantId")
                         .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("DapperDino.DAL.Models.Proficiency", "Framework")
+                        .WithMany()
+                        .HasForeignKey("FrameworkId");
+
+                    b.HasOne("DapperDino.DAL.Models.Proficiency", "Language")
+                        .WithMany()
+                        .HasForeignKey("LanguageId");
                 });
 
             modelBuilder.Entity("DapperDino.DAL.Models.TicketReaction", b =>

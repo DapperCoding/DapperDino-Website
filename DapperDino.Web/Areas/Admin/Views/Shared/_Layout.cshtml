@@ -101,6 +101,22 @@
                             </li>
                         </ul>
                     </li>
+                    <li role="presentation" class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                            Proficiency <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a asp-area="Admin" asp-controller="Proficiency" asp-action="Index" title="Proficiency overview">Overview</a>
+                            </li>
+                            <li>
+                                <a asp-area="Admin" asp-controller="Proficiency" asp-action="Edit" title="Add a proficiency">Add</a>
+                            </li>
+                            <li>
+                                <a asp-area="Admin" asp-controller="DiscordUserProficiency" asp-action="Index" title="Discord user proficiency  overview">Discord Users</a>
+                            </li>
+                        </ul>
+                    </li>
                 </ul>
 
                 @await Html.PartialAsync("_LoginPartial")

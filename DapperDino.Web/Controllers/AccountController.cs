@@ -29,6 +29,7 @@ namespace DapperDino.Controllers
     {
         private readonly SignInManager<DAL.Models.ApplicationUser> _signInManager;
         private readonly UserManager<DAL.Models.ApplicationUser> _userManager;
+        
         private readonly IConfiguration _configuration;
         private readonly ApplicationDbContext _context;
         private readonly IEmailSender _emailSender;

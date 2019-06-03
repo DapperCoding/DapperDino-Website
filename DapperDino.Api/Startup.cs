@@ -4,6 +4,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DapperDino.Core;
 using DapperDino.DAL;
 using DapperDino.DAL.Models;
 using DapperDino.Jobs;
@@ -41,6 +42,10 @@ namespace DapperDino.Api
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
+
+            services.AddSingleton<DiscordEmbedHelper>();
+
+            
 
             //Password Strength Setting
             services.Configure<IdentityOptions>(options =>

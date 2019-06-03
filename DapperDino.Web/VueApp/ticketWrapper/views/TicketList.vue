@@ -1,12 +1,13 @@
 <template>
 
-    <table class="table">
-        <tbody>
-            <tr v-for="(item, index) in tickets" @class="item.id == ticketId ? 'selected':''">
-                <td @click="loadTicket(item.id)">ticket{{ item.id }} ({{ item.applicant.username }})</td>
-            </tr>
-        </tbody>
-    </table>
+    <ul>
+        <li v-for="(item, index) in tickets" :class="item.id == currentId ? 'selected':''">
+            <p @click="loadTicket(item.id)">
+                ticket{{ item.id }} ({{ reactionUserInformation.find(x=>x.discordId == item.applicant.discordId) != null ? reactionUserInformation.find(x=>x.discordId == item.applicant.discordId).status : 'offline' }})
+            </p>
+        </li>
+    </ul>
+
 
 </template>
 
@@ -24,7 +25,8 @@
     @Component({
         name: 'TicketList',
         computed: {
-            ...mapGetters(['tickets'])
+            ...mapGetters(['tickets']),
+            ...mapGetters(['reactionUserInformation'])
         }
     })
     export default class TicketList extends Vue {
@@ -33,7 +35,6 @@
 
         created() {
             this.currentId = this.$props.ticketId;
-            
         }
 
         doAction(action: TicketAction): void {

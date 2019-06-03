@@ -13,6 +13,11 @@ namespace DapperDino.DAL
         {
         }
 
+        public ApplicationDbContext():base()
+        {
+
+        }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
@@ -88,6 +93,67 @@ namespace DapperDino.DAL
                 .HasForeignKey(bc => bc.ProductEditionId);
 
 
+            builder.Entity<DiscordEmbed>()
+                .HasOne(x=>x.Author)
+                .WithOne(x=>x.DiscordEmbed)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<DiscordEmbed>()
+                .HasOne(x => x.Color)
+                .WithOne(x => x.DiscordEmbed)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<DiscordEmbed>()
+                .HasOne(x => x.Author)
+                .WithOne(x => x.DiscordEmbed)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<DiscordEmbed>()
+                .HasMany(x => x.Fields)
+                .WithOne(x => x.Embed)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<DiscordEmbed>()
+                .HasOne(x => x.Footer)
+                .WithOne(x => x.DiscordEmbed)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<DiscordEmbed>()
+                .HasOne(x => x.Image)
+                .WithOne(x => x.DiscordEmbed)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<DiscordEmbed>()
+                .HasOne(x => x.Provider)
+                .WithOne(x => x.DiscordEmbed)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<DiscordEmbed>()
+                .HasOne(x => x.Thumbnail)
+                .WithOne(x => x.DiscordEmbed)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<DiscordEmbed>()
+                .HasOne(x => x.Video)
+                .WithOne(x => x.DiscordEmbed)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<DiscordMessage>()
+                .HasMany(x => x.Embeds)
+                .WithOne(x => x.DiscordMessage)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<DiscordUserProficiency>()
+                .HasOne(x => x.DiscordUser)
+                .WithMany(x => x.Proficiencies);
+
+            //builder.Entity<Ticket>()
+            //    .HasOne(x => x.Framework)
+            //    .WithMany(x => x.Tickets);
+
+            //builder.Entity<Ticket>()
+            //     .HasOne(x => x.Language)
+            //     .WithMany(x => x.Tickets);
         }
 
         public DbSet<FrequentlyAskedQuestion> FrequentlyAskedQuestions { get; set; }
@@ -109,6 +175,20 @@ namespace DapperDino.DAL
         public DbSet<ProductEdition> ProductEditions { get; set; }
         public DbSet<ProductProductEdition> ProductProductEditions { get; set; }
         public DbSet<Order> Orders { get; set; }
+
+        public DbSet<DiscordEmbed> DiscordEmbeds { get; set; }
+        public DbSet<DiscordEmbedField> DiscordEmbedFields { get;set; }
+        public DbSet<DiscordEmbedAuthor> DiscordEmbedAuthors { get; set; }
+        public DbSet<DiscordEmbedProvider> DiscordEmbedProviders { get; set; }
+        public DbSet<DiscordEmbedVideo> DiscordEmbedVideos { get; set; }
+        public DbSet<DiscordEmbedThumbnail> DiscordEmbedThumbnails { get; set; }
+        public DbSet<DiscordEmbedImage> DiscordEmbedImages { get; set; }
+        public DbSet<DiscordEmbedFooter> DiscordEmbedFooters { get; set; }
+        public DbSet<DiscordColor> DiscordColors { get; set; }
+
+
+        public DbSet<Proficiency> Proficiencies { get; set; }
+        public DbSet<DiscordUserProficiency> DiscordUserProficiencies { get; set; }
     }
 
 }

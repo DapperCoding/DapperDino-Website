@@ -1,0 +1,55 @@
+﻿@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/HappyToHelp/Views/Shared/_Layout.cshtml";
+}
+@using DapperDino.DAL.Models;
+
+@model IEnumerable<DapperDino.DAL.Models.Proficiency>
+<section id="features" class="features">
+    <div class="container">
+        <div class="row">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Type</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+
+                @foreach (var proficiency in Model)
+                {
+                    <tr>
+                        <td>
+                            @proficiency.Name
+                        </td>
+                        <td>
+                            @(proficiency.ProficiencyType == ProficiencyType.Language? "Language" : "Framework")
+                        </td>
+                        <td>
+                            <a href="@Url.Action("Edit", "Proficiency", new { id = proficiency.Id})">Edit</a>&nbsp;&nbsp;
+                            <a href="@Url.Action("Delete", "Proficiency", new { id = proficiency.Id})">Delete</a>
+                        </td>
+                    </tr>
+                }
+
+            </table>
+        </div>
+    </div>
+</section>
+
+@section Scripts
+    {
+
+    <link href="https://cdn.datatables.net/1.10.15/css/dataTables.bootstrap.min.css" rel="stylesheet" />
+
+    <script src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap4.min.js "></script>
+    <script>
+        $(document).ready(function () {
+            $('.table').DataTable({
+                "pagingType": "full_numbers"
+            });
+        });
+    </script>
+}

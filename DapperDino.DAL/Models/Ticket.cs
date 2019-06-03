@@ -21,6 +21,14 @@ namespace DapperDino.DAL.Models
         public DateTime CreatedOn { get; set; } = DateTime.Now;
         public DateTime LastModified { get; set; } = DateTime.Now;
 
+        public int? LanguageId { get; set; }
+        [ForeignKey("LanguageId")]
+        public virtual Proficiency Language { get; set; }
+
+        public int? FrameworkId { get; set; }
+        [ForeignKey("FrameworkId")]
+        public virtual Proficiency Framework { get; set; }
+
         public virtual IEnumerable<TicketReaction> Reactions { get; set; }
 
         [ForeignKey("ApplicantId")]
@@ -54,10 +62,10 @@ namespace DapperDino.DAL.Models
         public int DiscordMessageId { get; set; }
 
         [ForeignKey("TicketId")]
-        public virtual Ticket Ticket { get; set; }
+        public  Ticket Ticket { get; set; }
         
         [ForeignKey("FromId")]
-        public virtual DiscordUser From { get; set; }
+        public DiscordUser From { get; set; }
 
         [ForeignKey("DiscordMessageId")]
         public DiscordMessage DiscordMessage { get; set; }

@@ -7,16 +7,38 @@
 
 <html>
 <head>
-    <meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>View</title>
-    <environment names="Development,Production,Staging">
-        <script src="~/dist/js/ticketWrapper/bundle.js" asp-append-version="true"></script>
-    </environment>
 
+    <!-- Fontawesome Icon font -->
+    <link rel="stylesheet" href="/css/font-awesome.min.css">
+    <!-- Twitter Bootstrap css -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <!-- jquery.fancybox  -->
+    <link rel="stylesheet" href="/css/jquery.fancybox.css">
+    <!-- animate -->
+    <link rel="stylesheet" href="/css/animate.css">
+    <!-- Main Stylesheet -->
+    <link rel="stylesheet" href="/css/main.css">
+    <!-- Custom Stylesheet -->
+    <link rel="stylesheet" href="/css/custom-main.css">
+    <!-- media-queries -->
+    <link rel="stylesheet" href="/css/media-queries.css">
+    <!-- Custom media-queries -->
+    <link rel="stylesheet" href="/css/custom-media-queries.css">
+
+    <environment include="Development,Production,Staging">
+        <link rel="stylesheet" href="~/dist/css/vendor/main.css" asp-append-version="true" />
+    </environment>
 </head>
 <body>
+
     <div id="app">
 
     </div>
+
+    <environment names="Development,Production,Staging">
+        <script src="~/dist/js/ticketWrapper/bundle.js" asp-append-version="true"></script>
+    </environment>
 </body>
 </html>

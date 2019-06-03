@@ -1,0 +1,32 @@
+﻿@using DapperDino.DAL.Models
+
+@model DapperDino.DAL.Models.DiscordUserProficiency
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/HappyToHelp/Views/Shared/_Layout.cshtml";
+}
+<section id="features" class="features">
+    <div class="container">
+        <div class="row">
+            <h2>@Model.Proficiency.Name - @(Model.Proficiency.ProficiencyType == ProficiencyType.Language ? "Language":"Framework")</h2>
+        </div>
+
+        <div class="row">
+            <form asp-controller="Proficiency" asp-action="Edit" method="post">
+
+                @Html.HiddenFor(x=>x.Id)
+                @Html.HiddenFor(x=>x.DiscordUserId)
+                @Html.HiddenFor(x=>x.ProficiencyId)
+
+                <div class="form-group">
+                    <label asp-for="ProficiencyLevel"></label>
+
+                    <select class="form-control" asp-for="ProficiencyLevel" asp-items="new SelectList(Enum.GetValues(typeof(ProficiencyLevel)))"></select>
+                </div>
+
+                <input class="btn btn-primary" type="submit" value="edit" name="submit" />
+            </form>
+        </div>
+    </div>
+</section>

@@ -3,8 +3,10 @@ using System.Threading.Tasks;
 using AutoMapper;
 using DapperDino.DAL;
 using DapperDino.DAL.Models;
+using DapperDino.Core.Discord;
 using DapperDino.Jobs;
 using DapperDino.Services;
+using DSharpPlus;
 using Hangfire;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -14,6 +16,7 @@ using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using DapperDino.Core;
 
 namespace DapperDino
 {
@@ -39,6 +42,9 @@ namespace DapperDino
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
             services.AddTransient<DiscordBuilder>();
+
+            // Add DiscordEmbedHelper Singleton
+            services.AddSingleton<DiscordEmbedHelper>();
 
             services.AddHangfire(x => x.UseSqlServerStorage(Configuration.GetConnectionString("DefaultConnection")));
             services.AddAutoMapper();

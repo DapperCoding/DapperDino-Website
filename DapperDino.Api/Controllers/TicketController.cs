@@ -52,7 +52,13 @@ namespace DapperDino.Api.Controllers
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            var ticket = _context.Tickets.Include(x => x.Applicant).Include(x => x.Assignees).Include(x => x.Reactions).ThenInclude(x=>x.DiscordMessage).FirstOrDefault(x => x.Id == id);
+            var ticket = _context.Tickets
+                .Include(x=>x.Language)
+                .Include(x=>x.Framework)
+                .Include(x => x.Applicant)
+                .Include(x => x.Assignees)
+                .Include(x => x.Reactions).ThenInclude(x=>x.DiscordMessage)
+                .FirstOrDefault(x => x.Id == id);
 
             if (ticket == null)
             {
@@ -92,11 +98,21 @@ namespace DapperDino.Api.Controllers
             {
                 Description = value.Description,
                 Subject = value.Subject,
-                Category = value.Category
+                Category = value.Category,
+                FrameworkId = value.FrameworkId,
+                LanguageId = value.LanguageId
             };
 
-            _context.Tickets.Add(ticket);
-            _context.SaveChanges();
+            try
+            {
+                _context.Tickets.Add(ticket);
+                _context.SaveChanges();
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+           
 
             var applicant = _context.DiscordUsers.FirstOrDefault(x =>
                     x.DiscordId == value.Applicant.DiscordId);
@@ -112,6 +128,9 @@ namespace DapperDino.Api.Controllers
             ticket.ApplicantId = applicant.Id;
 
             _context.SaveChanges();
+
+            ticket.Language = _context.Proficiencies.SingleOrDefault(x=>x.Id==ticket.LanguageId);
+            ticket.Framework = _context.Proficiencies.SingleOrDefault(x => x.Id == ticket.FrameworkId);
             try
             {
                 /*

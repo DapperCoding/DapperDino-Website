@@ -15,32 +15,36 @@
                         <th>Last Name</th>
                         <th>Discord</th>
                         <th>Explanation</th>
+                        <th>Links</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
 
                 @foreach (var applicant in Model.Applicants)
                 {
-                <tr>
-                    <td>
-                        @applicant.FirstName
-                    </td>
-                    <td>
-                        @applicant.LastName
-                    </td>
-                    <td>
-                        @applicant.DiscordUser.Username
-                    </td>
-                    <td>
-                        @applicant.Explanation
-                    </td>
-                    <td>
-                        <a href="~/Admin/Applicant/Edit/@applicant.Id">Edit</a>&nbsp;&nbsp;
-                        <a href="~/Admin/Applicant/AcceptApplicant/@applicant.Id">Accept</a>&nbsp;&nbsp;
-                        <a href="~/Admin/Applicant/DenyApplicant/@applicant.Id">Deny</a>&nbsp;&nbsp;
-                        <a href="@Url.Action("Delete", "Applicant", new { id = applicant.Id})">Delete</a>
-                    </td>
-                </tr>
+                    <tr>
+                        <td>
+                            @applicant.FirstName
+                        </td>
+                        <td>
+                            @applicant.LastName
+                        </td>
+                        <td>
+                            @applicant.DiscordUser.Username
+                        </td>
+                        <td>
+                            @applicant.Explanation
+                        </td>
+                        <td>
+                            @applicant.Links
+                        </td>
+                        <td>
+                            <a href="~/Admin/Applicant/Edit/@applicant.Id">Edit</a>&nbsp;&nbsp;
+                            <a href="~/Admin/Applicant/AcceptApplicant/@applicant.Id">Accept</a>&nbsp;&nbsp;
+                            <a href="~/Admin/Applicant/DenyApplicant/@applicant.Id">Deny</a>&nbsp;&nbsp;
+                            <a href="@Url.Action("Delete", "Applicant", new { id = applicant.Id})">Delete</a>
+                        </td>
+                    </tr>
                 }
 
             </table>
@@ -58,7 +62,8 @@
     <script>
         $(document).ready(function () {
             $('.table').DataTable({
-                "pagingType": "full_numbers"
+                "pagingType": "full_numbers",
+                "pageLength": 5
             });
         });
     </script>

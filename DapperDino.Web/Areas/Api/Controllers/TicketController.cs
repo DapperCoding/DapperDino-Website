@@ -11,7 +11,9 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using DapperDino.Jobs;
+using DapperDino.Core.Discord;
 using Microsoft.AspNetCore.SignalR;
+using DapperDino.Helpers;
 
 namespace DapperDino.Areas.Api.Controllers
 {
@@ -33,12 +35,58 @@ namespace DapperDino.Areas.Api.Controllers
         [HttpGet("GetById/{id}")]
         public async Task<IActionResult> GetTicketById([FromRoute] int id)
         {
+            var viewModel = new ConvertedTicketViewModel();
             var ticket = await _context.Tickets
                 .Include(x => x.Applicant)
                 .Include(x => x.Assignees)
                 .Include(x => x.Reactions).ThenInclude(x => x.DiscordMessage)
+                .Include(x=>x.Reactions).ThenInclude(x => x.DiscordMessage).ThenInclude(x => x.Attachments)
+                .Include(x => x.Reactions).ThenInclude(x => x.DiscordMessage).ThenInclude(x => x.Embeds)
+                .Include(x => x.Reactions).ThenInclude(x => x.DiscordMessage).ThenInclude(x => x.Embeds).ThenInclude(x=>x.Color)
+                .Include(x => x.Reactions).ThenInclude(x => x.DiscordMessage).ThenInclude(x => x.Embeds).ThenInclude(x => x.Footer)
+                .Include(x => x.Reactions).ThenInclude(x => x.DiscordMessage).ThenInclude(x => x.Embeds).ThenInclude(x => x.Image)
+                .Include(x => x.Reactions).ThenInclude(x => x.DiscordMessage).ThenInclude(x => x.Embeds).ThenInclude(x => x.Thumbnail)
+                .Include(x => x.Reactions).ThenInclude(x => x.DiscordMessage).ThenInclude(x => x.Embeds).ThenInclude(x => x.Video)
+                .Include(x => x.Reactions).ThenInclude(x => x.DiscordMessage).ThenInclude(x => x.Embeds).ThenInclude(x => x.Provider)
+                .Include(x => x.Reactions).ThenInclude(x => x.DiscordMessage).ThenInclude(x => x.Embeds).ThenInclude(x => x.Author)
+                .Include(x => x.Reactions).ThenInclude(x => x.DiscordMessage).ThenInclude(x => x.Embeds).ThenInclude(x => x.Fields)
                 .Include(x => x.Reactions).ThenInclude(x => x.From)
                 .SingleOrDefaultAsync(x => x.Id == id);
+
+            TicketDiscordHelper helper = new TicketDiscordHelper();
+
+           
+
+            viewModel.Ticket = ticket;
+            var grouped = viewModel.Ticket.Reactions.GroupBy(x => x.From.DiscordId);
+            var list = new List<TicketReactionUserInformation>();
+            using (Bot bot = new Bot())
+            {
+                bot.RunAsync();
+
+                foreach (var listOfReactions in grouped)
+                {
+                    try
+                    {
+                        var convertedDiscordUser = await helper.GetTicketReactionDiscordUser(bot, listOfReactions.Key);
+                        if (convertedDiscordUser == null) continue;
+
+
+                        list.Add(convertedDiscordUser);
+                    }
+                    catch (Exception ex)
+                    {
+                        continue;
+                    }
+
+                }
+            }
+            viewModel.ReactionInformation = list;
+
+            if (ticket == null)
+            {
+                return BadRequest();
+            }
 
             var user = await _userManager.GetUserAsync(HttpContext.User);
 
@@ -54,17 +102,12 @@ namespace DapperDino.Areas.Api.Controllers
                 return BadRequest();
             }
 
-            if (ticket == null)
-            {
-                return BadRequest();
-            }
-
             if (
                 await _userManager.IsInRoleAsync(user, RoleNames.Admin) ||
                 await _userManager.IsInRoleAsync(user, RoleNames.HappyToHelp) ||
                 ticket.ApplicantId == user.DiscordUser.Id)
             {
-                return Json(ticket);
+                return Json(viewModel);
             }
 
             return BadRequest();
@@ -119,7 +162,7 @@ namespace DapperDino.Areas.Api.Controllers
 
                 tickets = await _context.Tickets
                     .Include(x => x.Assignees)
-                    .Include(x => x.Reactions).ThenInclude(x => x.DiscordMessage)
+                    .Include(x => x.Reactions)
                     .Include(x => x.Reactions).ThenInclude(x => x.From)
                     .Include(x => x.Applicant)
                     .Where(x => x.ApplicantId == discordUser.Id && x.Status == TicketStatus.Closed)
@@ -160,7 +203,6 @@ namespace DapperDino.Areas.Api.Controllers
             {
                 tickets = await _context.Tickets
                     .Include(x => x.Assignees)
-                    .Include(x => x.Reactions)
                     .Include(x => x.Applicant)
                     .Where(x => x.Status == TicketStatus.Open || x.Status == TicketStatus.InProgress)
                     .ToArrayAsync();
@@ -169,7 +211,6 @@ namespace DapperDino.Areas.Api.Controllers
             {
                 tickets = await _context.Tickets
                     .Include(x => x.Assignees)
-                    .Include(x => x.Reactions)
                     .Include(x => x.Applicant)
                     .Where(x => x.ApplicantId == discordUser.Id && (x.Status == TicketStatus.Open || x.Status == TicketStatus.InProgress))
                     .ToArrayAsync();
@@ -299,7 +340,7 @@ namespace DapperDino.Areas.Api.Controllers
             message.Username = discordUser.Username;
             message.DiscordId = discordUser.DiscordId;
 
-            _hubContext.Clients.All.SendAsync("AddTicketReaction", message);
+            _hubContext.Clients.All?.SendAsync("AddTicketReaction", message);
 
             return Json(true);
         }

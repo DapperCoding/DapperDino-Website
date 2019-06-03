@@ -6,4 +6,5 @@ export interface RootState {
     tickets: Ticket[]
     ticketActions: TicketAction[];
     user: DiscordUser;
+    reactionUserInformation: []
 }

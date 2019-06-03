@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DapperDino.Api.Models.Discord;
+using DapperDino.Core;
+using DapperDino.Core.Discord;
 using DapperDino.DAL;
 using DapperDino.DAL.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -19,14 +21,16 @@ namespace DapperDino.Api.Controllers
 
         private readonly ApplicationDbContext _dbContext;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly DiscordEmbedHelper _discordEmbedHelper;
 
         #endregion
 
         #region Constructor(s)
-        public DiscordMessageController(ApplicationDbContext dbContext, UserManager<ApplicationUser> userManager)
+        public DiscordMessageController(ApplicationDbContext dbContext, UserManager<ApplicationUser> userManager, DiscordEmbedHelper discordEmbedHelper)
         {
             _dbContext = dbContext;
             _userManager = userManager;
+            _discordEmbedHelper = discordEmbedHelper;
         }
 
         #endregion
@@ -126,9 +130,38 @@ namespace DapperDino.Api.Controllers
                 _dbContext.DiscordMessages.Add(discordMessage);
             }
 
+            using (Bot bot = new Bot())
+            {
+                bot.RunAsync();
+
+                var client = bot.GetClient();
+
+                var guild = await client.GetGuildAsync(ulong.Parse(message.GuildId));
+                var channel = guild.GetChannel(ulong.Parse(message.ChannelId));
+                var newMessage = await channel.GetMessageAsync(ulong.Parse(message.MessageId));
+
+                if (newMessage.Author == null)
+                {
+                    ulong userId;
+                    if (ulong.TryParse(message.UserId, out userId))
+                    {
+                        await guild.GetMemberAsync(userId);
+                    }
+                }
+
+                var user = _dbContext.DiscordUsers.SingleOrDefault(x => x.DiscordId == newMessage.Author.Id.ToString());
+
+                if (user != null)
+                {
+                    discordMessage.DiscordUserId = user.Id;
+                }
+
+                discordMessage = UpdateMessage(discordMessage, newMessage);
+            }
+
 
             // Check if IsDm is false and GuildId or ChannelId isn't filled
-            if(!message.IsDm && (string.IsNullOrWhiteSpace(message.GuildId) || string.IsNullOrWhiteSpace(message.ChannelId)))
+            if (!message.IsDm && (string.IsNullOrWhiteSpace(message.GuildId) || string.IsNullOrWhiteSpace(message.ChannelId)))
             {
 
                 // Return BadRequest because both GuildId and ChannelId are required when IsDm is true
@@ -156,6 +189,27 @@ namespace DapperDino.Api.Controllers
 
             return Json(discordMessage);
         }
+        private DiscordMessage UpdateMessage(DiscordMessage dbMessage, DSharpPlus.Entities.DiscordMessage discordMessage)
+        {
 
+            // Add embeds from bot
+            if (discordMessage.Embeds != null && discordMessage.Embeds.Any())
+            {
+                if (dbMessage.Embeds == null) dbMessage.Embeds = new List<DAL.Models.DiscordEmbed>();
+
+                foreach (var embed in discordMessage.Embeds)
+                {
+                    dbMessage.Embeds.Add(_discordEmbedHelper.ConvertEmbed(embed));
+                }
+            }
+
+            // Add attachments from bot
+            if (discordMessage.Attachments != null && discordMessage.Attachments.Any())
+            {
+                dbMessage.Attachments = _discordEmbedHelper.ConvertAttachments(discordMessage.Attachments);
+            }
+
+            return dbMessage;
+        }
     }
 }

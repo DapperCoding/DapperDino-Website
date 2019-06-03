@@ -24,7 +24,7 @@ namespace DapperDino.DAL.Repositories
     public class GenericRepository<TEntity> : IGenericRepository<TEntity>
     where TEntity :  IEntity
     {
-        private readonly ApplicationDbContext _dbContext;
+        internal readonly ApplicationDbContext _dbContext;
 
         public GenericRepository(ApplicationDbContext dbContext)
         {

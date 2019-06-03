@@ -6,7 +6,7 @@ using System.Text;
 
 namespace DapperDino.DAL.Models
 {
-    public class DiscordMessage:IEntity
+    public class DiscordMessage : IEntity
     {
         [Required]
         public string MessageId { get; set; }
@@ -18,8 +18,9 @@ namespace DapperDino.DAL.Models
         public DateTime Timestamp { get; set; }
         [Required]
         public bool IsEmbed { get; set; }
-        
-        // If true, GuildId and ChannelId are required
+        public List<DiscordEmbed> Embeds { get; set; }
+
+        // If false, GuildId and ChannelId are required
         public bool IsDm { get; set; }
 
         public string ImageLink { get; set; }
@@ -27,5 +28,6 @@ namespace DapperDino.DAL.Models
         public int DiscordUserId { get; set; }
         [ForeignKey("DiscordUserId")]
         public DiscordUser DiscordUser { get; set; }
+        public List<DiscordAttachment> Attachments { get; set; }
     }
 }

@@ -22,14 +22,6 @@
     <!-- Google Font -->
 
     <link href="//fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800" rel="stylesheet" type="text/css">
-
-    <environment include="Development">
-        <link rel="stylesheet" href="~/dist/css/vendor/main.css" asp-append-version="true" />
-    </environment>
-    <environment exclude="Development">
-        <link rel="stylesheet" href="~/dist/css/vendor/main.css" asp-append-version="true" />
-    </environment>
-
     @RenderSection("Styles", required: false)
 
     <!-- CSS

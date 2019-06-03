@@ -1,13 +1,11 @@
 <template>
 
-    <table class="table">
+        <ul>
+            <li v-for="(item, index) in ticketActions">
+                <p @click="doAction(item)">{{ item.action }}</p>
+            </li>
+        </ul>
 
-        <tbody>
-            <tr v-for="(item, index) in ticketActions">
-                <td @click="doAction(item)">{{ item.action }}</td>
-            </tr>
-        </tbody>
-    </table>
 
 </template>
 
@@ -25,10 +23,7 @@
     @Component({
         name: 'QuickTools',
         computed: {
-            ...mapGetters(['ticket']),
-            ...mapGetters(['tickets']),
-            ...mapGetters(['ticketActions']),
-            ...mapGetters(['user'])
+            ...mapGetters(['ticketActions'])
         },
         props: ['ticketId']
     })
@@ -61,11 +56,11 @@
             this.$store.dispatch('getTicketById', this.currentId)
                 .then(result => {
 
-                    Notification.success(this, 'Data fetched successfully!')
+                    Notification.success(this, 'Messages successfully loaded!')
 
                 }).catch(error => {
 
-                    Notification.error(this, 'Error fetching data!')
+                    Notification.error(this, 'Error fetching messages!')
 
                 })
 
@@ -75,11 +70,9 @@
             this.$store.dispatch('getQuickToolsForId', this.currentId)
                 .then(result => {
 
-                    Notification.success(this, 'Data fetched successfully!')
-
                 }).catch(error => {
 
-                    Notification.error(this, 'Error fetching data!')
+                    Notification.error(this, 'Error fetching quick tools!')
 
                 })
 

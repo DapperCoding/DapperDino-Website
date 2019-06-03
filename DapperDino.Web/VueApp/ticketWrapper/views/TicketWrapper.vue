@@ -1,59 +1,60 @@
 <template>
 
 
-    <div>
-        <div class="clearfix container-flex">
-            <div class="clearfix flex-row">
-                <div class="flex-column col-md-2">
-                    <h6>{{ tickets.length }} open tickets</h6>
-                    <ul>
-                        <li>open tickets</li>
-                        <li>closed tickets</li>
-                    </ul>
-                </div>
-                <div class="col-xs-7">
-                    <div class="row" v-cloak="ticket != null">
-                        <div class="col-xs-12">
-                            <h2>{{ ticket.subject }}</h2>
-                            <p>{{ ticket.description }}</p>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="flex-column col-xs-12">
-                            <form id="sendMessageForm" @submit="sendMessage">
-                                <div class="input-group">
-                                    <input class="form-control" type="text" name="description" id="description" v-model="chatmessage" placeholder="Type your message here">
-                                    <span class="input-group-btn">
-                                        <input class="btn btn-primary" type="submit" value="Send">
-                                    </span>
-                                </div><!-- /input-group -->
-
-                            </form>
-                        </div>
-                    </div>
-
-                </div>
-                <div class="flex-column col-md-3">
-                    <h2>Quick Tools</h2>
-                </div>
+    <div class="">
+        <!--<div class="columns">
+            <div class="column">
+                <h6>{{ tickets.length }} open tickets</h6>
+                <ul>
+                    <li>open tickets</li>
+                    <li>closed tickets</li>
+                </ul>
             </div>
-            <div class="clearfix flex-row">
-                <div class="flex-column col-md-2" style="max-height:500px;overflow-y:scroll;">
-
-                    <TicketList v-bind:ticketId="ticketId"></TicketList>
-
+            <div class="column">
+                <div class="columns">
+                    <div class="column">
+                        <h2>{{ ticket.subject }}</h2>
+                        <p>{{ ticket.description }}</p>
+                    </div>
                 </div>
-                <div class="flex-column col-xs-7" style="max-height:500px;overflow-y:scroll;word-break:break-all;">
 
-                    <TicketReactions></TicketReactions>
 
-                </div>
-                <div class="flex-column col-md-3">
-                    <QuickTools v-bind:ticketId="ticketId"></QuickTools>
-                </div>
             </div>
-            <notifications group="TicketWrapper" />
+            <div class="column">
+                <h2>Quick Tools</h2>
+            </div>
+
+        </div>-->
+            <div class="left-menu">
+
+                <TicketList v-bind:ticketId="ticketId"></TicketList>
+
+            </div>
+            <div class="reaction-wrapper">
+
+                <TicketReactions></TicketReactions>
+
+            </div>
+            <div class="right-menu">
+                <QuickTools v-bind:ticketId="ticketId"></QuickTools>
+            </div>
+
+        <div class="columns sticky-footer no-margins">
+            <div class="column is-one-fifth"></div>
+            <div class="column is-three-fifths">
+                <form id="sendMessageForm" @submit="sendMessage">
+                    <div class="input-group">
+                        <input class="form-control" type="text" name="description" id="description" v-model="chatmessage" placeholder="Type your message here">
+                        <span class="input-group-btn">
+                            <input class="btn btn-primary" type="submit" value="Send">
+                        </span>
+                    </div><!-- /input-group -->
+
+                </form>
+            </div>
+            <div class="column is-one-fifth"></div>
         </div>
+        <notifications group="TicketWrapper" />
     </div>
 </template>
 
@@ -67,6 +68,7 @@
     import * as aspnet from "@aspnet/signalr";
     import { log } from 'util';
     import axios from 'axios'
+import { connect } from 'http2';
 
     @Component({
         name: 'TicketWrapper',
@@ -165,7 +167,6 @@
         }
 
         addReaction(reaction: TicketReaction): void {
-
             this.$store.dispatch('addReaction', reaction)
                 .then(result => {
 
@@ -193,6 +194,8 @@
                     .then(console.log)
                     .catch(console.error);
 
+                connection.on("AddTicketReaction", () => { });
+
                 // On 'TicketCreated' -> fires when ticket is created through Website
                 connection.on("TicketCreated", async (ticket: Ticket) => {
                     self.addTicket(ticket);
@@ -201,9 +204,17 @@
                 // On 'TicketReaction' -> fires when ticket reaction has been added to an existing ticket
                 connection.on("TicketReaction", async (reaction: TicketReaction) => {
                     self.addReaction(reaction);
+                    setTimeout(() => {
+                        let elements = document.getElementsByClassName("reaction-inner-wrapper");
+
+                        if (elements && elements.length > 0) {
+                            elements[0].parentElement.scrollTop = elements[0].parentElement.scrollHeight;
+                        }
+                    }, 1000)
+
                 });
 
-                connection.on("AddTicket", async (ticket: Ticket)=> {
+                connection.on("AddTicket", async (ticket: Ticket) => {
                     self.addTicket(ticket);
                 });
 
@@ -234,6 +245,13 @@
                 // On 'TicketReaction' -> fires when ticket reaction has been added to an existing ticket
                 connection.on("TicketReaction", async (reaction: TicketReaction) => {
                     self.addReaction(reaction);
+                    setTimeout(() => {
+                        let elements = document.getElementsByClassName("reaction-inner-wrapper");
+
+                        if (elements && elements.length > 0) {
+                            elements[0].parentElement.scrollTop = elements[0].parentElement.scrollHeight;
+                        }
+                    }, 1000)
                 });
 
                 resolve(true);

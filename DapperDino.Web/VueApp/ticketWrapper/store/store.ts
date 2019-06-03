@@ -15,7 +15,8 @@ const state: RootState = {
     ticket: {} as Ticket,
     tickets: new Array() as Ticket[],
     ticketActions: new Array() as TicketAction[],
-    user: {} as DiscordUser
+    user: {} as DiscordUser,
+    reactionUserInformation: []
 }
 
 const getters: GetterTree<RootState, RootState> = {
@@ -32,6 +33,9 @@ const getters: GetterTree<RootState, RootState> = {
     },
     user(state: RootState): DiscordUser {
         return state.user;
+    },
+    reactionUserInformation(state: RootState): [] {
+        return state.reactionUserInformation;
     }
 }
 
@@ -56,8 +60,9 @@ const actions: ActionTree<RootState, RootState> = {
             axios
                 .get('/api/tickets/GetById/' + id)
                 .then(response => {
-                    const payload: Ticket = response.data
+                    const payload: Ticket = response.data.ticket
                     commit('SET_TICKET', payload)
+                    commit('SET_REACTION_INFORMATION', response.data.reactionInformation)
                     resolve(true)
                 })
                 .catch(error => {
@@ -158,10 +163,10 @@ const actions: ActionTree<RootState, RootState> = {
         })
     },
 
-    addReaction({ commit }, ticket: Ticket): Promise<boolean> {
+    addReaction({ commit }, ticketReaction: TicketReaction): Promise<boolean> {
         return new Promise((resolve, reject) => {
             try {
-                commit('ADD_REACTION', ticket);
+                commit('ADD_REACTION', ticketReaction);
                 resolve(true);
             } catch (err) {
                 reject(err);
@@ -189,7 +194,8 @@ const actions: ActionTree<RootState, RootState> = {
                         let id = getId();
 
                         await axios.get('/api/tickets/getbyid/' + id).then(async resp => {
-                            const ticket: Ticket = resp.data;
+                            const ticket: Ticket = resp.data.ticket;
+                            const reactions = resp.data.reactionInformation;
 
 
                             await axios
@@ -199,6 +205,7 @@ const actions: ActionTree<RootState, RootState> = {
                                     commit('SET_TICKET_ACTIONS', payload)
                                     commit('SET_TICKETS', openTickets)
                                     commit('SET_TICKET', ticket)
+                                    commit('SET_REACTION_INFORMATION', reactions)
                                     resolve(true)
                                 })
                                 .catch(error => {
@@ -224,6 +231,9 @@ const mutations: MutationTree<RootState> = {
     },
     SET_TICKETS(state: RootState, tickets: Ticket[]) {
         state.tickets = tickets
+    },
+    SET_REACTION_INFORMATION(state: RootState, reactionInformation: []) {
+        state.reactionUserInformation = reactionInformation
     },
     SET_TICKET_ACTIONS(state: RootState, ticketActions: TicketAction[]) {
         state.ticketActions = ticketActions;

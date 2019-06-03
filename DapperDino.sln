@@ -1,9 +1,12 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27703.2042
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28803.156
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DapperDino", "DapperDino.Web\DapperDino.csproj", "{0527B02D-304A-4537-814A-C7816E981969}"
+	ProjectSection(ProjectDependencies) = postProject
+		{8517688C-17AF-4C38-A21E-C3AF31483910} = {8517688C-17AF-4C38-A21E-C3AF31483910}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DapperDino.DAL", "DapperDino.DAL\DapperDino.DAL.csproj", "{5CCD6E4A-8275-439B-A578-F677538FE59D}"
 EndProject

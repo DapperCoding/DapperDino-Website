@@ -1,0 +1,52 @@
+﻿@using DapperDino.DAL;
+@model IEnumerable<DapperDino.DAL.Models.Proficiency>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+<section id="features" class="features">
+    <div class="container">
+        <div class="row">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Type</th>
+                        <th>Name</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+
+                @foreach (var proficiency in Model)
+                {
+                    <tr>
+                        <td>
+                            @proficiency.ProficiencyType
+                        </td>
+                        <td>
+                            @proficiency.Name
+                        </td>
+                        <td>
+                            <a href="@Url.Action("Edit",new {id= proficiency.Id })"><i class="fa fa-edit"></i></a>&nbsp;&nbsp;<a href="@Url.Action("Delete",new {id= proficiency.Id })"><i class="fa fa-trash-o"></i></a>
+                        </td>
+                    </tr>
+                }
+
+            </table>
+        </div>
+    </div>
+</section>
+@section Scripts
+{
+
+    <link href="https://cdn.datatables.net/1.10.15/css/dataTables.bootstrap.min.css" rel="stylesheet" />
+
+    <script src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap4.min.js "></script>
+    <script>
+        $(document).ready(function () {
+            $('.table').DataTable({
+                "pagingType": "full_numbers"
+            });
+        });
+    </script>
+}

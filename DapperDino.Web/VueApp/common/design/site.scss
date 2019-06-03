@@ -1,18 +1,18 @@
+﻿@charset "utf-8";
 @import "vue-multiselect.scss";
-
+@import "~bulma/bulma";
 /*-------------------------------
 
     Global
 
 --------------------------------- */
 
-
 .shadow {
-	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
 }
 
 label.label {
-	font-size: 0.8em;
+    font-size: 0.8em;
 }
 
 /*-------------------------------
@@ -23,22 +23,20 @@ label.label {
 
 .component-fade-enter-active,
 .component-fade-leave-active {
-	transition: opacity 0.3s ease;
+    transition: opacity 0.3s ease;
 }
 
 .component-fade-enter,
 .component-fade-leave-to {
-	opacity: 0;
+    opacity: 0;
 }
 
+@import url('https://fonts.googleapis.com/css?family=Lato:400, 700');
 
-@import url(https://fonts.googleapis.com/css?family=Lato:400,700);
-
-$green: #86BB71;
-$blue: #94C2ED;
-$orange: #E38968;
-$gray: #92959E;
-
+$green: #86bb71;
+$blue: #94c2ed;
+$orange: #e38968;
+$gray: #92959e;
 
 .people-list {
     width: 260px;
@@ -53,7 +51,7 @@ $gray: #92959E;
         border: none;
         padding: 14px;
         color: white;
-        background: #6A6C75;
+        background: #6a6c75;
         width: 90%;
         font-size: 14px;
     }
@@ -66,9 +64,6 @@ $gray: #92959E;
     ul {
         padding: 20px;
         height: 770px;
-
-
-
 
         li {
             padding-bottom: 20px;
@@ -96,7 +91,7 @@ $gray: #92959E;
 .chat {
     width: 490px;
     float: left;
-    background: #F2F5F8;
+    background: #f2f5f8;
     border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;
     color: #434651;
@@ -126,7 +121,7 @@ $gray: #92959E;
 
         .fa-star {
             float: right;
-            color: #D8DADF;
+            color: #d8dadf;
             font-size: 20px;
             margin-top: 12px;
         }
@@ -199,7 +194,8 @@ $gray: #92959E;
             resize: none;
         }
 
-        .fa-file-o, .fa-file-image-o {
+        .fa-file-o,
+        .fa-file-image-o {
             font-size: 16px;
             color: gray;
             cursor: pointer;
@@ -213,7 +209,7 @@ $gray: #92959E;
             border: none;
             cursor: pointer;
             font-weight: bold;
-            background: #F2F5F8;
+            background: #f2f5f8;
 
             &:hover {
                 color: darken($blue, 7%);
@@ -222,7 +218,9 @@ $gray: #92959E;
     }
 }
 
-.online, .offline, .me {
+.online,
+.offline,
+.me {
     margin-right: 3px;
     font-size: 10px;
 }
@@ -260,3 +258,138 @@ $gray: #92959E;
     height: 0;
 }
 
+
+html, body {
+    background: #23272A;
+    overflow: hidden;
+}
+
+.reaction-wrapper {
+    background: #2C2F33;
+    color: #dcddde;
+
+    .avatar {
+        max-width: 50px;
+        width: 50px;
+        border-radius: 50%;
+    }
+
+    .reaction-inner-wrapper {
+    }
+
+    position: fixed;
+    overflow-y:auto;
+    overflow-x:hidden;
+    left: 300px;
+    top: 52px;
+    bottom: 70px;
+    right: 300px;
+}
+
+
+/*
+ *  STYLE 1
+ */
+
+.reaction-wrapper::-webkit-scrollbar-track,
+.left-menu::-webkit-scrollbar-track,
+.right-menu::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    border-radius: 10px;
+}
+
+.reaction-wrapper::-webkit-scrollbar,
+.left-menu::-webkit-scrollbar,
+.right-menu::-webkit-scrollbar {
+    width: 12px;
+    background-color: #23272a;
+}
+
+.reaction-wrapper::-webkit-scrollbar-thumb,
+.left-menu::-webkit-scrollbar-thumb
+.right-menu::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+    background-color: #555;
+}
+
+
+
+
+.right-menu, .left-menu {
+
+    li {
+        padding-top: 10px;
+        padding-left: 10px;
+        color: #8e9297;
+    }
+
+    position: fixed;
+    overflow-y: auto;
+    overflow-x: hidden;
+    bottom: 0;
+}
+
+.left-menu {
+    left: 0;
+    right: 300px;
+    width: 300px;
+    top: 52px;
+}
+
+.right-menu {
+    right: 0;
+    width: 300px;
+    top: 52px;
+}
+
+.sticky-footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 70px;
+    width: 100%;
+    background: #2C2F33;
+}
+
+.no-margins {
+    margin: 0 !important;
+}
+
+.navbar {
+    border: 0;
+    border-radius: 0;
+}
+
+
+.discord-embed {
+    max-width: 600px;
+    margin-top: 10px;
+    background-color: #23272a;
+    border-radius:6px;
+    padding: 10px;
+    
+    .discord-header {
+        float: left;
+
+        .discord-title {
+            color: #ffffff;
+
+        }
+
+        .discord-description {
+            font-size:14px;
+        }
+    }
+
+    .discord-thumbnail {
+        float: left;
+        margin-left: 25px;
+
+        img {
+            border-radius:6px;
+            max-width:77px;
+        }
+    }
+}
