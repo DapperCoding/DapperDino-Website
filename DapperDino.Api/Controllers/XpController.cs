@@ -35,7 +35,7 @@ namespace DapperDino.Api.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            var discordUsers = _context.DiscordUsers.OrderBy(x => x.Xp);
+            var discordUsers = _context.DiscordUsers.OrderByDescending(x => x.Xp).Take(100);
             var viewModels = new List<CompactXpViewModel>();
 
             foreach (var discordUser in discordUsers)

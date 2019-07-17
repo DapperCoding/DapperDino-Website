@@ -21,6 +21,7 @@ namespace DapperDino.DAL.Models
         public DateTime CreationDate { get; set; } = DateTime.Now;
 
         public DateTime SendDate { get; set; }
+        public string MolliePaymentId { get; set; }
     }
 
     public enum OrderStatus
@@ -37,7 +38,7 @@ namespace DapperDino.DAL.Models
         public int ProductId { get; set; }
 
         [ForeignKey("ProductId")]
-        public ProductEdition Product { get; set; }
+        public Product Product { get; set; }
 
         [Required, Range(0, 100)]
         public int Amount { get; set; }

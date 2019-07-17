@@ -12,6 +12,7 @@ using DapperDino.DAL.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
@@ -86,17 +87,15 @@ namespace DapperDino.Api.Controllers
         [Authorize]
         public async Task<IActionResult> RegisterDiscord([FromBody] RegistrationModel model)
         {
-            var user =  _dbContext.ApplicationUsers.FirstOrDefault(x => x.DiscordRegistrationCode == Guid.Parse(model.RegistrationCode));
 
+            var user = await _userManager.FindByLoginAsync("Discord", model.DiscordId);
+            
             if (user == null)
-                return BadRequest("Registration code not found");
+                return BadRequest("You have to connect your discord account on the website first");
 
             if (user.RegisteredDiscordAccount)
             {
-                if (model.IsHappyToHelp)
-                {
-                    await _userManager.AddToRoleAsync(user, RoleNames.HappyToHelp);
-                }
+                await AddRole(model, user);
                 return BadRequest("This account has already registered a discord account");
             }
 
@@ -117,12 +116,17 @@ namespace DapperDino.Api.Controllers
 
             await _dbContext.SaveChangesAsync();
 
+            await AddRole(model, user);
+
+            return Ok(discordUser);
+        }
+
+        private async Task AddRole(RegistrationModel model, ApplicationUser user)
+        {
             if (model.IsHappyToHelp)
             {
                 await _userManager.AddToRoleAsync(user, RoleNames.HappyToHelp);
             }
-
-            return Ok(discordUser);
         }
 
         private async Task<object> GenerateJwtToken(string email, IdentityUser user)

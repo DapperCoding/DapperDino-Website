@@ -24,7 +24,10 @@ module.exports = function(env, argv) {
     isProduction = true;
   }
 
-  return {
+    return {
+        node: {
+            fs: 'empty'
+        },
     entry: {
       ticketwrapper: path.resolve(
         __dirname,

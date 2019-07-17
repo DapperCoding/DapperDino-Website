@@ -58,7 +58,7 @@ namespace DapperDino.Api.Controllers
 
         // POST api/faq
         [HttpPost]
-        [Authorize]
+        //[Authorize]
         public async Task<IActionResult> Post([FromBody]FrequentlyAskedQuestion value)
         {
             var user = await _userManager.GetUserAsync(User);
@@ -77,6 +77,20 @@ namespace DapperDino.Api.Controllers
 
             _context.FrequentlyAskedQuestions.Add(value);
             _context.SaveChanges();
+
+            if (value.DiscordMessage != null && value.DiscordMessage.DiscordUser != null)
+            {
+                var discordUser = _context.DiscordUsers.SingleOrDefault(x => x.DiscordId == value.DiscordMessage.DiscordUser.DiscordId);
+
+                if (discordUser == null)
+                {
+                    // TODO: use client to get user information
+                    //_context.DiscordUsers.Add()
+                }
+
+                
+                value.DiscordMessage.DiscordUserId = discordUser.Id;
+            }
             
 
             if (value.ResourceLink != null)
@@ -94,7 +108,7 @@ namespace DapperDino.Api.Controllers
                     _context.SaveChanges();
 
                     resourceLink = _context.ResourceLinks.First(x =>
-                        x.DisplayName.Equals(value.ResourceLink.DisplayName) && x.Link.Equals(value.ResourceLink.Link)); ;
+                        x.DisplayName.Equals(value.ResourceLink.DisplayName) && x.Link.Equals(value.ResourceLink.Link));
                 }
 
                 value.ResourceLinkId = resourceLink.Id;

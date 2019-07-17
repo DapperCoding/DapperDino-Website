@@ -1,0 +1,57 @@
+﻿<!--
+        Features
+        ==================================== -->
+@using DapperDino.Models.MollieModels
+
+@model IEnumerable<OrderAndPaymentModel>
+
+@{
+    ViewData["Title"] = "Order History";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+<section id="features" class="features pricing">
+    <div class="container">
+        <div class="row">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Order Id</th>
+                        <th>Payment Id</th>
+                        <th>Status</th>
+                        <th>Creation Date</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var order in Model)
+                    {
+                        <tr>
+                            <td>@order.Order.Id</td>
+                            <td>@order.Payment.Id</td>
+                            <td>@order.Payment.Status</td>
+                            <td>@order.Order.CreationDate</td>
+                            <td><a href="/Client/Orders/@order.Order.Id">Information</a></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+
+@section Scripts
+{
+
+    <link href="https://cdn.datatables.net/1.10.15/css/dataTables.bootstrap.min.css" rel="stylesheet" />
+
+    <script src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap4.min.js "></script>
+    <script>
+        $(document).ready(function () {
+            $('.table').DataTable({
+                "pagingType": "full_numbers"
+            });
+        });
+    </script>
+}

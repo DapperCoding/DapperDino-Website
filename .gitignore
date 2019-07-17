@@ -39,3 +39,4 @@ dapperdino.api/appsettings.json
 dapperdino.api/appsettings.Development.json
 node_modules/
 
+/DapperDino.Web/Downloads/Products

@@ -41,7 +41,6 @@
     import * as aspnet from "@aspnet/signalr";
     import { log } from 'util';
     import axios, { AxiosRequestConfig } from 'axios'
-    import qs from 'qs';
 
     @Component({
         name: 'AddTicket',
@@ -70,7 +69,7 @@
                 const options = {
                     method: 'POST',
                     headers: { 'content-type': 'application/x-www-form-urlencoded' },
-                    data: qs.stringify(data),
+                    data:data,
                     url: "/Api/Tickets/Create"
                 };
                 axios(options)

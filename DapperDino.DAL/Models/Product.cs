@@ -12,10 +12,7 @@ namespace DapperDino.DAL.Models
         public string Description { get; set; }
         public double Price { get; set; }
         public double SalePercentage { get; set; } = 0;
-
-        public int? HeaderImageId { get; set; }
-        [ForeignKey("ParentId")]
-        public ProductImage HeaderImage { get; set; }
+        public bool IsActive { get; set; }
 
         public int? ProductInstructionsId { get; set; }
         [ForeignKey("ProductInstructionsId")]
@@ -28,10 +25,14 @@ namespace DapperDino.DAL.Models
 
     public class ProductImage : IEntity
     {
+        public int ProductId { get; set; }
+        [ForeignKey("ProductId")]
+        public Product Product { get; set; }
         public string Alt { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public string Url { get; set; }
+        public bool IsHeaderImage { get; set; }
     }
 
     public class ProductInstructions : IEntity

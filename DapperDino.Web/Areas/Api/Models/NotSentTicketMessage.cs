@@ -9,7 +9,7 @@ namespace DapperDino.Areas.Api.Models
     {
         public string Message { get; set; }
         public int TicketId { get; set; }
-        public int FromId { get; set; }
+        public int? FromId { get; set; }
         public string Username { get; set; }
         public string DiscordId { get; set; }
     }

@@ -25,6 +25,12 @@
                 </div>
 
                 <div class="form-group">
+                    <label asp-for="IsActive"></label>
+
+                    <input  asp-for="IsActive" />
+                </div>
+
+                <div class="form-group">
                     <label asp-for="ShortDescription"></label>
 
                     <textarea class="form-control" asp-for="ShortDescription"></textarea>
@@ -51,6 +57,7 @@
 
 
                 <input class="btn btn-primary" type="submit" value="edit" name="submit" />
+                <a href="/Admin/Product/@Model.Id/Images" class="btn btn-primary" target="_blank">edit images</a>
             </form>
         </div>
     </div>

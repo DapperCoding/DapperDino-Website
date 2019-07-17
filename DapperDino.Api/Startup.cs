@@ -19,6 +19,8 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Swashbuckle.AspNetCore.Swagger;
+
+using AspNet.Security.OAuth.Discord;
 using ApplicationRole = DapperDino.DAL.ApplicationRole;
 
 namespace DapperDino.Api
@@ -45,7 +47,7 @@ namespace DapperDino.Api
 
             services.AddSingleton<DiscordEmbedHelper>();
 
-            
+
 
             //Password Strength Setting
             services.Configure<IdentityOptions>(options =>
@@ -88,6 +90,11 @@ namespace DapperDino.Api
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JwtKey"])),
                         ClockSkew = TimeSpan.Zero // remove delay of token when expire
                     };
+                })
+                .AddDiscord(options =>
+                {
+                    options.ClientId = Configuration["ClientId"];
+                    options.ClientSecret = Configuration["ClientSecret"];
                 });
 
             services.AddCors(options =>
@@ -98,9 +105,9 @@ namespace DapperDino.Api
 
             services.AddMvc().AddJsonOptions(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
             services.AddSignalR();
-            services.AddSwaggerGen(c=>
+            services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v0.2", new Info(){ Title = "DapperDino API", Version = "v0.2"});
+                c.SwaggerDoc("v0.2", new Info() { Title = "DapperDino API", Version = "v0.2" });
             });
 
         }
@@ -126,9 +133,9 @@ namespace DapperDino.Api
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v0.2/swagger.json", "DapperDino API v0.2" );
+                c.SwaggerEndpoint("/swagger/v0.2/swagger.json", "DapperDino API v0.2");
             });
-            
+
             // ===== Use Authentication ======
             app.UseAuthentication();
 

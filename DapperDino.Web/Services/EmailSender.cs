@@ -24,7 +24,7 @@ namespace DapperDino.Services
             return Execute(Options.SendGridKey, subject, message, email);
         }
 
-        public Task Execute(string apiKey, string subject, string message, string email)
+        public async Task Execute(string apiKey, string subject, string message, string email)
         {
             var client = new SendGridClient(apiKey);
             var msg = new SendGridMessage()
@@ -35,7 +35,9 @@ namespace DapperDino.Services
                 HtmlContent = message
             };
             msg.AddTo(new EmailAddress(email));
-            return client.SendEmailAsync(msg);
+            var resp = await client.SendEmailAsync(msg);
+            
+            return;
         }
     }
 }

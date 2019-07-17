@@ -27,6 +27,8 @@ namespace DapperDino.DAL.Migrations
 
                     b.Property<int>("Age");
 
+                    b.Property<DateTime>("CreatedOn");
+
                     b.Property<int>("DiscordUserId");
 
                     b.Property<string>("Explanation")
@@ -35,10 +37,14 @@ namespace DapperDino.DAL.Migrations
                     b.Property<string>("FirstName")
                         .IsRequired();
 
+                    b.Property<DateTime>("LastChanged");
+
                     b.Property<string>("LastName")
                         .IsRequired();
 
                     b.Property<string>("Links");
+
+                    b.Property<int>("Status");
 
                     b.HasKey("Id");
 
@@ -477,6 +483,8 @@ namespace DapperDino.DAL.Migrations
 
                     b.Property<DateTime>("CreationDate");
 
+                    b.Property<string>("MolliePaymentId");
+
                     b.Property<DateTime>("SendDate");
 
                     b.Property<int>("Status");
@@ -499,11 +507,9 @@ namespace DapperDino.DAL.Migrations
 
                     b.Property<string>("Description");
 
-                    b.Property<int?>("HeaderImageId");
+                    b.Property<bool>("IsActive");
 
                     b.Property<string>("Name");
-
-                    b.Property<int?>("ParentId");
 
                     b.Property<double>("Price");
 
@@ -514,8 +520,6 @@ namespace DapperDino.DAL.Migrations
                     b.Property<string>("ShortDescription");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ParentId");
 
                     b.HasIndex("ProductInstructionsId");
 
@@ -613,9 +617,11 @@ namespace DapperDino.DAL.Migrations
 
                     b.Property<string>("Description");
 
+                    b.Property<bool>("IsHeaderImage");
+
                     b.Property<string>("Name");
 
-                    b.Property<int?>("ProductId");
+                    b.Property<int>("ProductId");
 
                     b.Property<string>("Url");
 
@@ -1065,10 +1071,6 @@ namespace DapperDino.DAL.Migrations
 
             modelBuilder.Entity("DapperDino.DAL.Models.Product", b =>
                 {
-                    b.HasOne("DapperDino.DAL.Models.ProductImage", "HeaderImage")
-                        .WithMany()
-                        .HasForeignKey("ParentId");
-
                     b.HasOne("DapperDino.DAL.Models.ProductInstructions", "Instructions")
                         .WithMany()
                         .HasForeignKey("ProductInstructionsId");
@@ -1080,7 +1082,7 @@ namespace DapperDino.DAL.Migrations
                         .WithMany("ProductAmounts")
                         .HasForeignKey("OrderId");
 
-                    b.HasOne("DapperDino.DAL.Models.ProductEdition", "Product")
+                    b.HasOne("DapperDino.DAL.Models.Product", "Product")
                         .WithMany()
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -1103,9 +1105,10 @@ namespace DapperDino.DAL.Migrations
 
             modelBuilder.Entity("DapperDino.DAL.Models.ProductImage", b =>
                 {
-                    b.HasOne("DapperDino.DAL.Models.Product")
+                    b.HasOne("DapperDino.DAL.Models.Product", "Product")
                         .WithMany("ProductImages")
-                        .HasForeignKey("ProductId");
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("DapperDino.DAL.Models.ProductProductCategory", b =>

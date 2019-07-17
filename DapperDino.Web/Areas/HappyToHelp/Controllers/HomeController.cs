@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DapperDino.Areas.HappyToHelp.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DapperDino.Areas.HappyToHelp.Controllers
@@ -17,7 +18,7 @@ namespace DapperDino.Areas.HappyToHelp.Controllers
         {
 
             // Simply return the view
-            return View();
+            return View(new HomeViewModel());
         }
     }
 }

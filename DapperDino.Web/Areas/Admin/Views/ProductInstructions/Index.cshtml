@@ -1,0 +1,49 @@
+﻿@using DapperDino.Areas.Admin.Models.Products
+@using DapperDino.DAL.Models
+
+@model ProductInstructions[]
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+<section id="features" class="features">
+    <div class="container">
+        <div class="row">
+            <!-- Overview -->
+        </div>
+
+        <div class="row">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Url</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var productInstruction in Model)
+                    {
+                        <tr>
+                            <td>
+                                @productInstruction.Name
+                            </td>
+                            <td>
+                                @productInstruction.Description
+                            </td>
+                            <td>
+                                @productInstruction.Url
+                            </td>
+                            <td>
+                                <a href="@Url.Action("Edit", "ProductInstructions", new { id = productInstruction.Id})">Edit</a>&nbsp;&nbsp;
+                                <a href="@Url.Action("Delete", "ProductInstructions", new { id = productInstruction.Id})">Delete</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+           
+        </div>
+    </div>
+</section>

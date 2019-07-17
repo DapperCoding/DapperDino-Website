@@ -1,14 +1,15 @@
 <template>
 
-
-    <div class="card mb50 wow bounceInDown animated" data-wow-duration="750ms">
-        <div class="card-header">
-            <h4 class="my-0 font-weight-normal">{{ product.name }}</h4>
-        </div>
-        <div class="card-body">
-            <h1 class="card-title pricing-card-title">${{product.price}}<small class="text-muted">.99</small></h1>
-            <p>{{ product.shortDescription }}</p>
-            <a href="/Products/RuneScapeBot" class="btn btn-lg btn-block btn-primary">Request contact</a>
+    <div class="col-md-6">
+        <div class="card mb50 wow bounceInDown animated" data-wow-duration="750ms">
+            <div class="card-header">
+                <h4 class="my-0 font-weight-normal">{{ product.name }}</h4>
+            </div>
+            <div class="card-body">
+                <h1 class="card-title pricing-card-title">${{firstPricePart}}<small class="text-muted">.{{secondPricePart}}</small></h1>
+                <p>{{ product.shortDescription }}</p>
+                <a :href="'/Products/Information/' + product.id" class="btn btn-lg btn-block btn-primary">More information</a>
+            </div>
         </div>
     </div>
 </template>
@@ -26,20 +27,37 @@
     @Component({
         name: 'Product',
         computed: {
+            firstPricePart: function () {
+                let productPrice = this.product.price.toString();
+                let parts = productPrice.split(".");
+                return parts[0];
+            },
+            secondPricePart: function () {
+                let productPrice = this.product.price.toString();
+                let parts = productPrice.split(".");
+                 
+                return parts.length <= 1 ? "00" : parts[1];
+            }
         },
-        components: { },
+        components: {},
         methods: {
-           
+
         },
-        props: ['product']
+        props: ['product'],
+        data: function () {
+            return {
+                p: this.product
+            }
+        }
     })
     export default class Product extends Vue {
-        
 
-        
+        created() {
+            console.log(product)
+        }
+
     }
 </script>
 
 <style scoped>
-    
 </style>

@@ -1,0 +1,44 @@
+﻿@using DapperDino.Areas.Admin.Models.ProductInstructions
+@using DapperDino.DAL.Models
+
+@model ProductInstructionsEditViewModel
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+<section id="features" class="features">
+    <div class="container">
+        <div class="row">
+            <!-- Overview -->
+        </div>
+
+        <div class="row">
+            <form asp-action="Post">
+
+                @Html.HiddenFor(x => x.Id)
+                @Html.HiddenFor(x => x.ProductId)
+
+                <div class="form-group">
+                    <label asp-for="Name"></label>
+
+                    <input class="form-control" asp-for="Name" />
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Description"></label>
+
+                    <textarea class="form-control" asp-for="Description" rows="10"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Url"></label>
+
+                    <input class="form-control" asp-for="Url" />
+                </div>
+
+                <input class="btn btn-primary" type="submit" value="edit" name="submit" />
+            </form>
+        </div>
+    </div>
+</section>

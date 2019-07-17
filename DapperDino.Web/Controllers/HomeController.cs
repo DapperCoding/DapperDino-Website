@@ -8,6 +8,7 @@ using DapperDino.DAL.Models;
 using Microsoft.AspNetCore.Mvc;
 using DapperDino.Models;
 using Microsoft.AspNetCore.Identity;
+using DapperDino.Models.HomeViewModels;
 
 namespace DapperDino.Controllers
 {
@@ -39,7 +40,11 @@ namespace DapperDino.Controllers
         // Default page
         public IActionResult Index()
         {
-            return View();
+            var viewModel = new IndexViewModel();
+            viewModel.AmountOfTicketsDone = _dbContext.Tickets.Where(x=>x.Status== TicketStatus.Closed).Count();
+            viewModel.AmountOfSuggestions = _dbContext.Suggestions.Count();
+            viewModel.AmountOfWebsiteUsers = _dbContext.ApplicationUsers.Count();
+            return View(viewModel);
         }
 
         // About page

@@ -103,8 +103,8 @@ namespace DapperDino.Areas.HappyToHelp.Controllers
 
             if (oldProficiency != null)
             {
-                userProficiency.Id = oldProficiency.Id;
-                await _discordUserProficiencyRepository.Update(oldProficiency.Id, userProficiency);
+                oldProficiency.ProficiencyLevel = userProficiency.ProficiencyLevel;
+                await _context.SaveChangesAsync();
             }
             else
             {
@@ -112,7 +112,31 @@ namespace DapperDino.Areas.HappyToHelp.Controllers
                 await _discordUserProficiencyRepository.Create(userProficiency);
             }
 
-            return RedirectToAction("Proficiency", userProficiency.Id);
+            return RedirectToAction("Index");
+        }
+
+        [Route("Delete/{id}")]
+        public async Task<IActionResult> Delete(int proficiencyId)
+        {
+            var appUser = await _userManager.GetUserAsync(User);
+
+            if (appUser == null || !appUser.DiscordUserId.HasValue)
+            {
+                return Unauthorized();
+            }
+
+            var proficiency = await _context.DiscordUserProficiencies.FirstOrDefaultAsync(x => x.DiscordUserId == appUser.DiscordUserId.Value && x.ProficiencyId == proficiencyId);
+
+            if (proficiency != null)
+            {
+                return NotFound();
+            }
+
+            _context.Remove(proficiency);
+            await _context.SaveChangesAsync();
+
+
+            return RedirectToAction("Index");
         }
 
         #endregion

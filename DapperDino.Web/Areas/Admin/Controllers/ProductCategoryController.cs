@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace DapperDino.Areas.Admin.Controllers
 {
     [Route("Admin/ProductCategories")]
-    public class ProductCategoryController:BaseController
+    public class OrderController:BaseController
     {
 
         #region Fields
@@ -23,7 +23,7 @@ namespace DapperDino.Areas.Admin.Controllers
 
         #region Constructor(s)
 
-        public ProductCategoryController(ApplicationDbContext context)
+        public OrderController(ApplicationDbContext context)
         {
             _context = context;
         }

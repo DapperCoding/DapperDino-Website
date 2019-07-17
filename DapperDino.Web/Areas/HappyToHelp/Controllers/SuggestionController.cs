@@ -39,7 +39,7 @@ namespace DapperDino.Areas.HappyToHelp.Controllers
         public IActionResult Index()
         {
             // Get list of all suggestions
-            var suggestions = _context.Suggestions.Include(x => x.DiscordUser).ToList();
+            var suggestions = _context.Suggestions.Include(x => x.DiscordUser).Where(x => x.Status == SuggestionStatus.NotLookedAt || x.Status == SuggestionStatus.InConsideration || x.Status == SuggestionStatus.Future).ToList();
 
             // Generate IndexViewModel using the suggestions list
             var viewModel = new IndexViewModel()

@@ -15,7 +15,7 @@ using Newtonsoft.Json;
 namespace DapperDino.Controllers
 {
     // Faq controller
-    [Route("Products")]
+    [Route("OldProducts")]
     public class TempProductController : BaseControllerBase
     {
         #region Fields

@@ -66,7 +66,15 @@ namespace DapperDino.Api.Controllers
                 return StatusCode(403, "Trying to add reactions to our tickets huh? NOOOOPE!");
             }
 
-            if (!TryValidateModel(value)) return StatusCode(500, ModelState);
+            if (string.IsNullOrWhiteSpace(value.DiscordMessage.Message))
+            {
+                value.DiscordMessage.Message = "EMPTY";
+            }
+
+            if (!TryValidateModel(value))
+            {
+                return StatusCode(500, ModelState);
+            }
 
             var reaction = new TicketReaction();
             var discordUser = _context.DiscordUsers.FirstOrDefault(x => x.DiscordId == value.FromId);

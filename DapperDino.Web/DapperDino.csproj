@@ -64,6 +64,7 @@
   </ItemGroup>
 
     <ItemGroup>
+      <None Remove="VueApp\products\types\models\product - Copy.ts" />
       <None Remove="VueApp\products\types\models\product.ts" />
     </ItemGroup>
 
@@ -82,6 +83,7 @@
 
 
   <ItemGroup>
+    <PackageReference Include="AspNet.Security.OAuth.Discord" Version="2.1.0" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="6.0.0" />
     <PackageReference Include="BSolutions.Bocons" Version="2.4.0" />
     <PackageReference Include="DSharpPlus" Version="3.2.3" />
@@ -90,6 +92,7 @@
     <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="1.1.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.2.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.3" />
+    <PackageReference Include="Mollie.Api" Version="2.0.6" />
     <PackageReference Include="NWebsec.AspNetCore.Middleware" Version="2.0.0" />
     <PackageReference Include="Sendgrid" Version="9.10.0" />
     <PackageReference Include="Stripe.net" Version="25.0.0" />
@@ -1222,6 +1225,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <TypeScriptCompile Include="VueApp\products\types\models\product - Copy.ts" />
     <TypeScriptCompile Include="VueApp\products\types\models\product.ts" />
   </ItemGroup>
 
@@ -1259,10 +1263,22 @@
     <Content Update="Areas\Admin\Views\ProductCategory\Index.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
+    <Content Update="Areas\Admin\Views\ProductInstructions\Index.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Areas\Admin\Views\ProductInstructions\ProductInstruction.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Areas\Admin\Views\Product\AddImages.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
     <Content Update="Areas\Admin\Views\Product\Add.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
     <Content Update="Areas\Admin\Views\Product\Get.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Areas\Admin\Views\Product\Images.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
     <Content Update="Areas\Admin\Views\Product\Index.cshtml">
@@ -1317,6 +1333,9 @@
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
     <Content Update="Views\Contact\Index.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Product\Information.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
     <Content Update="Views\Product\Index.cshtml">

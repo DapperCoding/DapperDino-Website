@@ -25,5 +25,16 @@ namespace DapperDino.DAL.Models
         public DiscordUser DiscordUser { get; set; }
 
         public string Links { get; set; }
+        public DateTime CreatedOn { get; set; } = DateTime.Now;
+        public DateTime LastChanged { get; set; } = DateTime.Now;
+        public ApplicantStatus Status { get; set; } = ApplicantStatus.NotLookedAt;
+    }
+
+    public enum ApplicantStatus
+    {
+        NotLookedAt = 0,
+        InConsideration = 1,
+        Declined = 2,
+        Accepted = 3
     }
 }

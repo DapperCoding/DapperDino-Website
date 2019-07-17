@@ -32,7 +32,7 @@ namespace DapperDino.Areas.Api.Controllers
         [HttpGet("GetProducts")]
         public IActionResult GetProducts()
         {
-            var products = _context.Products.Include(x => x.Categories).ToArray();
+            var products = _context.Products.Where(x=>x.IsActive).Include(x => x.Categories).ToArray();
 
             return Json(products);
         }

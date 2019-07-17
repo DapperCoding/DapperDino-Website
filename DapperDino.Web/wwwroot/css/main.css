@@ -47,6 +47,7 @@ a:focus, a:hover {
 h1, h2, h3,
 h4, h5, h6 {
 	font-weight: normal;
+    font-family:'Showcard Gothic';
 	margin: 0;
 }
 
@@ -160,8 +161,13 @@ body > section,
   padding: 0;
 }
 
+.navbar-brand img {
+    max-height:40px;
+    margin-top:5px;
+}
+
 .navbar-nav li a {
-	border-top: 1px solid transparent;
+    border-top: 1px solid transparent;
 }
 
 .navbar-nav li a.current,
@@ -753,4 +759,14 @@ h2 {
 }
 .img-responsive, .thumbnail > img, .thumbnail a > img, .carousel-inner > .item > img, .carousel-inner > .item > a > img {
     min-width:100%;
+}
+
+
+.btn-Discord {
+    color: #ffffff;
+    background: #738ef5;
+}
+.btn-Discord:hover {
+    color:#ffffff;
+    background: #738ef5;
 }

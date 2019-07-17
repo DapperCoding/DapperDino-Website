@@ -1,0 +1,67 @@
+﻿<!--
+        Features
+        ==================================== -->
+@using DapperDino.Models.MollieModels
+
+@model OrderAndPaymentModel
+
+@{
+    ViewData["Title"] = "Order " + Model.Order.Id;
+    Layout = "~/Areas/Client/Views/Shared/_Layout.cshtml";
+}
+<section id="features" class="features pricing">
+    <div class="container">
+        <div class="row">
+            <h1 style="margin-bottom:20px">Order #@Model.Order.Id<span class="pull-right">@Model.Payment.Status</span></h1>
+
+        </div>
+
+        <div class="row">
+            <h4>Information</h4>
+            <p><label>Payment Id:</label> @Model.Payment.Id</p>
+            <p><label>Products:</label> @Model.Order.ProductAmounts.Count</p>
+            <p><label>Creation Date:</label> @Model.Order.CreationDate</p>
+
+
+            <h4>Products</h4>
+            <table class="table">
+                @foreach (var productAndAmount in Model.Order.ProductAmounts)
+                {
+                    <thead>
+                        <tr>
+                            <th>Product name</th>
+                            <th>Amount</th>
+                            <th>Price per product</th>
+                            <th>Total</th>
+                            @if (Model.Payment.Status == Mollie.Api.Models.Payment.PaymentStatus.Paid)
+                            {
+                                <th>Download link</th>
+                            }
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>@productAndAmount.Product.Name</td>
+                            <td>@productAndAmount.Amount</td>
+                            <td>$@productAndAmount.Product.Price</td>
+                            <td>$@(productAndAmount.Amount * productAndAmount.Product.Price)</td>
+                            @if (Model.Payment.Status == Mollie.Api.Models.Payment.PaymentStatus.Paid)
+                            {
+                                <td><a href="/Products/Download/@productAndAmount.Product.Id">Download</a></td>
+                            }
+                        </tr>
+                    </tbody>
+                }
+            </table>
+        </div>
+
+
+        @if (Model.Payment.Status != Mollie.Api.Models.Payment.PaymentStatus.Paid && Model.Payment.Status != Mollie.Api.Models.Payment.PaymentStatus.Expired)
+        {
+            <div class="row">
+                <a href="https://www.mollie.com/payscreen/select-method/@(Model.Payment.Id.Replace("tr_", ""))" class="btn btn-primary">Pay</a>
+            </div>
+        }
+    </div>
+</section>
+

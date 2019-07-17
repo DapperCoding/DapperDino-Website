@@ -318,9 +318,9 @@ namespace DapperDino.Areas.Api.Controllers
             return Json(actions);
         }
 
-
-        [HttpPost("SendMessage")]
-        public async Task<IActionResult> SendMessage([FromBody] NotSentTicketMessage message)
+        [Route("SendMessage")]
+        [HttpPost]
+        public async Task<IActionResult> SendMessage(NotSentTicketMessage message)
         {
             var user = await _userManager.GetUserAsync(HttpContext.User);
 
@@ -366,7 +366,7 @@ namespace DapperDino.Areas.Api.Controllers
         }
 
         [HttpPost("Create")]
-        public async Task<IActionResult> CreateTicket(TicketCreationModel model)
+        public async Task<IActionResult> CreateTicket([FromBody] TicketCreationModel model)
         {
             var user = await _userManager.GetUserAsync(HttpContext.User);
 

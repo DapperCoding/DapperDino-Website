@@ -10,31 +10,10 @@
                 <div class="devider"><i class="fa fa-heart-o fa-lg"></i></div>
                 <p>By buying a discord bot, you'll receive the code. The code has comments on most lines, to help out beginners and explain how everything works.</p>
             </div>
-            <div class="col-md-6">
-                <div class="card mb50 wow bounceInDown animated" data-wow-duration="750ms">
-                    <div class="card-header">
-                        <h4 class="my-0 font-weight-normal">RS Gamble Bot</h4>
-                    </div>
-                    <div class="card-body">
-                        <h1 class="card-title pricing-card-title">$199<small class="text-muted">.99</small></h1>
-                        <p>More information coming soon, please request contact for more information.</p>
-                        <a href="/Products/RuneScapeBot" class="btn btn-lg btn-block btn-primary">Request contact</a>
-                    </div>
-                </div>
+            <div v-for="product in products">
+                <Product v-bind:product="product"></Product>
             </div>
-            <div class="col-md-6">
-                <div class="card mb50 wow bounceInDown animated" data-wow-duration="1250ms">
-                    <div class="card-header">
-                        <h4 class="my-0 font-weight-normal">Music bot</h4>
-                    </div>
-                    <div class="card-body">
-                        <h1 class="card-title pricing-card-title">$4<small class="text-muted">.99</small></h1>
-                        <p>Full fledged discord bot to manage your music.</p>
-                        <p>More information coming soon, please request contact for more information.</p>
-                        <a href="/Products/MusicBot" class="btn btn-lg btn-block btn-primary">Request contact</a>
-                    </div>
-                </div>
-            </div>
+            
         </div>
 
         <div class="row">
@@ -60,23 +39,17 @@
         name: 'Products',
 
         computed: {
+            ...mapGetters(["products"])
         },
         components: { /*Card*/ },
         methods: {
-            //pay() {
-            //    // createToken returns a Promise which resolves in a result object with
-            //    // either a token or an error key.
-            //    // See https://stripe.com/docs/api#tokens for the token object.
-            //    // See https://stripe.com/docs/api#errors for the error object.
-            //    // More general https://stripe.com/docs/stripe.js#stripe-create-token.
-            //    createToken().then((data:any) => console.log(data.token))
-            //}
-        }
+           
+        },
+        
     })
     export default class Products extends Vue {
 
         created() {
-
             // Get products
             this.$store.dispatch('getProducts')
                 .then(result => {

@@ -68,7 +68,7 @@ namespace DapperDino.Areas.Admin.Controllers
         }
 
         [Route("Edit/{id}")]
-        public IActionResult Details(int id)
+        public IActionResult Edit(int id)
         {
             // Get faq by id
             var applicant = _context.Applicants.Include(x => x.DiscordUser).FirstOrDefault(x => x.Id == id);

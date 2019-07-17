@@ -16,7 +16,17 @@ using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using AspNet.Security.OAuth.Discord;
 using DapperDino.Core;
+using Microsoft.AspNetCore.Mvc;
+using DapperDino.Framework.Middleware;
+using DapperDino.Services.Payment;
+using DapperDino.Services.Customer;
+using DapperDino.Services.Subscription;
+using DapperDino.Services.Mandate;
+using DapperDino.Services.PaymentMethod;
+using DapperDino.Services.Payment.Refund;
+using Mollie.WebApplicationCoreExample.Services.Subscription;
 
 namespace DapperDino
 {
@@ -32,12 +42,32 @@ namespace DapperDino
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
+            services.AddMollieApi(Configuration["MollieApiKey"]);
+            services.AddScoped<IPaymentOverviewClient, PaymentOverviewClient>();
+            services.AddScoped<ICustomerOverviewClient, CustomerOverviewClient>();
+            services.AddScoped<ISubscriptionOverviewClient, SubscriptionOverviewClient>();
+            services.AddScoped<IMandateOverviewClient, MandateOverviewClient>();
+            services.AddScoped<IPaymentMethodOverviewClient, PaymentMethodOverviewClient>();
+            services.AddScoped<IPaymentStorageClient, PaymentStorageClient>();
+            services.AddScoped<ICustomerStorageClient, CustomerStorageClient>();
+            services.AddScoped<ISubscriptionStorageClient, SubscriptionStorageClient>();
+            services.AddScoped<IMandateStorageClient, MandateStorageClient>();
+            services.AddScoped<IRefundPaymentClient, RefundPaymentClient>();
+
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
+
+            services.AddAuthentication(options => { /* Authentication options */ })
+            .AddDiscord(options =>
+            {
+                options.ClientId = Configuration["ClientId"];
+                options.ClientSecret = Configuration["ClientSecret"];
+            });
 
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
@@ -172,7 +202,7 @@ namespace DapperDino
             services.AddSingleton<IEmailSender, EmailSender>();
             services.Configure<AuthMessageSenderOptions>(Configuration);
 
-            services.AddMvc().AddJsonOptions(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+            services.AddMvc(options => options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute())).AddJsonOptions(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
             services.AddSignalR();
         }
 
@@ -189,7 +219,7 @@ namespace DapperDino
             {
                 app.UseExceptionHandler("/Home/Error");
             }
-            
+
             app.UseStaticFiles();
 
             app.UseAuthentication();
@@ -209,7 +239,7 @@ namespace DapperDino
                 routes.MapRoute(
                     name: "areaRoute",
                     template: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
-                
+
                 //routes.MapSpaFallbackRoute(
                 //    name: "spa-fallback-admin",
                 //    defaults: new { area = "Admin", controller = "Ticket", action = "Index" });
@@ -218,7 +248,7 @@ namespace DapperDino
                 //    name: "spa-fallback-h2h",
                 //    defaults: new { area = "HappyToHelp", controller = "Ticket", action = "Index" });
 
-                
+
 
                 routes.MapRoute(
                     name: "default",
@@ -226,7 +256,7 @@ namespace DapperDino
 
                 routes.MapRoute("Wildcard Routing",
                     "{area:exists}/{controller=Ticket}/{*anything}",
-                    new {  action = "Index" },
+                    new { action = "Index" },
                     new { anything = @"^(.*)?$" });
 
             });

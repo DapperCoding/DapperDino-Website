@@ -1,4 +1,6 @@
-﻿<!--
+﻿@model  DapperDino.Models.HomeViewModels.IndexViewModel
+
+<!--
         Home Slider
         ==================================== -->
 
@@ -198,26 +200,26 @@ Some fun facts
                 <!-- first count item -->
                 <div class="col-md-4 col-sm-12 col-xs-12 text-center wow fadeInUp animated" data-wow-duration="500ms">
                     <div class="counters-item">
-                        <i class="fa fa-clock-o fa-3x"></i>
-                        <strong data-to="874">0</strong>
+                        <i class="fa fa-bug fa-3x"></i>
+                        <strong data-to="@Model.AmountOfTicketsDone">0</strong>
                         <!-- Set Your Number here. i,e. data-to="56" -->
-                        <p>Hours of Work</p>
+                        <p>Completed Tickets</p>
                     </div>
                 </div>
                 <div class="col-md-4 col-sm-12 col-xs-12 text-center wow fadeInUp animated" data-wow-duration="500ms" data-wow-delay="300ms">
                     <div class="counters-item">
                         <i class="fa fa-users fa-3x"></i>
-                        <strong data-to="4">0</strong>
+                        <strong data-to="@Model.AmountOfWebsiteUsers">0</strong>
                         <!-- Set Your Number here. i,e. data-to="56" -->
-                        <p>Satisfied Clients</p>
+                        <p>Website accounts</p>
                     </div>
                 </div>
                 <div class="col-md-4 col-sm-12 col-xs-12 text-center wow fadeInUp animated" data-wow-duration="500ms" data-wow-delay="600ms">
                     <div class="counters-item">
-                        <i class="fa fa-rocket fa-3x"></i>
-                        <strong data-to="5">0</strong>
+                        <i class="fa fa-comment fa-3x"></i>
+                        <strong data-to="@Model.AmountOfSuggestions">0</strong>
                         <!-- Set Your Number here. i,e. data-to="56" -->
-                        <p> Projects Delivered </p>
+                        <p>Community suggestions</p>
                     </div>
                 </div>
                 <!-- end first count item -->
