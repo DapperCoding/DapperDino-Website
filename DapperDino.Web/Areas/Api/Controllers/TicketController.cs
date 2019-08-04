@@ -14,6 +14,7 @@ using DapperDino.Jobs;
 using DapperDino.Core.Discord;
 using Microsoft.AspNetCore.SignalR;
 using DapperDino.Helpers;
+using Microsoft.Extensions.Configuration;
 
 namespace DapperDino.Areas.Api.Controllers
 {
@@ -24,6 +25,7 @@ namespace DapperDino.Areas.Api.Controllers
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IHubContext<DiscordBotHub> _hubContext;
+        private readonly IConfiguration _configuration;
 
         public TicketController(ApplicationDbContext context, UserManager<ApplicationUser> userManager, IHubContext<DiscordBotHub> hubContext)
         {
@@ -60,7 +62,7 @@ namespace DapperDino.Areas.Api.Controllers
             viewModel.Ticket = ticket;
             var grouped = viewModel.Ticket.Reactions.GroupBy(x => x.From.DiscordId);
             var list = new List<TicketReactionUserInformation>();
-            using (Bot bot = new Bot())
+            using (Bot bot = new Bot(_configuration))
             {
                 bot.RunAsync();
 

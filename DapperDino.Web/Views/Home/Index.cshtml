@@ -1,5 +1,4 @@
-﻿@model  DapperDino.Models.HomeViewModels.IndexViewModel
-
+﻿@model DapperDino.Models.HomeViewModels.IndexViewModel
 <!--
         Home Slider
         ==================================== -->
@@ -17,10 +16,10 @@
         <div class="carousel-inner" role="listbox">
 
             <!-- single slide -->
-            <div class="item active" style="background-image: url(images/background.png);">
+            <div class="item active" style="background-image: url(images/test-7.jpg);bottom:auto;padding-bottom:0;">
                 <div class="carousel-caption">
                     <h2 data-wow-duration="700ms" data-wow-delay="500ms" class="wow bounceInDown animated">Meet<span> DapperDino</span>!</h2>
-                    <h3 data-wow-duration="1000ms" class="wow slideInLeft animated"><span class="color">/coding</span> the community you want to be a part of!</h3>
+                    <h3 data-wow-duration="1000ms" class="wow slideInLeft animated"><span class="color">/coding</span> your future together!</h3>
                     <p data-wow-duration="1000ms" class="wow slideInRight animated">We are a community of starting and professional developers</p>
 
                     <ul class="social-links text-center">
@@ -33,10 +32,10 @@
             </div>
             <!-- end single slide -->
             <!-- single slide -->
-            <div class="item" style="background-image: url(images/background.png);">
+            <div class="item" style="background-image: url(images/test-8.jpg);bottom:auto;padding-bottom:0;">
                 <div class="carousel-caption">
-                    <h2 data-wow-duration="500ms" data-wow-delay="500ms" class="wow bounceInDown animated">Meet<span>our Team</span>!</h2>
-                    <h3 data-wow-duration="500ms" class="wow slideInLeft animated"><span class="color">/coding</span> our fulltime development team.</h3>
+                    <h2 data-wow-duration="500ms" data-wow-delay="500ms" class="wow bounceInDown animated">Meet<span> our Team</span>!</h2>
+                    <h3 data-wow-duration="500ms" class="wow slideInLeft animated"><span class="color">/DapperCoding</span> is our github.</h3>
                     <p data-wow-duration="500ms" class="wow slideInRight animated">We are a team of professional developers</p>
 
                     <ul class="social-links text-center">
@@ -122,6 +121,55 @@ End Home SliderEnd
 End Features
 ==================================== -->
 <!--
+Some fun facts
+==================================== -->
+
+<section id="facts" class="facts">
+    <div class="parallax-overlay">
+        <div class="container">
+            <div class="row number-counters">
+
+                <div class="sec-title text-center mb50 wow rubberBand animated" data-wow-duration="1000ms">
+                    <h2>Some Fun Facts</h2>
+                    <div class="devider"><i class="fa fa-heart-o fa-lg"></i></div>
+                </div>
+
+                <!-- first count item -->
+                <div class="col-md-4 col-sm-12 col-xs-12 text-center wow fadeInUp animated" data-wow-duration="500ms">
+                    <div class="counters-item">
+                        <i class="fa fa-bug fa-3x"></i>
+                        <strong data-to="@Model.AmountOfTicketsDone">0</strong>
+                        <!-- Set Your Number here. i,e. data-to="56" -->
+                        <p>Completed Tickets</p>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-12 col-xs-12 text-center wow fadeInUp animated" data-wow-duration="500ms" data-wow-delay="300ms">
+                    <div class="counters-item">
+                        <i class="fa fa-users fa-3x"></i>
+                        <strong data-to="@Model.AmountOfWebsiteUsers">0</strong>
+                        <!-- Set Your Number here. i,e. data-to="56" -->
+                        <p>Website accounts</p>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-12 col-xs-12 text-center wow fadeInUp animated" data-wow-duration="500ms" data-wow-delay="600ms">
+                    <div class="counters-item">
+                        <i class="fa fa-comment fa-3x"></i>
+                        <strong data-to="@Model.AmountOfSuggestions">0</strong>
+                        <!-- Set Your Number here. i,e. data-to="56" -->
+                        <p>Community suggestions</p>
+                    </div>
+                </div>
+                <!-- end first count item -->
+
+            </div>
+        </div>
+    </div>
+</section>
+
+<!--
+End Some fun facts
+==================================== -->
+<!--
 Meet Our Team
 ==================================== -->
 
@@ -182,53 +230,4 @@ Meet Our Team
 
 <!--
 End Meet Our Team
-==================================== -->
-<!--
-Some fun facts
-==================================== -->
-
-<section id="facts" class="facts">
-    <div class="parallax-overlay">
-        <div class="container">
-            <div class="row number-counters">
-
-                <div class="sec-title text-center mb50 wow rubberBand animated" data-wow-duration="1000ms">
-                    <h2>Some Fun Facts</h2>
-                    <div class="devider"><i class="fa fa-heart-o fa-lg"></i></div>
-                </div>
-
-                <!-- first count item -->
-                <div class="col-md-4 col-sm-12 col-xs-12 text-center wow fadeInUp animated" data-wow-duration="500ms">
-                    <div class="counters-item">
-                        <i class="fa fa-bug fa-3x"></i>
-                        <strong data-to="@Model.AmountOfTicketsDone">0</strong>
-                        <!-- Set Your Number here. i,e. data-to="56" -->
-                        <p>Completed Tickets</p>
-                    </div>
-                </div>
-                <div class="col-md-4 col-sm-12 col-xs-12 text-center wow fadeInUp animated" data-wow-duration="500ms" data-wow-delay="300ms">
-                    <div class="counters-item">
-                        <i class="fa fa-users fa-3x"></i>
-                        <strong data-to="@Model.AmountOfWebsiteUsers">0</strong>
-                        <!-- Set Your Number here. i,e. data-to="56" -->
-                        <p>Website accounts</p>
-                    </div>
-                </div>
-                <div class="col-md-4 col-sm-12 col-xs-12 text-center wow fadeInUp animated" data-wow-duration="500ms" data-wow-delay="600ms">
-                    <div class="counters-item">
-                        <i class="fa fa-comment fa-3x"></i>
-                        <strong data-to="@Model.AmountOfSuggestions">0</strong>
-                        <!-- Set Your Number here. i,e. data-to="56" -->
-                        <p>Community suggestions</p>
-                    </div>
-                </div>
-                <!-- end first count item -->
-
-            </div>
-        </div>
-    </div>
-</section>
-
-<!--
-End Some fun facts
 ==================================== -->

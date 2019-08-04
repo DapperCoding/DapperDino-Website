@@ -5,12 +5,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DapperDino.Areas.Api.Models;
+using Microsoft.Extensions.Configuration;
 
 namespace DapperDino.Helpers
 {
     public class TicketDiscordHelper
     {
-
+        private readonly IConfiguration _configuration;
         public TicketDiscordHelper()
         {
         }
@@ -52,7 +53,7 @@ namespace DapperDino.Helpers
         {
             DSharpPlus.Entities.DiscordUser user = null;
 
-            using (Bot bot = new Bot())
+            using (Bot bot = new Bot(_configuration))
             {
                 bot.RunAsync();
 
@@ -68,7 +69,7 @@ namespace DapperDino.Helpers
         public async Task<IReadOnlyList<DSharpPlus.Entities.DiscordMessage>> GetPageFromChannelBefore(string channelName, ulong? before)
         {
             var list = null as IReadOnlyList<DSharpPlus.Entities.DiscordMessage>;
-            using (Bot bot = new Bot())
+            using (Bot bot = new Bot(_configuration))
             {
                 bot.RunAsync();
 
@@ -88,7 +89,7 @@ namespace DapperDino.Helpers
         public async Task<IReadOnlyList<DSharpPlus.Entities.DiscordMessage>> GetPageFromChannelBefore(ulong channelId, ulong? before)
         {
             var list = null as IReadOnlyList<DSharpPlus.Entities.DiscordMessage>;
-            using (Bot bot = new Bot())
+            using (Bot bot = new Bot(_configuration))
             {
                 bot.RunAsync();
 

@@ -10,6 +10,7 @@ using DapperDino.DAL.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 
 namespace DapperDino.Api.Controllers
 {
@@ -22,6 +23,7 @@ namespace DapperDino.Api.Controllers
         private readonly ApplicationDbContext _dbContext;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly DiscordEmbedHelper _discordEmbedHelper;
+        private readonly IConfiguration configuration;
 
         #endregion
 
@@ -130,7 +132,7 @@ namespace DapperDino.Api.Controllers
                 _dbContext.DiscordMessages.Add(discordMessage);
             }
 
-            using (Bot bot = new Bot())
+            using (Bot bot = new Bot(configuration))
             {
                 bot.RunAsync();
 

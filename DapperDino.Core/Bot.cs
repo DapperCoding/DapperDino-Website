@@ -1,6 +1,7 @@
 ﻿using DSharpPlus;
 using DSharpPlus.Entities;
 using DSharpPlus.EventArgs;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +17,7 @@ namespace DapperDino.Core.Discord
         private StartTimes _starttimes;
         private CancellationTokenSource _cts;
 
-        public Bot()
+        public Bot(IConfiguration configuration)
         {
 
             _client = new DiscordClient(new DiscordConfiguration()
@@ -24,7 +25,7 @@ namespace DapperDino.Core.Discord
                 AutoReconnect = true,
                 EnableCompression = true,
                 LogLevel = LogLevel.Debug,
-                Token = Config.DiscordToken,
+                Token = configuration["DiscordToken"],
                 TokenType = TokenType.Bot,
                 UseInternalLogHandler = true
             });

@@ -10,6 +10,7 @@ using DSharpPlus.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace DapperDino.Areas.Admin.Controllers
 {
@@ -17,17 +18,19 @@ namespace DapperDino.Areas.Admin.Controllers
     public class SyncDiscordMessages : BaseController
     {
         private ApplicationDbContext _context;
+        private readonly IConfiguration _configuration;
 
-        public SyncDiscordMessages(ApplicationDbContext context)
+        public SyncDiscordMessages(ApplicationDbContext context, IConfiguration configuration)
         {
             _context = context;
+            _configuration = configuration;
         }
 
         public async Task<ActionResult> Index()
         {
             var tickets = _context.Tickets.Select(x => x.Id).ToList();
 
-            using (Bot bot = new Bot())
+            using (Bot bot = new Bot(_configuration))
             {
                 bot.RunAsync();
 

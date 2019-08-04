@@ -66,7 +66,7 @@ h4, h5, h6 {
 }
 
 span.color {
-	color: #0feb9e;
+    color: #7fac79;
 }
 
 body > section,
@@ -218,13 +218,13 @@ body > section,
   font-weight: 300;
 }
 
-.carousel-caption p:before,
-.carousel-caption p:after {
-color: #0feb9e;
-content: "___";
-position: relative;
-top: -8px;
-}
+    .carousel-caption p:before,
+    .carousel-caption p:after {
+        color: #7fac79;
+        content: "___";
+        position: relative;
+        top: -8px;
+    }
 
 .carousel-caption p:before {
   right: 20px;
@@ -303,7 +303,7 @@ top: -8px;
 }
 
 .owl-controls .owl-page.active span {
-  background: #062033;
+  background: #40673f;
   border: 0;
 }
 
@@ -321,12 +321,12 @@ top: -8px;
   top: 5px;
 }
 
-.service-desc h3 {
-  color: #062033;
-  font-size: 20px;
-  font-weight: 600;
-  margin-bottom: 25px;
-}
+    .service-desc h3 {
+        color: #40673f;
+        font-size: 20px;
+        font-weight: 600;
+        margin-bottom: 25px;
+    }
 
 
 
@@ -343,15 +343,15 @@ top: -8px;
     display: inline-block;
 }
 
-.work-filter ul li a {
-  color: #062033;
-  display: block;
-  font-size: 14px;
-  font-weight: 700;
-  padding: 5px 17px;
-  border-radius: 6px;
-  text-transform: capitalize;
-}
+    .work-filter ul li a {
+        color: #40673f;
+        display: block;
+        font-size: 14px;
+        font-weight: 700;
+        padding: 5px 17px;
+        border-radius: 6px;
+        text-transform: capitalize;
+    }
 
 .work-filter ul li a:hover,
 .work-filter ul li a.active {
@@ -462,11 +462,11 @@ top: -8px;
 }
 
 .team-member h4 {
-  color: #062033;
-  font-size: 18px;
-  font-weight: 600;
-  line-height: 24px;
-  margin: 15px 0 8px;
+    color: #40673f;
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 24px;
+    margin: 15px 0 8px;
 }
 
 .member-thumb:hover .overlay {
@@ -503,7 +503,7 @@ top: -8px;
 ==========================================*/
 
 #facts {
-	background-image: url("../images/parallax/city.jpg");
+	background-image: url("../images/parallax-1.jpg");
 	background-color: rgba(6,32,51,.8);
 	background-attachment: fixed !important;
 	background-position: center center;
@@ -514,15 +514,14 @@ top: -8px;
 
 .facts .devider:before,
 .facts .devider:after {
-	color: #737C85;
+    color: #7fac79;
 }
 
 .facts .devider i {
-	color: #fff;
+    color: #7fac79;
 }
 
 .parallax-overlay {
-	background-color: rgba(6,32,51,.8);
 	padding: 70px 0;
 }
 
@@ -530,16 +529,16 @@ top: -8px;
   color: #fff;
 }
 
-.counters-item i {
-  border: 1px solid #737C85;
-  border-radius: 50%;
-  color: #fff;
-  display: inline-block;
-  height: 120px;
-  margin: 0 0 35px;
-  padding: 40px 0 0;
-  width: 120px;
-}
+    .counters-item i {
+        border: 3px solid #7fac79;
+        border-radius: 50%;
+        color: #7fac79;
+        display: inline-block;
+        height: 120px;
+        margin: 0 0 35px;
+        padding: 40px 0 0;
+        width: 120px;
+    }
 
 .counters-item strong {
   display: block;
@@ -565,10 +564,10 @@ top: -8px;
 }
 
 .contact-address h3 {
-  color: #062033;
-  font-size: 22px;
-  line-height: 32px;
-  margin-bottom: 25px;
+    color: #40673f;
+    font-size: 22px;
+    line-height: 32px;
+    margin-bottom: 25px;
 }
 
 .contact-address p {
@@ -578,11 +577,11 @@ top: -8px;
 /*.contact-form {}*/
 
 .contact-form h3 {
-  color: #062033;
-  font-size: 24px;
-  font-weight: 700;
-  line-height: 32px;
-  margin-bottom: 25px;
+    color: #40673f;
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 32px;
+    margin-bottom: 25px;
 }
 
 .contact-form .input-group {
@@ -652,14 +651,14 @@ label.error {
 
 
 .footer {
-  background-color: #1ea78d;
-  border-top: 5px solid #062033;
-  color: #fff;
+    background-color: #1ea78d;
+    border-top: 5px solid #40673f;
+    color: #fff;
 }
 
-.footer a:hover {
-  color: #062033;
-}
+    .footer a:hover {
+        color: #40673f;
+    }
 
 .footer h6 {
   font-size: 14px;
@@ -711,7 +710,7 @@ label.error {
 }
 
 .credit a {
-  color: #062033;
+    color: #40673f;
 }
 
 .credit a:hover {

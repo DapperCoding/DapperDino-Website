@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace DapperDino.Api.Controllers
 {
@@ -25,17 +26,19 @@ namespace DapperDino.Api.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IHubContext<DiscordBotHub> _hubContext;
         private readonly DiscordEmbedHelper _discordEmbedHelper;
+        private readonly IConfiguration _configuration;
 
         #endregion
 
         #region Constructor(s)
 
-        public TicketReactionController(ApplicationDbContext context, UserManager<ApplicationUser> userManager, IHubContext<DiscordBotHub> hubContext, DiscordEmbedHelper discordEmbedHelper)
+        public TicketReactionController(ApplicationDbContext context, UserManager<ApplicationUser> userManager, IHubContext<DiscordBotHub> hubContext, DiscordEmbedHelper discordEmbedHelper, IConfiguration configuration)
         {
             _context = context;
             _userManager = userManager;
             _hubContext = hubContext;
             _discordEmbedHelper = discordEmbedHelper;
+            _configuration = configuration;
         }
 
         #endregion
@@ -93,7 +96,7 @@ namespace DapperDino.Api.Controllers
             try
             {
 
-                using (Bot bot = new Bot())
+                using (Bot bot = new Bot(_configuration))
                 {
                     bot.RunAsync();
 

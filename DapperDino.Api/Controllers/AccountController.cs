@@ -95,7 +95,7 @@ namespace DapperDino.Api.Controllers
 
             if (user.RegisteredDiscordAccount)
             {
-                await AddRole(model, user);
+                await SyncRoles(model, user);
                 return BadRequest("This account has already registered a discord account");
             }
 
@@ -116,12 +116,12 @@ namespace DapperDino.Api.Controllers
 
             await _dbContext.SaveChangesAsync();
 
-            await AddRole(model, user);
+            await SyncRoles(model, user);
 
             return Ok(discordUser);
         }
 
-        private async Task AddRole(RegistrationModel model, ApplicationUser user)
+        private async Task SyncRoles(RegistrationModel model, ApplicationUser user)
         {
             if (model.IsHappyToHelp)
             {
