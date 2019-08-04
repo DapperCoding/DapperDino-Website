@@ -211,6 +211,11 @@ namespace DapperDino.Api.Controllers
                         }
                     }
                 }
+
+                var discordUser = await _context.DiscordUsers.SingleOrDefaultAsync(x => x.Id == user.DiscordUserId);
+
+                discordUser.Username = member.Username;
+                await _context.SaveChangesAsync();
             }
 
             return Ok(id);
