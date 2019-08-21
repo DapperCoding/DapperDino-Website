@@ -67,8 +67,44 @@ namespace DapperDino.Api.Controllers
 
             return Json(ticket);
         }
+        [Route("/api/ticket/update")]
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> Update([FromBody]Ticket value)
+        {
+            var user = await _userManager.GetUserAsync(User);
+
+            if (user == null)
+            {
+                return Unauthorized();
+            }
+
+            if (!await _userManager.IsInRoleAsync(user, RoleNames.Admin))
+            {
+                return StatusCode(403, "Trying to add items to our tickets huh? NOOOOPE!");
+            }
+
+            if (!TryValidateModel(value)) return StatusCode(500);
+
+            var model = await _context.Tickets.Include(x=>x.Applicant).FirstOrDefaultAsync(x => x.Id == value.Id);
+
+            if (model == null) return StatusCode(500);
+
+            model.Description = value.Description;
+            model.Subject = value.Subject;
+            model.FrameworkId = value.FrameworkId;
+            model.LanguageId = value.LanguageId;
+
+            _context.SaveChanges();
+
+            model.Framework = await _context.Proficiencies.FirstOrDefaultAsync(x => x.Id == model.FrameworkId);
+            model.Language = await _context.Proficiencies.FirstOrDefaultAsync(x => x.Id == model.LanguageId);
+
+            return Ok(model);
+        }
 
         // POST api/ticket
+        [Route("/api/ticket")]
         [HttpPost]
         [Authorize]
         public async Task<IActionResult> Post([FromBody]Ticket value)

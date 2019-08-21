@@ -1,4 +1,5 @@
 ﻿using DapperDino.DAL.Models;
+using DapperDino.DAL.Models.Forms;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -147,13 +148,22 @@ namespace DapperDino.DAL
                 .HasOne(x => x.DiscordUser)
                 .WithMany(x => x.Proficiencies);
 
-            //builder.Entity<Ticket>()
-            //    .HasOne(x => x.Framework)
-            //    .WithMany(x => x.Tickets);
+            builder.Entity<ArchitectForm>()
+                .HasMany(x => x.Replies)
+                .WithOne(x => x.Form)
+                .OnDelete(DeleteBehavior.Cascade);
 
-            //builder.Entity<Ticket>()
-            //     .HasOne(x => x.Language)
-            //     .WithMany(x => x.Tickets);
+            builder.Entity<RecruiterForm>()
+                .HasMany(x => x.Replies)
+                .WithOne(x => x.Form)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<ArchitectForm>()
+                .HasMany(x => x.Replies)
+                .WithOne(x => x.Form)
+                .OnDelete(DeleteBehavior.Cascade);
+
+
         }
 
         public DbSet<FrequentlyAskedQuestion> FrequentlyAskedQuestions { get; set; }
@@ -189,6 +199,18 @@ namespace DapperDino.DAL
 
         public DbSet<Proficiency> Proficiencies { get; set; }
         public DbSet<DiscordUserProficiency> DiscordUserProficiencies { get; set; }
+
+
+        public DbSet<ArchitectForm> ArchitectForms { get; set; }
+        public DbSet<ArchitectFormReply> ArchitectFormReplies { get; set; }
+
+        public DbSet<RecruiterForm> RecruiterForms { get; set; }
+        public DbSet<RecruiterFormReply> RecruiterFormReplies { get; set; }
+
+        public DbSet<TeacherForm> TeacherForms { get; set; }
+        public DbSet<TeacherFormReply> TeacherFormReplies { get; set; }
+
+
     }
 
 }

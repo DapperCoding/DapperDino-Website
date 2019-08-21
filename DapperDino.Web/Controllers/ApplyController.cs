@@ -18,65 +18,65 @@ namespace DapperDino.Controllers
     [Route("Apply")]
     public class ApplyController : BaseControllerBase
     {
-        #region Fields
+        //#region Fields
 
-        // Shared context accessor
-        private readonly ApplicationDbContext _context;
-        private readonly IHubContext<DiscordBotHub> _hubContext;
+        //// Shared context accessor
+        //private readonly ApplicationDbContext _context;
+        //private readonly IHubContext<DiscordBotHub> _hubContext;
 
-        #endregion
+        //#endregion
 
-        #region Constructor(s)
+        //#region Constructor(s)
 
-        public ApplyController(ApplicationDbContext context, IHubContext<DiscordBotHub> hubContext)
-        {
-            _context = context;
-            _hubContext = hubContext;
+        //public ApplyController(ApplicationDbContext context, IHubContext<DiscordBotHub> hubContext)
+        //{
+        //    _context = context;
+        //    _hubContext = hubContext;
 
-        }
+        //}
 
-        #endregion
+        //#endregion
 
-        #region Public Methods
-        [Route("")]
-        public IActionResult Index(ApplyViewModel viewModel = null)
-        {
-            if(viewModel == null)
-            {
-                viewModel = new ApplyViewModel();
-                viewModel.Age = 0;
-            }
+        //#region Public Methods
+        //[Route("")]
+        //public IActionResult Index(ApplyViewModel viewModel = null)
+        //{
+        //    if(viewModel == null)
+        //    {
+        //        viewModel = new ApplyViewModel();
+        //        viewModel.Age = 0;
+        //    }
 
-            return View(viewModel);
-        }
+        //    return View(viewModel);
+        //}
 
-        [HttpPost("Post")]
-        public IActionResult Post(ApplyViewModel viewModel)
-        {
-            if (!TryValidateModel(viewModel)) return RedirectToAction("Index", viewModel);
+        //[HttpPost("Post")]
+        //public IActionResult Post(ApplyViewModel viewModel)
+        //{
+        //    if (!TryValidateModel(viewModel)) return RedirectToAction("Index", viewModel);
 
-            var discordUser = _context.DiscordUsers.FirstOrDefault(x => x.DiscordId == viewModel.DiscordId.Trim());
+        //    var discordUser = _context.DiscordUsers.FirstOrDefault(x => x.DiscordId == viewModel.DiscordId.Trim());
 
-            if (discordUser == null) return RedirectToAction("Index", viewModel);
+        //    if (discordUser == null) return RedirectToAction("Index", viewModel);
 
-            var application = new Applicant();
+        //    var application = new Applicant();
 
-            application.Age = viewModel.Age;
-            application.Explanation = viewModel.Explanation;
-            application.FirstName = viewModel.FirstName;
-            application.LastName = viewModel.LastName;
-            application.DiscordUserId = discordUser.Id;
-            application.Links = viewModel.Links;
+        //    application.Age = viewModel.Age;
+        //    application.Explanation = viewModel.Explanation;
+        //    application.FirstName = viewModel.FirstName;
+        //    application.LastName = viewModel.LastName;
+        //    application.DiscordUserId = discordUser.Id;
+        //    application.Links = viewModel.Links;
 
-            _context.Applicants.Add(application);
-            _context.SaveChanges();
+        //    _context.Applicants.Add(application);
+        //    _context.SaveChanges();
 
-            _hubContext.Clients.All.SendAsync("Application", viewModel);
+        //    _hubContext.Clients.All.SendAsync("Application", viewModel);
 
-            return RedirectToAction("Index", "Home", null);
-        }
+        //    return RedirectToAction("Index", "Home", null);
+        //}
 
-        #endregion
+        //#endregion
 
 
     }

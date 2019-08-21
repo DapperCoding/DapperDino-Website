@@ -57,7 +57,7 @@ namespace DapperDino.Api.Controllers
         }
 
         // POST api/faq
-        [HttpPost]
+        [HttpPost("")]
         //[Authorize]
         public async Task<IActionResult> Post([FromBody]FrequentlyAskedQuestion value)
         {
@@ -119,9 +119,9 @@ namespace DapperDino.Api.Controllers
         }
 
         // PUT api/faq/5
-        [HttpPut("{id}")]
+        [HttpPost("{id}")]
         [Authorize]
-        public async Task<IActionResult> Put(int id, [FromBody]FrequentlyAskedQuestion value)
+        public async Task<IActionResult> Edit(int id, [FromBody]FrequentlyAskedQuestion value)
         {
             var user = await _userManager.GetUserAsync(User);
 
