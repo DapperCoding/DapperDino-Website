@@ -14,7 +14,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DapperDino.Api.Controllers
 {
-    [Route("/api/forms/architect")]
+    [Route("/api/forms/recruiter")]
     [Authorize]
     public class RecruiterFormController : FormBaseController
     {
