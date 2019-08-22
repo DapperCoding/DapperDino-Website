@@ -11,4 +11,14 @@ namespace DapperDino.Api.Models
     {
         public new string DiscordId { get; set; }
     }
+
+    public class TeacherFormModel : TeacherForm
+    {
+        public new string DiscordId { get; set; }
+    }
+
+    public class RecruiterFormModel : RecruiterForm
+    {
+        public new string DiscordId { get; set; }
+    }
 }

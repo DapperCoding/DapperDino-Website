@@ -66,6 +66,33 @@ namespace DapperDino.Api.Controllers
             return Json(discordUser);
         }
 
+        // GET api/discorduser/5
+        [HttpGet("GetByDBId/{id}")]
+        [Authorize]
+        public async Task<IActionResult> GetById(int id)
+        {
+            var user = await _userManager.GetUserAsync(User);
+
+            if (user == null)
+            {
+                return Unauthorized();
+            }
+
+            if (!await _userManager.IsInRoleAsync(user, RoleNames.Admin))
+            {
+                return StatusCode(403, "Trying to look into others accounts eh? Not gonna happen bud.");
+            }
+
+            var discordUser = _context.DiscordUsers.FirstOrDefault(x => x.Id == id);
+
+            if (discordUser == null)
+            {
+                return NotFound("Discord user not found, use /api/account/registerdiscord to create one.");
+            }
+
+            return Json(discordUser);
+        }
+
 
 
         // POST api/discorduser

@@ -16,12 +16,12 @@ namespace DapperDino.Api.Controllers
 {
     [Route("/api/forms/architect")]
     [Authorize]
-    public class ArchitectFormController : FormBaseController
+    public class RecruiterFormController : FormBaseController
     {
-        private readonly ArchitectFormRepository architectFormRepository;
-        public ArchitectFormController(ApplicationDbContext context, UserManager<ApplicationUser> userManager) : base(context, userManager)
+        private readonly RecruiterFormRepository recruiterFormRepository;
+        public RecruiterFormController(ApplicationDbContext context, UserManager<ApplicationUser> userManager) : base(context, userManager)
         {
-            architectFormRepository = new ArchitectFormRepository(_context);
+            recruiterFormRepository = new RecruiterFormRepository(_context);
         }
 
         [Route("")]
@@ -39,7 +39,7 @@ namespace DapperDino.Api.Controllers
                 return Unauthorized("Admin only, go away.");
             }
 
-            return Json(architectFormRepository.GetAll().Take(100).ToList());
+            return Json(recruiterFormRepository.GetAll().Take(100).ToList());
         }
 
         [Route("{id}")]
@@ -57,7 +57,7 @@ namespace DapperDino.Api.Controllers
                 return Unauthorized("Admin only, go away.");
             }
 
-            var form = await architectFormRepository.GetById(id);
+            var form = await recruiterFormRepository.GetById(id);
             if (form == null) return NotFound();
 
             return Json(form);
@@ -66,7 +66,7 @@ namespace DapperDino.Api.Controllers
         [Route("ForDiscordUser/{discordId}")]
         public async Task<IActionResult> GetForDiscordUser(string discordId)
         {
-            var form = await architectFormRepository.GetForDiscordUser(discordId).FirstOrDefaultAsync();
+            var form = await recruiterFormRepository.GetForDiscordUser(discordId).FirstOrDefaultAsync();
 
             if (form == null) return NotFound();
 
@@ -76,7 +76,7 @@ namespace DapperDino.Api.Controllers
         [Route("DiscordUserPerspective/{discordId}")]
         public async Task<IActionResult> GetDiscordUserPerspective(string discordId)
         {
-            List<ArchitectForm> forms = null;
+            List<RecruiterForm> forms = null;
 
             var loggedInUser = await _userManager.GetUserAsync(User);
 
@@ -102,11 +102,11 @@ namespace DapperDino.Api.Controllers
             var discordUserRoles = await _userManager.GetRolesAsync(discordUser);
             if (discordUserRoles.Where(x => x.ToLower() == "discord_admin" || x.ToLower() == "discord_architect").Count() > 0)
             {
-                forms = architectFormRepository.GetAll().Include(x => x.Replies).ThenInclude(x => x.DiscordMessage).Take(100).ToList();
+                forms = recruiterFormRepository.GetAll().Include(x => x.Replies).ThenInclude(x => x.DiscordMessage).Take(100).ToList();
             }
             else
             {
-                forms = architectFormRepository.GetForDiscordUser(discordId).ToList();
+                forms = recruiterFormRepository.GetForDiscordUser(discordId).ToList();
             }
 
 
@@ -116,7 +116,7 @@ namespace DapperDino.Api.Controllers
         [Route("OpenInPerspective/{discordId}")]
         public async Task<IActionResult> OpenInPerspective(string discordId)
         {
-            List<ArchitectForm> forms = null;
+            List<RecruiterForm> forms = null;
 
             var loggedInUser = await _userManager.GetUserAsync(User);
 
@@ -142,11 +142,11 @@ namespace DapperDino.Api.Controllers
             var discordUserRoles = await _userManager.GetRolesAsync(discordUser);
             if (discordUserRoles.Where(x => x.ToLower() == "discord_admin" || x.ToLower() == "discord_architect").Count() > 0)
             {
-                forms = architectFormRepository.GetAll().Where(x=>x.Status == ApplicationFormStatus.Open).Include(x => x.Replies).ThenInclude(x => x.DiscordMessage).Take(100).ToList();
+                forms = recruiterFormRepository.GetAll().Where(x=>x.Status == ApplicationFormStatus.Open).Include(x => x.Replies).ThenInclude(x => x.DiscordMessage).Take(100).ToList();
             }
             else
             {
-                forms = architectFormRepository.GetForDiscordUser(discordId).Where(x => x.Status == ApplicationFormStatus.Open).ToList();
+                forms = recruiterFormRepository.GetForDiscordUser(discordId).Where(x => x.Status == ApplicationFormStatus.Open).ToList();
             }
 
 
@@ -155,7 +155,7 @@ namespace DapperDino.Api.Controllers
 
         [Route("Edit")]
         [HttpPost]
-        public async Task<IActionResult> Edit(ArchitectForm form)
+        public async Task<IActionResult> Edit(RecruiterForm form)
         {
             var loggedInUser = await _userManager.GetUserAsync(User);
 
@@ -171,7 +171,7 @@ namespace DapperDino.Api.Controllers
                 return BadRequest();
             }
 
-            var dbForm = await architectFormRepository.GetById(form.Id);
+            var dbForm = await recruiterFormRepository.GetById(form.Id);
 
             if (dbForm == null)
             {
@@ -181,8 +181,9 @@ namespace DapperDino.Api.Controllers
             _context.Update(dbForm);
 
             dbForm.Motivation = form.Motivation;
-            dbForm.PreviousIdeas = form.PreviousIdeas;
             dbForm.DevelopmentExperience = form.DevelopmentExperience;
+            dbForm.GithubLink = form.GithubLink;
+            dbForm.ProjectLinks = form.ProjectLinks;
 
             await _context.SaveChangesAsync();
 
@@ -191,7 +192,7 @@ namespace DapperDino.Api.Controllers
 
         [Route("Add")]
         [HttpPost]
-        public async Task<IActionResult> Add([FromBody]ArchitectFormModel formModel)
+        public async Task<IActionResult> Add([FromBody]RecruiterFormModel formModel)
         {
             var loggedInUser = await _userManager.GetUserAsync(User);
 
@@ -211,7 +212,10 @@ namespace DapperDino.Api.Controllers
                 string.IsNullOrWhiteSpace(formModel.DiscordId) ||
                 string.IsNullOrWhiteSpace(formModel.DevelopmentExperience) ||
                 string.IsNullOrWhiteSpace(formModel.Motivation) ||
-                string.IsNullOrWhiteSpace(formModel.PreviousIdeas)
+                string.IsNullOrWhiteSpace(formModel.GithubLink) ||
+                string.IsNullOrWhiteSpace(formModel.ProjectLinks) ||
+                string.IsNullOrWhiteSpace(formModel.DevelopmentReviewingExperience) ||
+                string.IsNullOrWhiteSpace(formModel.RecruitingExperience)
                 )
             {
                 return BadRequest();
@@ -230,15 +234,19 @@ namespace DapperDino.Api.Controllers
             //    return BadRequest();
             //}
 
-            var form = new ArchitectForm();
+            var form = new RecruiterForm();
 
             form.Age = formModel.Age;
             form.DevelopmentExperience = formModel.DevelopmentExperience;
             form.DiscordId = discordUser.DiscordUser.Id;
             form.Motivation = formModel.Motivation;
-            form.PreviousIdeas = formModel.PreviousIdeas;
+            form.GithubLink = formModel.GithubLink;
+            form.ProjectLinks = formModel.ProjectLinks;
+            form.RecruitingExperience = formModel.RecruitingExperience;
+            form.DevelopmentReviewingExperience = formModel.DevelopmentReviewingExperience;
 
-            await architectFormRepository.Create(form);
+
+            await recruiterFormRepository.Create(form);
 
             return Json(form);
 
