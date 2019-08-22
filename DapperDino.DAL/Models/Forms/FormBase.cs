@@ -11,6 +11,7 @@ namespace DapperDino.DAL.Models.Forms
         [ForeignKey("DiscordId")]
         public DiscordUser DiscordUser { get; set; }
         public string Motivation { get; set; }
+        public ApplicationFormStatus Status { get; set; } = ApplicationFormStatus.Open;
 
         // Don't forget to add the reactions to your implementation
     }
@@ -24,5 +25,13 @@ namespace DapperDino.DAL.Models.Forms
         [ForeignKey("FormId")]
         public T Form { get; set; }
 
+    }
+
+    public enum ApplicationFormStatus
+    {
+        Open = 0,
+        Denied = 1,
+        Accepted = 2,
+        Talking = 3
     }
 }

@@ -1,5 +1,6 @@
 ﻿using DapperDino.DAL.Models;
 using DapperDino.DAL.Models.Forms;
+using DapperDino.DAL.Models.Texts;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -210,6 +211,9 @@ namespace DapperDino.DAL
         public DbSet<TeacherForm> TeacherForms { get; set; }
         public DbSet<TeacherFormReply> TeacherFormReplies { get; set; }
 
+
+        public DbSet<TextTemplate> TextTemplates { get; set; }
+        public DbSet<TextTemplateKeys> TextTemplateKeys { get; set; }
 
     }
 

@@ -17,7 +17,7 @@ namespace DapperDino.Helpers
         }
 
 
-        public async Task<TicketUserInformation> GetTicketDiscordUser(Bot bot, string userId)
+        public async Task<TicketUserInformation> GetTicketDiscordUserInformation(Bot bot, string userId)
         {
             var user = new TicketUserInformation();
 
@@ -32,7 +32,7 @@ namespace DapperDino.Helpers
             return user;
         }
 
-        public async Task<TicketReactionUserInformation> GetTicketReactionDiscordUser(Bot bot, string userId)
+        public async Task<TicketReactionUserInformation> GetTicketReactionDiscordUserInformation(Bot bot, string userId)
         {
             var user = new TicketReactionUserInformation();
 

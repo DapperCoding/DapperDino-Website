@@ -57,6 +57,7 @@ namespace DapperDino.Api.Controllers
         }
 
         // POST api/faq
+        [Route("/api/faq")]
         [HttpPost("")]
         //[Authorize]
         public async Task<IActionResult> Post([FromBody]FrequentlyAskedQuestion value)
@@ -119,7 +120,8 @@ namespace DapperDino.Api.Controllers
         }
 
         // PUT api/faq/5
-        [HttpPost("{id}")]
+        [Route("/api/faq/{id}")]
+        [HttpPost]
         [Authorize]
         public async Task<IActionResult> Edit(int id, [FromBody]FrequentlyAskedQuestion value)
         {
@@ -135,7 +137,7 @@ namespace DapperDino.Api.Controllers
                 return StatusCode(403, "Trying to change items from our faq huh? NOOOOPE!");
             }
 
-            var faq = _context.FrequentlyAskedQuestions.FirstOrDefault(x => x.Id == id);
+            var faq = _context.FrequentlyAskedQuestions.Include(x=>x.DiscordMessage).Include(x=>x.ResourceLink).FirstOrDefault(x => x.Id == id);
 
             if (faq == null) return NotFound();
 

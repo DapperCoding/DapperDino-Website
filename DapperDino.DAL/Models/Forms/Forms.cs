@@ -10,10 +10,9 @@ namespace DapperDino.DAL.Models.Forms
         public string DevelopmentExperience { get; set; }
         public string PreviousIdeas { get; set; }
         public int Age { get; set; }
-
     }
 
-    public class TeacherForm: FormBase
+    public class TeacherForm : FormBase
     {
         public List<FormReply<TeacherForm>> Replies { get; set; }
         public string DevelopmentExperience { get; set; }
@@ -23,7 +22,7 @@ namespace DapperDino.DAL.Models.Forms
         public int Age { get; set; }
     }
 
-    public class RecruiterForm:FormBase
+    public class RecruiterForm : FormBase
     {
         public List<FormReply<RecruiterForm>> Replies { get; set; }
         public string DevelopmentExperience { get; set; }

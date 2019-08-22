@@ -444,6 +444,8 @@ namespace DapperDino.DAL.Migrations
 
                     b.Property<string>("PreviousIdeas");
 
+                    b.Property<int>("Status");
+
                     b.HasKey("Id");
 
                     b.HasIndex("DiscordId");
@@ -545,6 +547,8 @@ namespace DapperDino.DAL.Migrations
 
                     b.Property<string>("RecruitingExperience");
 
+                    b.Property<int>("Status");
+
                     b.HasKey("Id");
 
                     b.HasIndex("DiscordId");
@@ -569,6 +573,8 @@ namespace DapperDino.DAL.Migrations
                     b.Property<string>("Motivation");
 
                     b.Property<string>("ProjectLinks");
+
+                    b.Property<int>("Status");
 
                     b.Property<string>("TeachingExperience");
 
@@ -899,6 +905,38 @@ namespace DapperDino.DAL.Migrations
                     b.HasIndex("SuggestionId");
 
                     b.ToTable("SuggestionReaction");
+                });
+
+            modelBuilder.Entity("DapperDino.DAL.Models.Texts.TextTemplate", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Content");
+
+                    b.Property<int>("Environment");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TextTemplates");
+                });
+
+            modelBuilder.Entity("DapperDino.DAL.Models.Texts.TextTemplateKeys", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Key");
+
+                    b.Property<int>("TextId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TextId");
+
+                    b.ToTable("TextTemplateKeys");
                 });
 
             modelBuilder.Entity("DapperDino.DAL.Models.Ticket", b =>
@@ -1403,6 +1441,14 @@ namespace DapperDino.DAL.Migrations
                     b.HasOne("DapperDino.DAL.Models.Suggestion", "Suggestion")
                         .WithMany("Reactions")
                         .HasForeignKey("SuggestionId");
+                });
+
+            modelBuilder.Entity("DapperDino.DAL.Models.Texts.TextTemplateKeys", b =>
+                {
+                    b.HasOne("DapperDino.DAL.Models.Texts.TextTemplate", "Text")
+                        .WithMany("Keys")
+                        .HasForeignKey("TextId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("DapperDino.DAL.Models.Ticket", b =>

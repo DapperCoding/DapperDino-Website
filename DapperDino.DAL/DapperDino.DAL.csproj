@@ -11,6 +11,8 @@
     <Compile Remove="Migrations\20190602225729_test-migration.Designer.cs" />
     <Compile Remove="Migrations\20190622040133_product-download-link.cs" />
     <Compile Remove="Migrations\20190622040133_product-download-link.Designer.cs" />
+    <Compile Remove="Migrations\20190822034040_application-form-status.cs" />
+    <Compile Remove="Migrations\20190822034040_application-form-status.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

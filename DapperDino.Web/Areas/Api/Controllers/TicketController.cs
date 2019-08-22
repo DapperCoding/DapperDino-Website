@@ -70,7 +70,7 @@ namespace DapperDino.Areas.Api.Controllers
                 {
                     try
                     {
-                        var convertedDiscordUser = await helper.GetTicketReactionDiscordUser(bot, listOfReactions.Key);
+                        var convertedDiscordUser = await helper.GetTicketReactionDiscordUserInformation(bot, listOfReactions.Key);
                         if (convertedDiscordUser == null) continue;
 
 
