@@ -164,7 +164,6 @@ namespace DapperDino.DAL
                 .WithOne(x => x.Form)
                 .OnDelete(DeleteBehavior.Cascade);
 
-
         }
 
         public DbSet<FrequentlyAskedQuestion> FrequentlyAskedQuestions { get; set; }
@@ -214,6 +213,11 @@ namespace DapperDino.DAL
 
         public DbSet<TextTemplate> TextTemplates { get; set; }
         public DbSet<TextTemplateKeys> TextTemplateKeys { get; set; }
+
+
+        public DbSet<FormStatusUpdate> FormStatusUpdates { get; set; }
+
+        public DbSet<FormStatusUpdateStatus> FormStatusUpdateStatuses { get; set; }
 
     }
 

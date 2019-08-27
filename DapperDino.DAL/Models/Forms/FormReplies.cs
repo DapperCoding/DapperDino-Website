@@ -16,8 +16,24 @@ namespace DapperDino.DAL.Models.Forms
 
     }
 
+
     public class RecruiterFormReply : FormReply<RecruiterForm>
     {
 
+    }
+
+
+
+    public class TeacherFormReplyModel : TeacherFormReply
+    {
+        public string DiscordId { get; set; }
+    }
+    public class ArchitectFormReplyModel : TeacherFormReply
+    {
+        public string DiscordId { get; set; }
+    }
+    public class RecruiterFormReplyModel : TeacherFormReply
+    {
+        public string DiscordId { get; set; }
     }
 }

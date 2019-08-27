@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DapperDino.Api.Models;
+using DapperDino.Core;
+using DapperDino.Core.Discord;
 using DapperDino.DAL;
 using DapperDino.DAL.Models;
 using DapperDino.DAL.Models.Forms;
@@ -11,6 +13,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace DapperDino.Api.Controllers
 {
@@ -19,9 +22,14 @@ namespace DapperDino.Api.Controllers
     public class TeacherFormController : FormBaseController
     {
         private readonly TeacherFormRepository teacherFormRepository;
-        public TeacherFormController(ApplicationDbContext context, UserManager<ApplicationUser> userManager) : base(context, userManager)
+        private readonly DiscordEmbedHelper _discordEmbedHelper;
+        private readonly IConfiguration _configuration;
+
+        public TeacherFormController(ApplicationDbContext context, UserManager<ApplicationUser> userManager, DiscordEmbedHelper discordEmbedHelper, IConfiguration configuration) : base(context, userManager)
         {
             teacherFormRepository = new TeacherFormRepository(_context);
+            _discordEmbedHelper = discordEmbedHelper;
+            _configuration = configuration;
         }
 
         [Route("")]
@@ -249,6 +257,132 @@ namespace DapperDino.Api.Controllers
 
             return Json(form);
 
+        }
+        
+        [HttpPost]
+        [Route("{formId}/Reply")]
+        public async Task<IActionResult> Reply(int formId, [FromBody]TeacherFormReplyModel value)
+        {
+            var appUser = await _userManager.GetUserAsync(User);
+
+            if (appUser == null)
+            {
+                return Unauthorized();
+            }
+
+            if (!await _userManager.IsInRoleAsync(appUser, RoleNames.Admin))
+            {
+                return StatusCode(403, "Trying to add reactions to our tickets huh? NOOOOPE!");
+            }
+
+            if (string.IsNullOrWhiteSpace(value.DiscordMessage.Message))
+            {
+                value.DiscordMessage.Message = "EMPTY";
+            }
+
+            if (!TryValidateModel(value))
+            {
+                return StatusCode(500, ModelState);
+            }
+
+            var formReply = new TeacherFormReply();
+            var discordUser = _context.DiscordUsers.FirstOrDefault(x => x.DiscordId == value.DiscordId);
+
+            formReply.FormId = formId;
+
+            formReply.DiscordMessage = new DiscordMessage();
+            formReply.DiscordMessage.ChannelId = value.DiscordMessage.ChannelId;
+            formReply.DiscordMessage.IsDm = value.DiscordMessage.IsDm;
+            formReply.DiscordMessage.MessageId = value.DiscordMessage.MessageId;
+            formReply.DiscordMessage.IsEmbed = value.DiscordMessage.IsEmbed;
+            formReply.DiscordMessage.Message = value.DiscordMessage.Message;
+            formReply.DiscordMessage.Timestamp = value.DiscordMessage.Timestamp;
+            formReply.DiscordMessage.GuildId = value.DiscordMessage.GuildId;
+            try
+            {
+
+                using (Bot bot = new Bot(_configuration))
+                {
+                    bot.RunAsync();
+
+                    var client = bot.GetClient();
+
+                    var guild = await client.GetGuildAsync(ulong.Parse(value.DiscordMessage.GuildId));
+                    var channel = guild.GetChannel(ulong.Parse(value.DiscordMessage.ChannelId));
+                    var message = await channel.GetMessageAsync(ulong.Parse(value.DiscordMessage.MessageId));
+
+                    formReply.DiscordMessage = UpdateMessage(formReply.DiscordMessage, message);
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+                Console.WriteLine(ex.Message);
+            }
+
+            var user = new DiscordUser();
+
+            if (!string.IsNullOrWhiteSpace(value.DiscordId))
+            {
+                user = _context.DiscordUsers.SingleOrDefault(x => x.DiscordId == value.DiscordId);
+
+                if (user == null)
+                {
+                    user = _context.DiscordUsers.FirstOrDefault();
+
+                    if (user != null)
+                    {
+                        return BadRequest($"Please contact mick about this ID: {user.Id}  & Discord ID: {user.DiscordId} - ticket reaction");
+                    }
+                }
+            }
+
+            _context.TeacherFormReplies.Add(formReply);
+            _context.SaveChanges();
+
+            formReply = await _context.TeacherFormReplies
+                .Include(x => x.DiscordMessage)
+
+                .Include(x => x.DiscordMessage)
+                .Include(x => x.DiscordMessage).ThenInclude(x => x.Attachments)
+                .Include(x => x.DiscordMessage).ThenInclude(x => x.Embeds)
+                .Include(x => x.DiscordMessage).ThenInclude(x => x.Embeds).ThenInclude(x => x.Color)
+                .Include(x => x.DiscordMessage).ThenInclude(x => x.Embeds).ThenInclude(x => x.Footer)
+                .Include(x => x.DiscordMessage).ThenInclude(x => x.Embeds).ThenInclude(x => x.Image)
+                .Include(x => x.DiscordMessage).ThenInclude(x => x.Embeds).ThenInclude(x => x.Thumbnail)
+                .Include(x => x.DiscordMessage).ThenInclude(x => x.Embeds).ThenInclude(x => x.Video)
+                .Include(x => x.DiscordMessage).ThenInclude(x => x.Embeds).ThenInclude(x => x.Provider)
+                .Include(x => x.DiscordMessage).ThenInclude(x => x.Embeds).ThenInclude(x => x.Author)
+                .Include(x => x.DiscordMessage).ThenInclude(x => x.Embeds).ThenInclude(x => x.Fields)
+                .SingleOrDefaultAsync(x => x.Id == formReply.Id);
+
+            //await _hubContext.Clients.All.SendAsync("TicketReaction", reaction);
+
+            return Created(Url.Action("Get", new { id = formReply.Id }), formReply);
+        }
+
+        private DiscordMessage UpdateMessage(DiscordMessage dbMessage, DSharpPlus.Entities.DiscordMessage discordMessage)
+        {
+
+            // Add embeds from bot
+            if (discordMessage.Embeds != null && discordMessage.Embeds.Any())
+            {
+                if (dbMessage.Embeds == null) dbMessage.Embeds = new List<DAL.Models.DiscordEmbed>();
+
+                foreach (var embed in discordMessage.Embeds)
+                {
+                    dbMessage.Embeds.Add(_discordEmbedHelper.ConvertEmbed(embed));
+                }
+            }
+
+            // Add attachments from bot
+            if (discordMessage.Attachments != null && discordMessage.Attachments.Any())
+            {
+                dbMessage.Attachments = _discordEmbedHelper.ConvertAttachments(discordMessage.Attachments);
+            }
+
+            return dbMessage;
         }
     }
 }

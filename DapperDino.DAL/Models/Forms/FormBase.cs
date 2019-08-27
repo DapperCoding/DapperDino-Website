@@ -32,6 +32,6 @@ namespace DapperDino.DAL.Models.Forms
         Open = 0,
         Denied = 1,
         Accepted = 2,
-        Talking = 3
+        Interviewing = 3
     }
 }

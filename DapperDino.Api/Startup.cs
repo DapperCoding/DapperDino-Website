@@ -22,6 +22,7 @@ using Swashbuckle.AspNetCore.Swagger;
 
 using AspNet.Security.OAuth.Discord;
 using ApplicationRole = DapperDino.DAL.ApplicationRole;
+using DapperDino.DAL.Repositories;
 
 namespace DapperDino.Api
 {
@@ -47,6 +48,7 @@ namespace DapperDino.Api
 
             services.AddSingleton<DiscordEmbedHelper>();
 
+            services.AddScoped<FormStatusUpdateRepository>();
 
 
             //Password Strength Setting
