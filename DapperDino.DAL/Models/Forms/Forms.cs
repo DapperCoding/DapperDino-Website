@@ -33,4 +33,19 @@ namespace DapperDino.DAL.Models.Forms
         public int Age { get; set; }
 
     }
+
+    public class ArchitectFormModel : ArchitectForm
+    {
+        public new string DiscordId { get; set; }
+    }
+
+    public class TeacherFormModel : TeacherForm
+    {
+        public new string DiscordId { get; set; }
+    }
+
+    public class RecruiterFormModel : RecruiterForm
+    {
+        public new string DiscordId { get; set; }
+    }
 }
