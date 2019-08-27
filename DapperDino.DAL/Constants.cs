@@ -24,6 +24,11 @@ namespace DapperDino.DAL
         public const string Teacher = "teacher";
     }
 
+    public static class FormTypeNames
+    {
+        public const string CustomBot = "custombot";
+    }
+
     public static class FormStatusUpdateNames
     {
         public const string Accepted = "accepted";
@@ -31,7 +36,16 @@ namespace DapperDino.DAL
         public const string JoinConversation = "joinconversation";
         public const string Reply = "reply";
         public const string ExitConversation = "exitconversation";
-        
+    }
 
+    public static class CustomBotFormStatusUpdateNames
+    {
+        public const string Abandoned = "abandoned";
+        public const string Deal = "deal";
+        public const string Done = "done";
+        public const string InProgress = "inprogress";
+        public const string NoDeal = "nodeal";
+        public const string NotLookedAt = "notlookedat";
+        public const string TalkingTo = "talkingto";
     }
 }

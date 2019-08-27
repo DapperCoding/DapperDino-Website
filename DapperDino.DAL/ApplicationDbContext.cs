@@ -159,7 +159,12 @@ namespace DapperDino.DAL
                 .WithOne(x => x.Form)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            builder.Entity<ArchitectForm>()
+            builder.Entity<TeacherForm>()
+                .HasMany(x => x.Replies)
+                .WithOne(x => x.Form)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<CustomBotForm>()
                 .HasMany(x => x.Replies)
                 .WithOne(x => x.Form)
                 .OnDelete(DeleteBehavior.Cascade);
@@ -209,6 +214,9 @@ namespace DapperDino.DAL
 
         public DbSet<TeacherForm> TeacherForms { get; set; }
         public DbSet<TeacherFormReply> TeacherFormReplies { get; set; }
+
+        public DbSet<CustomBotForm> CustomBotForms { get; set; }
+        public DbSet<CustomBotFormReply> CustomBotFormReply { get; set; }
 
 
         public DbSet<TextTemplate> TextTemplates { get; set; }
