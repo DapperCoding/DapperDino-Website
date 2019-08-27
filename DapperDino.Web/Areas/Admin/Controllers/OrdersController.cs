@@ -1,7 +1,7 @@
 ﻿using DapperDino.Areas.Admin.Models.Products;
+using DapperDino.Core.Mollie;
 using DapperDino.DAL;
 using DapperDino.DAL.Models;
-using DapperDino.Models.MollieModels;
 using DapperDino.Services.Payment;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;

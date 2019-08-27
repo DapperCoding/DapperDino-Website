@@ -23,6 +23,13 @@ using Swashbuckle.AspNetCore.Swagger;
 using AspNet.Security.OAuth.Discord;
 using ApplicationRole = DapperDino.DAL.ApplicationRole;
 using DapperDino.DAL.Repositories;
+using DapperDino.Services.Payment;
+using DapperDino.Services.Customer;
+using DapperDino.Services.Subscription;
+using DapperDino.Services.Mandate;
+using DapperDino.Services.PaymentMethod;
+using DapperDino.Services.Payment.Refund;
+using DapperDino.Core.Mollie;
 
 namespace DapperDino.Api
 {
@@ -45,6 +52,8 @@ namespace DapperDino.Api
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
+
+            services.AddMollieApi(Configuration["MollieApiKey"]);
 
             services.AddSingleton<DiscordEmbedHelper>();
 

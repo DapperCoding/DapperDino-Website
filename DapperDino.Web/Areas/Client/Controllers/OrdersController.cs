@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DapperDino.Core.Mollie;
 using DapperDino.DAL;
 using DapperDino.DAL.Models;
-using DapperDino.Models.MollieModels;
 using DapperDino.Services.Payment;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;

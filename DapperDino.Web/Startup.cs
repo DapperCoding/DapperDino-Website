@@ -19,14 +19,13 @@ using Microsoft.Extensions.DependencyInjection;
 using AspNet.Security.OAuth.Discord;
 using DapperDino.Core;
 using Microsoft.AspNetCore.Mvc;
-using DapperDino.Framework.Middleware;
 using DapperDino.Services.Payment;
 using DapperDino.Services.Customer;
 using DapperDino.Services.Subscription;
 using DapperDino.Services.Mandate;
 using DapperDino.Services.PaymentMethod;
 using DapperDino.Services.Payment.Refund;
-using Mollie.WebApplicationCoreExample.Services.Subscription;
+using DapperDino.Core.Mollie;
 
 namespace DapperDino
 {
@@ -44,16 +43,6 @@ namespace DapperDino
         {
 
             services.AddMollieApi(Configuration["MollieApiKey"]);
-            services.AddScoped<IPaymentOverviewClient, PaymentOverviewClient>();
-            services.AddScoped<ICustomerOverviewClient, CustomerOverviewClient>();
-            services.AddScoped<ISubscriptionOverviewClient, SubscriptionOverviewClient>();
-            services.AddScoped<IMandateOverviewClient, MandateOverviewClient>();
-            services.AddScoped<IPaymentMethodOverviewClient, PaymentMethodOverviewClient>();
-            services.AddScoped<IPaymentStorageClient, PaymentStorageClient>();
-            services.AddScoped<ICustomerStorageClient, CustomerStorageClient>();
-            services.AddScoped<ISubscriptionStorageClient, SubscriptionStorageClient>();
-            services.AddScoped<IMandateStorageClient, MandateStorageClient>();
-            services.AddScoped<IRefundPaymentClient, RefundPaymentClient>();
 
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));

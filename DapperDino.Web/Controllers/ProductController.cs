@@ -2,15 +2,12 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Net.Http.Headers;
 using System.Net.Mime;
 using System.Threading.Tasks;
+using DapperDino.Core.Mollie;
 using DapperDino.DAL;
 using DapperDino.DAL.Models;
 using DapperDino.Jobs;
-using DapperDino.Models;
-using DapperDino.Models.FaqViewModels;
-using DapperDino.Models.MollieModels;
 using DapperDino.Services.Payment;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -19,7 +16,6 @@ using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using Mollie.Api.Client.Abstract;
 using Mollie.Api.Models;
-using Newtonsoft.Json;
 
 namespace DapperDino.Controllers
 {
