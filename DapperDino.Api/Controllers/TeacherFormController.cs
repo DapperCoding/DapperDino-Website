@@ -47,7 +47,7 @@ namespace DapperDino.Api.Controllers
                 return Unauthorized("Admin only, go away.");
             }
 
-            return Json(teacherFormRepository.GetAll().Take(100).ToList());
+            return Json(teacherFormRepository.GetAll().OrderByDescending(x=>x.Id).Take(100).ToList());
         }
 
         [Route("{id}")]
@@ -108,9 +108,9 @@ namespace DapperDino.Api.Controllers
             }
 
             var discordUserRoles = await _userManager.GetRolesAsync(discordUser);
-            if (discordUserRoles.Where(x => x.ToLower() == "discord_admin" || x.ToLower() == "discord_architect").Count() > 0)
+            if (discordUserRoles.Where(x => x.ToLower() == RoleNames.DiscordAdmin || x.ToLower() == RoleNames.DiscordRecruiter).Count() > 0)
             {
-                forms = teacherFormRepository.GetAll().Include(x => x.Replies).ThenInclude(x => x.DiscordMessage).Take(100).ToList();
+                forms = teacherFormRepository.GetAll().Include(x=>x.DiscordUser).Include(x => x.Replies).ThenInclude(x => x.DiscordMessage).Take(100).ToList();
             }
             else
             {
@@ -148,9 +148,9 @@ namespace DapperDino.Api.Controllers
             }
 
             var discordUserRoles = await _userManager.GetRolesAsync(discordUser);
-            if (discordUserRoles.Where(x => x.ToLower() == "discord_admin" || x.ToLower() == "discord_architect").Count() > 0)
+            if (discordUserRoles.Where(x => x.ToLower() == RoleNames.DiscordAdmin || x.ToLower() == RoleNames.DiscordRecruiter).Count() > 0)
             {
-                forms = teacherFormRepository.GetAll().Where(x=>x.Status == ApplicationFormStatus.Open).Include(x => x.Replies).ThenInclude(x => x.DiscordMessage).Take(100).ToList();
+                forms = teacherFormRepository.GetAll().Where(x=>x.Status == ApplicationFormStatus.Open).Include(x=>x.DiscordUser).Include(x => x.Replies).ThenInclude(x => x.DiscordMessage).Take(100).ToList();
             }
             else
             {
@@ -336,6 +336,8 @@ namespace DapperDino.Api.Controllers
                         return BadRequest($"Please contact mick about this ID: {user.Id}  & Discord ID: {user.DiscordId} - ticket reaction");
                     }
                 }
+
+                formReply.DiscordMessage.DiscordUserId = user.Id;
             }
 
             _context.TeacherFormReplies.Add(formReply);
@@ -359,7 +361,7 @@ namespace DapperDino.Api.Controllers
 
             //await _hubContext.Clients.All.SendAsync("TicketReaction", reaction);
 
-            return Created(Url.Action("Get", new { id = formReply.Id }), formReply);
+            return Ok(formReply);
         }
 
         private DiscordMessage UpdateMessage(DiscordMessage dbMessage, DSharpPlus.Entities.DiscordMessage discordMessage)

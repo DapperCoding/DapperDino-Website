@@ -142,7 +142,7 @@ namespace DapperDino.Api.Controllers
             }
 
             //Make sure discord user is recruiter
-            if (!await _userManager.IsInRoleAsync(recruiter, RoleNames.DiscordRecruiter))
+            if (!await _userManager.IsInRoleAsync(recruiter, RoleNames.DiscordRecruiter) && !await _userManager.IsInRoleAsync(recruiter, RoleNames.Admin) && !await _userManager.IsInRoleAsync(recruiter, RoleNames.DiscordAdmin))
             {
                 return BadRequest();
             }
@@ -194,7 +194,9 @@ namespace DapperDino.Api.Controllers
             // Store in db
             await _context.SaveChangesAsync();
 
-            return Ok();
+            form.DiscordUser = await _context.DiscordUsers.SingleOrDefaultAsync(x => x.Id == form.DiscordId);
+
+            return Ok(form);
         }
 
         /// <summary>
@@ -221,12 +223,12 @@ namespace DapperDino.Api.Controllers
                 // Get teacher form
                 case ApplicationFormTypeNames.Teacher:
                     {
-                        return await _context.ArchitectForms.FirstOrDefaultAsync(x => x.Id == formId);
+                        return await _context.TeacherForms.FirstOrDefaultAsync(x => x.Id == formId);
                     }
                 // Get recruiter form
                 case ApplicationFormTypeNames.Recruiter:
                     {
-                        return await _context.ArchitectForms.FirstOrDefaultAsync(x => x.Id == formId);
+                        return await _context.RecruiterForms.FirstOrDefaultAsync(x => x.Id == formId);
                     }
                 default:
                     return null;

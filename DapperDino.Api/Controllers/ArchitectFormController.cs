@@ -150,7 +150,7 @@ namespace DapperDino.Api.Controllers
             var discordUserRoles = await _userManager.GetRolesAsync(discordUser);
             if (discordUserRoles.Where(x => x.ToLower() == "discord_admin" || x.ToLower() == "discord_architect").Count() > 0)
             {
-                forms = architectFormRepository.GetAll().Where(x=>x.Status == ApplicationFormStatus.Open).Include(x => x.Replies).ThenInclude(x => x.DiscordMessage).Take(100).ToList();
+                forms = architectFormRepository.GetAll().Include(x => x.DiscordUser).Where(x=>x.Status == ApplicationFormStatus.Open).Include(x => x.Replies).ThenInclude(x => x.DiscordMessage).Take(100).ToList();
             }
             else
             {

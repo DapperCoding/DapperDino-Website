@@ -15,6 +15,7 @@ namespace DapperDino.DAL
         public const string User = "User";
         public const string HappyToHelp = "HappyToHelp";
         public const string DiscordRecruiter = "discord_recruiter";
+        public const string DiscordAdmin = "discord_admin";
     }
 
     public static class ApplicationFormTypeNames

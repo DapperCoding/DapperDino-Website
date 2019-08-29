@@ -47,7 +47,7 @@ namespace DapperDino.Api.Controllers
                 return Unauthorized("Admin only, go away.");
             }
 
-            return Json(recruiterFormRepository.GetAll().Take(100).ToList());
+            return Json(recruiterFormRepository.GetAll().Include(x => x.DiscordUser).Take(100).ToList());
         }
 
         [Route("{id}")]
@@ -110,7 +110,7 @@ namespace DapperDino.Api.Controllers
             var discordUserRoles = await _userManager.GetRolesAsync(discordUser);
             if (discordUserRoles.Where(x => x.ToLower() == "discord_admin" || x.ToLower() == "discord_architect").Count() > 0)
             {
-                forms = recruiterFormRepository.GetAll().Include(x => x.Replies).ThenInclude(x => x.DiscordMessage).Take(100).ToList();
+                forms = recruiterFormRepository.GetAll().Include(x => x.DiscordUser).Include(x => x.Replies).ThenInclude(x => x.DiscordMessage).Take(100).ToList();
             }
             else
             {
