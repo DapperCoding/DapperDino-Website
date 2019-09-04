@@ -1,7 +1,7 @@
 ﻿<!--
         Features
         ==================================== -->
-@using DapperDino.Models.MollieModels
+@using DapperDino.Core.Mollie
 
 @model IEnumerable<OrderAndPaymentModel>
 
@@ -9,35 +9,35 @@
     ViewData["Title"] = "My Order History";
     Layout = "~/Areas/Client/Views/Shared/_Layout.cshtml";
 }
-<section id="features" class="features pricing">
-    <div class="container">
-        <div class="row">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Order Id</th>
-                        <th>Payment Id</th>
-                        <th>Status</th>
-                        <th>Creation Date</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var order in Model)
-                    {
+    <section id="features" class="features pricing">
+        <div class="container">
+            <div class="row">
+                <table class="table">
+                    <thead>
                         <tr>
-                            <td>@order.Order.Id</td>
-                            <td>@order.Payment.Id</td>
-                            <td>@order.Payment.Status</td>
-                            <td>@order.Order.CreationDate</td>
-                            <td><a href="/Client/Orders/@order.Order.Id">Information</a></td>
+                            <th>Order Id</th>
+                            <th>Payment Id</th>
+                            <th>Status</th>
+                            <th>Creation Date</th>
+                            <th>Actions</th>
                         </tr>
-                    }
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        @foreach (var order in Model)
+                        {
+                            <tr>
+                                <td>@order.Order.Id</td>
+                                <td>@order.Payment.Id</td>
+                                <td>@order.Payment.Status</td>
+                                <td>@order.Order.CreationDate</td>
+                                <td><a href="/Client/Orders/@order.Order.Id">Information</a></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
         </div>
-    </div>
-</section>
+    </section>
 
 
 
